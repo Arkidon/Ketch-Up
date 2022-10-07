@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginScreen">
+
+    <TextView
+        android:id="@+id/textview_first4"
+        android:layout_width="260dp"
+        android:layout_height="66dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="KetchUp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textColor="#CD5454"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.368" />
+
+    <EditText
+        android:id="@+id/passwordText"
+        android:layout_width="214dp"
+        android:layout_height="53dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/registerButton"
+        app:layout_constraintEnd_toEndOf="@+id/emailText"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="@+id/emailText"
+        app:layout_constraintTop_toBottomOf="@+id/textview_first3"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/textview_first3"
+        android:layout_width="104dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="184dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Password:"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="@+id/textview_first2"
+        app:layout_constraintStart_toStartOf="@+id/textview_first2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textview_first2"
+        android:layout_width="107dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="100dp"
+        android:fontFamily="sans-serif-black"
+        android:text="User:"
+        android:textAlignment="textStart"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.737"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/emailText"
+        android:layout_width="219dp"
+        android:layout_height="57dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/textview_first3"
+        app:layout_constraintStart_toStartOf="@+id/textview_first2"
+        app:layout_constraintTop_toBottomOf="@+id/textview_first2"
+        app:layout_constraintVertical_bias="0.00999999"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="98dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="#CD5454"
+        android:text="Sign Up"
+        app:layout_constraintEnd_toEndOf="@+id/passwordText"
+        app:layout_constraintStart_toEndOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText"
+        tools:ignore="TextContrastCheck" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#CD5454"
+        android:text="Login"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/registerButton"
+        app:layout_constraintStart_toStartOf="@+id/passwordText"
+        app:layout_constraintTop_toTopOf="@+id/registerButton"
+        tools:ignore="TextContrastCheck" />
+
+    <TextView
+        android:id="@+id/textview_first"
+        android:layout_width="106dp"
+        android:layout_height="37dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Welcome!"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.198"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
