@@ -7,9 +7,10 @@
     tools:context=".ChatMenu">
 
     <ImageView
-        android:id="@+id/imageView4"
+        android:id="@+id/appLogo"
         android:layout_width="225dp"
         android:layout_height="40dp"
+        android:contentDescription="app logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,13 +20,13 @@
         android:id="@+id/chatText"
         android:layout_width="98dp"
         android:layout_height="49dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/cherry_swash_bold"
         android:text="Chats"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintEnd_toEndOf="@+id/appLogo"
+        app:layout_constraintStart_toStartOf="@+id/appLogo"
+        app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
     <ListView
         android:layout_width="392dp"

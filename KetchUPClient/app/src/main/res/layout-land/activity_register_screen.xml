@@ -10,12 +10,10 @@
         android:id="@+id/passwordRepSignField"
         android:layout_width="0dp"
         android:layout_height="53dp"
-        android:layout_marginTop="5dp"
         android:autofillHints=""
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="@+id/passwordSingField"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/passwordRepText"
         app:layout_constraintTop_toBottomOf="@+id/passwordRepText"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -24,7 +22,6 @@
         android:id="@+id/passwordSingField"
         android:layout_width="0dp"
         android:layout_height="53dp"
-        android:layout_marginTop="5dp"
         android:autofillHints=""
         android:ems="10"
         android:inputType="textPassword"
@@ -38,7 +35,7 @@
         android:id="@+id/passwordRepText"
         android:layout_width="297dp"
         android:layout_height="30dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/patua_one"
         android:text="Please repeat your password:"
         android:textAlignment="textStart"
@@ -51,8 +48,7 @@
     <EditText
         android:id="@+id/userSingField"
         android:layout_width="0dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="53dp"
         android:autofillHints=""
         android:ems="10"
         android:inputType="textEmailAddress"
@@ -66,21 +62,21 @@
         android:id="@+id/userSignText"
         android:layout_width="264dp"
         android:layout_height="35dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/patua_one"
         android:text="Please choose a username:"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintEnd_toEndOf="@+id/singnupText"
-        app:layout_constraintHorizontal_bias="0.416"
-        app:layout_constraintStart_toStartOf="@+id/singnupText"
-        app:layout_constraintTop_toBottomOf="@+id/singnupText" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.886"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/passwordSingText"
         android:layout_width="260dp"
         android:layout_height="31dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="5dp"
         android:fontFamily="@font/patua_one"
         android:text="Please choose a password:"
         android:textAlignment="textStart"
@@ -94,24 +90,34 @@
         android:id="@+id/signupButton"
         android:layout_width="0dp"
         android:layout_height="54dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="35dp"
         android:backgroundTint="#CD5454"
         android:fontFamily="@font/patua_one"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/singnupText"
+        app:layout_constraintEnd_toEndOf="@+id/passwordRepSignField"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/singnupText"
+        app:layout_constraintStart_toStartOf="@+id/passwordRepSignField"
         app:layout_constraintTop_toBottomOf="@+id/passwordRepSignField"
-        app:layout_constraintVertical_bias="0.0"
         tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="309dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="108dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
     <TextView
         android:id="@+id/singnupText"
         android:layout_width="228dp"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/patua_one"
         android:text="Create a new account:"
         android:textAlignment="center"
@@ -120,15 +126,5 @@
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="@+id/appLogo"
         app:layout_constraintTop_toBottomOf="@+id/appLogo" />
-
-    <ImageView
-        android:id="@+id/appLogo"
-        android:layout_width="309dp"
-        android:layout_height="107dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

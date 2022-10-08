@@ -17,52 +17,52 @@
         android:text="Login"
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/registerButton"
-        app:layout_constraintStart_toStartOf="@+id/passwordText"
-        app:layout_constraintTop_toBottomOf="@+id/passwordText"
+        app:layout_constraintEnd_toStartOf="@+id/signupButton"
+        app:layout_constraintStart_toStartOf="@+id/passwordField"
+        app:layout_constraintTop_toBottomOf="@+id/passwordField"
         tools:ignore="TextContrastCheck" />
 
     <EditText
-        android:id="@+id/emailText"
+        android:id="@+id/usernameText"
         android:layout_width="219dp"
         android:layout_height="57dp"
         android:autofillHints=""
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/textview_first3"
-        app:layout_constraintStart_toStartOf="@+id/textview_first2"
-        app:layout_constraintTop_toBottomOf="@+id/textview_first2"
+        app:layout_constraintBottom_toTopOf="@+id/passwordText"
+        app:layout_constraintStart_toStartOf="@+id/userText"
+        app:layout_constraintTop_toBottomOf="@+id/userText"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
-        android:id="@+id/passwordText"
+        android:id="@+id/passwordField"
         android:layout_width="214dp"
         android:layout_height="53dp"
         android:autofillHints=""
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/loginButton"
-        app:layout_constraintEnd_toEndOf="@+id/emailText"
+        app:layout_constraintEnd_toEndOf="@+id/usernameText"
         app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="@+id/emailText"
-        app:layout_constraintTop_toBottomOf="@+id/textview_first3"
+        app:layout_constraintStart_toStartOf="@+id/usernameText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <TextView
-        android:id="@+id/textview_first"
+        android:id="@+id/welcomeText"
         android:layout_width="106dp"
         android:layout_height="37dp"
         android:fontFamily="sans-serif-black"
         android:text="Welcome!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/textview_first2"
+        app:layout_constraintBottom_toTopOf="@+id/userText"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
         app:layout_constraintStart_toStartOf="@+id/imageView3"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <TextView
-        android:id="@+id/textview_first3"
+        android:id="@+id/passwordText"
         android:layout_width="106dp"
         android:layout_height="37dp"
         android:layout_marginTop="404dp"
@@ -70,14 +70,14 @@
         android:text="Password:"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/passwordText"
-        app:layout_constraintEnd_toEndOf="@+id/textview_first2"
+        app:layout_constraintBottom_toTopOf="@+id/passwordField"
+        app:layout_constraintEnd_toEndOf="@+id/userText"
         app:layout_constraintHorizontal_bias="0.44"
-        app:layout_constraintStart_toStartOf="@+id/textview_first2"
+        app:layout_constraintStart_toStartOf="@+id/userText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textview_first2"
+        android:id="@+id/userText"
         android:layout_width="106dp"
         android:layout_height="37dp"
         android:layout_marginTop="272dp"
@@ -86,19 +86,19 @@
         android:text="User:"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintBottom_toTopOf="@+id/emailText"
-        app:layout_constraintEnd_toEndOf="@+id/textview_first"
-        app:layout_constraintStart_toStartOf="@+id/textview_first"
+        app:layout_constraintBottom_toTopOf="@+id/usernameText"
+        app:layout_constraintEnd_toEndOf="@+id/welcomeText"
+        app:layout_constraintStart_toStartOf="@+id/welcomeText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/signupButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:backgroundTint="#CD5454"
         android:text="Sign Up"
-        app:layout_constraintEnd_toEndOf="@+id/passwordText"
+        app:layout_constraintEnd_toEndOf="@+id/passwordField"
         app:layout_constraintStart_toEndOf="@+id/loginButton"
         app:layout_constraintTop_toTopOf="@+id/loginButton"
         tools:ignore="TextContrastCheck" />

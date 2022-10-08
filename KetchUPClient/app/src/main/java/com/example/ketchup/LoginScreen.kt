@@ -15,10 +15,10 @@ class LoginScreen : AppCompatActivity() {
         setContentView(R.layout.login_screen)
         //login and register buttons
         var loginButton: Button = findViewById(R.id.loginButton)
-        var registerButton: Button = findViewById(R.id.registerButton)
+        var registerButton: Button = findViewById(R.id.signupButton)
         //Email and password texts
-        var emailText : EditText = findViewById(R.id.emailText)
-        var passwordText : EditText = findViewById(R.id.passwordText)
+        var emailText : EditText = findViewById(R.id.usernameText)
+        var passwordText : EditText = findViewById(R.id.passwordField)
 
         //takes to the chats selects
         loginButton.setOnClickListener {

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="preloaded_fonts" translatable="false">
+        <item>@font/baloo</item>
+        <item>@font/calistoga</item>
         <item>@font/cherry_swash_bold</item>
+        <item>@font/elsie</item>
+        <item>@font/jockey_one</item>
+        <item>@font/karla</item>
+        <item>@font/patua_one</item>
+        <item>@font/salsa</item>
+        <item>@font/stoke</item>
     </array>
 </resources>
