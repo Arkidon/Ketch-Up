@@ -31,7 +31,8 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/passwordText"
-        app:layout_constraintStart_toStartOf="@+id/userText"
+        app:layout_constraintEnd_toEndOf="@+id/welcomeText"
+        app:layout_constraintStart_toStartOf="@+id/welcomeText"
         app:layout_constraintTop_toBottomOf="@+id/userText"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -88,7 +89,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/usernameText"
         app:layout_constraintEnd_toEndOf="@+id/welcomeText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/usernameText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
