@@ -1,11 +1,12 @@
-package com.example.ketchup
+package com.ketchup.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+class RegisterScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_screen)
+        setContentView(R.layout.activity_register_screen)
+
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ketchup
+package com.ketchup.app
 
 import android.annotation.SuppressLint
 import android.content.Intent
