@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginScreen">
 
-    <TextView
-        android:id="@+id/textview_first4"
-        android:layout_width="260dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="600dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="KetchUp"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="#CD5454"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.354" />
-
     <Button
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
@@ -74,10 +57,9 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/textview_first2"
-        app:layout_constraintEnd_toEndOf="@+id/textview_first4"
-        app:layout_constraintHorizontal_bias="0.519"
-        app:layout_constraintStart_toStartOf="@+id/textview_first4"
-        app:layout_constraintTop_toBottomOf="@+id/textview_first4" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textview_first3"
@@ -119,5 +101,15 @@
         app:layout_constraintStart_toEndOf="@+id/loginButton"
         app:layout_constraintTop_toTopOf="@+id/loginButton"
         tools:ignore="TextContrastCheck" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="309dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

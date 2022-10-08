@@ -6,15 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".ChatMenu">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AAAAAAAAAAAAAAAAAAAAA"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="225dp"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
+        app:srcCompat="@drawable/logo" />
 
+    <TextView
+        android:id="@+id/chatText"
+        android:layout_width="98dp"
+        android:layout_height="49dp"
+        android:fontFamily="@font/cherry_swash_bold"
+        android:text="Chats"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toTopOf="@+id/_dynamic"
+        app:layout_constraintEnd_toEndOf="@+id/imageView4"
+        app:layout_constraintStart_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+
+    <ListView
+        android:layout_width="392dp"
+        android:layout_height="699dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

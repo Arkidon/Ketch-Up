@@ -6,22 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".LoginScreen">
 
-    <TextView
-        android:id="@+id/textview_first4"
-        android:layout_width="260dp"
-        android:layout_height="66dp"
-        android:fontFamily="sans-serif-condensed"
-        android:text="KetchUp"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display3"
-        android:textColor="#CD5454"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.368" />
-
     <EditText
         android:id="@+id/passwordText"
         android:layout_width="214dp"
@@ -112,10 +96,20 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.19999999" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="326dp"
+        android:layout_height="97dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.198"
+        app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633" />
+        app:srcCompat="@drawable/logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
