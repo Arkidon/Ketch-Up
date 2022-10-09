@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2E2E2E"
     tools:context=".LoginScreen">
 
     <Button
@@ -14,7 +15,9 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="200dp"
         android:backgroundTint="#CD5454"
+        android:fontFamily="@font/patua_one"
         android:text="Login"
+        android:textColor="#FFFFFF"
         app:iconTint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/signupButton"
@@ -30,13 +33,14 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/passwordText"
-        app:layout_constraintStart_toStartOf="@+id/userText"
+        app:layout_constraintEnd_toEndOf="@+id/welcomeText"
+        app:layout_constraintStart_toStartOf="@+id/welcomeText"
         app:layout_constraintTop_toBottomOf="@+id/userText"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/passwordField"
-        android:layout_width="214dp"
+        android:layout_width="0dp"
         android:layout_height="53dp"
         android:autofillHints=""
         android:ems="10"
@@ -52,21 +56,21 @@
         android:id="@+id/welcomeText"
         android:layout_width="106dp"
         android:layout_height="37dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/patua_one"
         android:text="Welcome!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/userText"
-        app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintStart_toStartOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintEnd_toEndOf="@+id/appLogo"
+        app:layout_constraintStart_toStartOf="@+id/appLogo"
+        app:layout_constraintTop_toBottomOf="@+id/appLogo" />
 
     <TextView
         android:id="@+id/passwordText"
         android:layout_width="106dp"
         android:layout_height="37dp"
         android:layout_marginTop="404dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/patua_one"
         android:text="Password:"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -81,14 +85,14 @@
         android:layout_width="106dp"
         android:layout_height="37dp"
         android:layout_marginTop="272dp"
-        android:layout_marginEnd="100dp"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/patua_one"
         android:text="User:"
         android:textAlignment="textStart"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/usernameText"
         app:layout_constraintEnd_toEndOf="@+id/welcomeText"
-        app:layout_constraintStart_toStartOf="@+id/welcomeText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/usernameText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -97,17 +101,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:backgroundTint="#CD5454"
+        android:fontFamily="@font/patua_one"
         android:text="Sign Up"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/passwordField"
         app:layout_constraintStart_toEndOf="@+id/loginButton"
         app:layout_constraintTop_toTopOf="@+id/loginButton"
         tools:ignore="TextContrastCheck" />
 
     <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="431dp"
-        android:layout_height="133dp"
-        android:layout_marginTop="50dp"
+        android:id="@+id/appLogo"
+        android:layout_width="309dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
