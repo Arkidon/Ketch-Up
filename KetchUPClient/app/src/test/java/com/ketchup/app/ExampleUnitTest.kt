@@ -1,4 +1,4 @@
-package com.example.ketchup
+package com.ketchup.app
 
 import org.junit.Test
 

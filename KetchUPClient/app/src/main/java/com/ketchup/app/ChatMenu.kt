@@ -1,11 +1,12 @@
-package com.example.ketchup
+package com.ketchup.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class MainActivity : AppCompatActivity() {
+
+class ChatMenu : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_screen)
+        setContentView(R.layout.chat_menu)
     }
 }
