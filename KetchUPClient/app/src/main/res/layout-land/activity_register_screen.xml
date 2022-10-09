@@ -63,6 +63,7 @@
         android:layout_width="264dp"
         android:layout_height="35dp"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/patua_one"
         android:text="Please choose a username:"
         android:textAlignment="textStart"
@@ -106,7 +107,7 @@
         android:id="@+id/appLogo"
         android:layout_width="309dp"
         android:layout_height="107dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.118"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,14 +118,15 @@
         android:id="@+id/singnupText"
         android:layout_width="228dp"
         android:layout_height="40dp"
-        android:layout_marginTop="28dp"
         android:fontFamily="@font/patua_one"
         android:text="Create a new account:"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/appLogo"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="@+id/appLogo"
-        app:layout_constraintTop_toBottomOf="@+id/appLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/appLogo"
+        app:layout_constraintVertical_bias="0.19" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
