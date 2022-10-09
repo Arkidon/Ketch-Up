@@ -15,6 +15,7 @@ class LoginScreen : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
         //login and register buttons
         var loginButton: Button = findViewById(R.id.loginButton)
