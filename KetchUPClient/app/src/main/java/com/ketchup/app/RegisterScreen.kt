@@ -13,6 +13,7 @@ class RegisterScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.activity_register_screen)
 
         //User and password texts
