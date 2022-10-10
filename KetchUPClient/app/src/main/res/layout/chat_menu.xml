@@ -6,32 +6,42 @@
     android:layout_height="match_parent"
     tools:context=".ChatMenu">
 
-    <ImageView
-        android:id="@+id/appLogo"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
-        android:contentDescription="app logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
     <TextView
         android:id="@+id/chatText"
         android:layout_width="98dp"
         android:layout_height="49dp"
-        android:layout_marginTop="10dp"
-        android:fontFamily="@font/cherry_swash_bold"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/patua_one"
         android:text="Chats"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toEndOf="@+id/appLogo"
-        app:layout_constraintStart_toStartOf="@+id/appLogo"
-        app:layout_constraintTop_toBottomOf="@+id/appLogo" />
+        android:textColor="@color/dark_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:layout_width="392dp"
-        android:layout_height="699dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/imageButton6"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="#FFFFFF"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/chatText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/chatText"
+        app:layout_constraintTop_toTopOf="@+id/chatText"
+        app:srcCompat="@drawable/add_button"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="391dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chatText" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
