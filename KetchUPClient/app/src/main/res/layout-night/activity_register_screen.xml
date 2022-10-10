@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_color"
     tools:context=".RegisterScreen">
 
     <EditText
@@ -74,6 +75,7 @@
         android:layout_marginBottom="10dp"
         android:backgroundTint="#CD5454"
         android:fontFamily="@font/patua_one"
+        android:textColor="@color/white"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/singnupText"
