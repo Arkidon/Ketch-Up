@@ -7,11 +7,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ketchup.utils.ShowToast
 
 
 class LoginScreen : AppCompatActivity() {
-        //var to make toasts
-        var toast: Toast? = null
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,13 +36,13 @@ class LoginScreen : AppCompatActivity() {
              }
             else if (userText.text.isEmpty() && passwordText.text.isNotEmpty()) {
                 passwordText.text = null
-                showToast("You must provide an user", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this,"You must provide an user", Toast.LENGTH_SHORT)
             }
             else if (userText.text.isNotEmpty() && passwordText.text.isEmpty()) {
-                showToast("You must provide a password", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this,"You must provide a password", Toast.LENGTH_SHORT)
             }
             else {
-               showToast("You must provide an user and a password", Toast.LENGTH_SHORT)
+               ShowToast.showToast(this,"You must provide an user and a password", Toast.LENGTH_SHORT)
             }
         }
             //takes to the register screen
@@ -54,12 +54,5 @@ class LoginScreen : AppCompatActivity() {
 
     }
     //function to check if toast is showing
-    fun showToast(text: CharSequence?, duration: Int) {
-        if (toast == null) toast = Toast.makeText(applicationContext, text, duration)
-        else{
-            toast?.cancel()
-            toast?.setText(text)
-        }
-        toast?.show()
-    }
+
 }

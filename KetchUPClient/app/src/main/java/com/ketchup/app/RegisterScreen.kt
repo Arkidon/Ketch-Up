@@ -6,11 +6,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.ketchup.utils.ShowToast
 
 
 class RegisterScreen : AppCompatActivity() {
-    //var to make toasts
-    var toast: Toast? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register_screen)
@@ -26,37 +26,32 @@ class RegisterScreen : AppCompatActivity() {
         singUpButton.setOnClickListener {
 
             //checks if the fields are filled
+            //all goooooood
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
                 var intent: Intent
                 intent = Intent(this, LoginScreen::class.java)
                 startActivity(intent)
-            }
-            else if (userText.text.isEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isNotEmpty()) {
+
+            }else if (userText.text.isEmpty()) {
                 passwordRepText.text = null
                 passwordText.text = null
-              showToast("You must provide an user", Toast.LENGTH_SHORT)
-            }
-            else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isNotEmpty()) {
+                ShowToast.showToast(this,"You must provide an user", Toast.LENGTH_SHORT)
+            }else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isNotEmpty()) {
                 passwordRepText.text = null
-                showToast("You must provide a password", Toast.LENGTH_SHORT)
-            } else if ( userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isEmpty()) {
+                ShowToast.showToast(this,"You must provide a password", Toast.LENGTH_SHORT)
+            }else if ( userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isEmpty()) {
                 passwordText.text = null
-                showToast("Your must repeat your password", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this, "Your must repeat your password", Toast.LENGTH_SHORT)
+            }else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isEmpty()){
+                ShowToast.showToast(this,"Your must provide a password and repeat it", Toast.LENGTH_SHORT)
                 //checks if pass match
-            }else if (!(passwordText.text.contentEquals(passwordRepText.text)) && passwordText.text.isNotEmpty())
-                showToast("Your passwords must match", Toast.LENGTH_SHORT)
-            else
+            }else if (!(passwordText.text.contentEquals(passwordRepText.text)) && passwordText.text.isNotEmpty()) {
+                ShowToast.showToast(this, "Your passwords must match", Toast.LENGTH_SHORT)
+            }else
             {
-                showToast("You must provide an user and a password", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this,"You must provide an user and a password", Toast.LENGTH_SHORT)
             }
         }
     }
-    fun showToast(text: CharSequence?, duration: Int) {
-        if (toast == null) toast = Toast.makeText(applicationContext, text, duration)
-        else{
-            toast?.cancel()
-            toast?.setText(text)
-        }
-        toast?.show()
-    }
+
 }
