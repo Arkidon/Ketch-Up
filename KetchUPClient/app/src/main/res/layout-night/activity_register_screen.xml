@@ -95,6 +95,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/patua_one"
         android:text="Create a new account:"
+        android:textColor="@color/white"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintBottom_toTopOf="@+id/userSingField"
