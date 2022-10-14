@@ -1,100 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ChatMenu">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/_8sdp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/pfp"
+        android:layout_width="@dimen/_43sdp"
+        android:layout_height="@dimen/_43sdp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/alice_pfp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@+id/fabNewChat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true" />
+    <View
+        android:id="@+id/ViewSupp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/pfp"
+        app:layout_constraintTop_toTopOf="@id/pfp"
+        app:layout_constraintStart_toEndOf="@id/pfp"/>
 
     <TextView
-        android:id="@+id/chatText"
-        android:layout_width="98dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/textName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginEnd="10dp"
+        android:ellipsize="end"
         android:fontFamily="@font/patua_one"
-        android:text="Chats"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:maxLines="1"
+        android:text="WonderAlice"
+        android:textAlignment="center"
         android:textColor="@color/dark_color"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
+        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
+        app:layout_constraintStart_toEndOf="@id/ViewSupp" />
 
-    <ImageButton
-        android:id="@+id/imageButton6"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="30dp"
-        android:background="#FFFFFF"
-        android:scaleType="centerInside"
-        app:layout_constraintBottom_toBottomOf="@+id/chatText"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNewChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:outlineAmbientShadowColor="@color/white"
+        android:outlineSpotShadowColor="@color/white"
+        android:src="@drawable/ic_add_user"
+        app:backgroundTint="#FFFFFF"
+        app:borderWidth="0dp"
+        app:layout_constraintTop_toTopOf="@id/textName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/chatText"
-        app:layout_constraintTop_toTopOf="@+id/chatText"
-        app:srcCompat="@drawable/add_button"
-        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+        app:layout_constraintStart_toEndOf="@+id/textName"
+        app:tint="@color/dark_color"
+        tools:layout_editor_absoluteY="11dp" />
 
     <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="393dp"
-        android:layout_height="612dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="391dp"
+        android:layout_height="701dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatText">
+        app:layout_constraintTop_toBottomOf="@+id/pfp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/user1"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/usersRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:backgroundTint="#FFFFFF"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                android:padding="@dimen/_20sdp"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+            
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"/>
+            
+            <TextView
+                android:id="@+id/errorMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:gravity="center"
+                android:textColor="@color/dark_color"
+                android:textSize="@dimen/_12sdp"
                 android:fontFamily="@font/patua_one"
-                android:text="William"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                app:iconTint="#FFFFFF"
-                app:layout_constraintEnd_toStartOf="@+id/signupButton"
-                app:layout_constraintStart_toStartOf="@+id/passwordField"
-                app:layout_constraintTop_toTopOf="@+id/signupButton"
-                tools:ignore="TextContrastCheck" />
+                android:visibility="gone"/>
 
-            <Button
-                android:id="@+id/user2"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:backgroundTint="#FFFFFF"
-                android:fontFamily="@font/patua_one"
-                android:text="David"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                app:iconTint="#FFFFFF"
-                app:layout_constraintEnd_toStartOf="@+id/signupButton"
-                app:layout_constraintStart_toStartOf="@+id/passwordField"
-                app:layout_constraintTop_toTopOf="@+id/signupButton"
-                tools:ignore="TextContrastCheck" />
-
-            <Button
-                android:id="@+id/user3"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:backgroundTint="#FFFFFF"
-                android:fontFamily="@font/patua_one"
-                android:text="Alicia"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                app:iconTint="#FFFFFF"
-                app:layout_constraintEnd_toStartOf="@+id/signupButton"
-                app:layout_constraintStart_toStartOf="@+id/passwordField"
-                app:layout_constraintTop_toTopOf="@+id/signupButton"
-                tools:ignore="TextContrastCheck" />
 
         </LinearLayout>
     </ScrollView>

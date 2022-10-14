@@ -6,13 +6,115 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <View
+        android:id="@+id/viewBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        app:layout_constraintBottom_toTopOf="@id/sendButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp" />
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/nameUser"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="60dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/patua_one"
+        android:maxLines="1"
+        android:text="William"
+        android:textAlignment="textStart"
+        android:paddingStart="@dimen/_20sdp"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_18sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/friendPFP"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/friendPFP"
+        app:layout_constraintTop_toTopOf="@+id/friendPFP"/>
+    
+    <View
+        android:id="@+id/ViewSupp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@id/friendPFP"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/charRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="@dimen/_20sdp"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/ViewSupp"
+        app:layout_constraintBottom_toBottomOf="@id/viewBackground"
+        android:visibility="gone"/>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        app:layout_constraintBottom_toBottomOf="@id/viewBackground"
+        app:layout_constraintTop_toTopOf="@id/viewBackground"
+        app:layout_constraintEnd_toEndOf="@id/viewBackground"
+        app:layout_constraintStart_toStartOf="@id/viewBackground"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/friendPFP"
+        android:layout_width="@dimen/_43sdp"
+        android:layout_height="@dimen/_43sdp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:bottomRightRadius="@dimen/_24sdp"
+        android:background="@drawable/william_pfp"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_oval="true" />
+
+    <FrameLayout
+        android:id="@+id/sendButton"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginRight="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_marginLeft="@dimen/_4sdp"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/send_button"/>
+    </FrameLayout>
+    
+    <EditText
+        android:id="@+id/inputMessage"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginLeft="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginRight="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:background="@drawable/user_mokup"
+        android:hint="Type some nice things"
+        android:imeOptions="actionDone"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:paddingStart="@dimen/_16sdp"
+        android:paddingEnd="@dimen/_16sdp"
+        android:textColor="@color/black"
+        android:textColorHint="#4A4A4A"
+        android:drawablePadding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/sendButton"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
