@@ -3,6 +3,8 @@ package com.ketchup.app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -23,16 +25,60 @@ class RegisterScreen : AppCompatActivity() {
         //Sing up button
         var singUpButton: Button = findViewById(R.id.signupButton)
 
+        passwordText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                        changeActivity()
+                    }
+
+                    return true
+                }
+                return false
+            }
+        })
+        passwordRepText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                        changeActivity()
+                    }
+                    return true
+                }
+                return false
+            }
+        })
+        userText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                        changeActivity()
+                    }
+
+                    return true
+                }
+                return false
+            }
+        })
+
+
+
 
         singUpButton.setOnClickListener {
 
             //checks if the fields are filled
             //all goooooood
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                var intent: Intent
-                intent = Intent(this, LoginScreen::class.java)
-                startActivity(intent)
-
+                changeActivity()
             }else if (userText.text.isEmpty()) {
                 passwordRepText.text = null
                 passwordText.text = null
@@ -54,5 +100,9 @@ class RegisterScreen : AppCompatActivity() {
             }
         }
     }
-
+    // function to change activity
+    fun changeActivity(){
+        val intent = Intent(this, ChatMenu::class.java)
+        startActivity(intent)
+    }
 }
