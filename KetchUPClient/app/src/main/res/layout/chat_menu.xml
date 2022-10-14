@@ -10,12 +10,14 @@
         android:id="@+id/chatText"
         android:layout_width="98dp"
         android:layout_height="49dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/patua_one"
         android:text="Chats"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@color/dark_color"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,14 +36,67 @@
         app:srcCompat="@drawable/add_button"
         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="391dp"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
-        android:background="?android:attr/listDivider"
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="393dp"
+        android:layout_height="612dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chatText" />
+        app:layout_constraintTop_toBottomOf="@+id/chatText">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/user1"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/patua_one"
+                android:text="William"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintEnd_toStartOf="@+id/signupButton"
+                app:layout_constraintStart_toStartOf="@+id/passwordField"
+                app:layout_constraintTop_toTopOf="@+id/signupButton"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/user2"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/patua_one"
+                android:text="David"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintEnd_toStartOf="@+id/signupButton"
+                app:layout_constraintStart_toStartOf="@+id/passwordField"
+                app:layout_constraintTop_toTopOf="@+id/signupButton"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/user3"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/patua_one"
+                android:text="Alicia"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintEnd_toStartOf="@+id/signupButton"
+                app:layout_constraintStart_toStartOf="@+id/passwordField"
+                app:layout_constraintTop_toTopOf="@+id/signupButton"
+                tools:ignore="TextContrastCheck" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
