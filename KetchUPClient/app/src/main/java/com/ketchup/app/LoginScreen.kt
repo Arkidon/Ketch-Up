@@ -36,7 +36,7 @@ class LoginScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-                       changeActivity()
+                       changeActivityChat()
                     }
                     return true
                 }
@@ -50,7 +50,7 @@ class LoginScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-                        changeActivity()
+                        changeActivityChat()
                     }
 
                     return true
@@ -64,7 +64,7 @@ class LoginScreen : AppCompatActivity() {
 
             //checks if the fields are filled
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-               changeActivity()
+               changeActivityChat()
              }
             else if (userText.text.isEmpty() && passwordText.text.isNotEmpty()) {
                 passwordText.text = null
@@ -82,14 +82,17 @@ class LoginScreen : AppCompatActivity() {
             var intent: Intent
             intent = Intent(this,  RegisterScreen::class.java)
             startActivity(intent)
+                finish()
         }
 
     }
 
-    // function to change activity
-    fun changeActivity(){
+    // function to change activity and finish this activity
+    fun changeActivityChat(){
         val intent = Intent(this, ChatMenu::class.java)
         startActivity(intent)
+        finish()
     }
 
+ 
 }

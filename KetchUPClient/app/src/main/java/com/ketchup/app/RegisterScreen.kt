@@ -32,7 +32,7 @@ class RegisterScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                        changeActivity()
+                        changeActivityLogin()
                     }
 
                     return true
@@ -47,7 +47,7 @@ class RegisterScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                        changeActivity()
+                        changeActivityLogin()
                     }
                     return true
                 }
@@ -61,7 +61,7 @@ class RegisterScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                        changeActivity()
+                        changeActivityLogin()
                     }
 
                     return true
@@ -78,7 +78,7 @@ class RegisterScreen : AppCompatActivity() {
             //checks if the fields are filled
             //all goooooood
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                changeActivity()
+                changeActivityLogin()
             }else if (userText.text.isEmpty()) {
                 passwordRepText.text = null
                 passwordText.text = null
@@ -100,9 +100,11 @@ class RegisterScreen : AppCompatActivity() {
             }
         }
     }
-    // function to change activity
-    fun changeActivity(){
-        val intent = Intent(this, ChatMenu::class.java)
+    // function to change activity to login and finish this activity
+    fun changeActivityLogin(){
+        val intent = Intent(this, LoginScreen::class.java)
         startActivity(intent)
+        finish()
+
     }
 }
