@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -35,8 +36,11 @@ class ChatMenu : AppCompatActivity() {
     private fun addUser(){
         val inflter = LayoutInflater.from(this)
         val v = inflter.inflate(R.layout.chat_menu,null)
-        val userName = v.findViewById<EditText>(R.id.textName)
-        val userPFP = v.findViewById<RoundedImageView>(R.id.pfp)
+        val userName = findViewById<TextView>(R.id.textName)
+        val userPFP = findViewById<RoundedImageView>(R.id.pfp)
         userList.add(UserData("Name : William", getDrawable(william_pfp)))
+        userName.text = userList.get(userList.size-1).username
+        userPFP.background = userList.get(userList.size-1).friendPFP
+
     }
 }
