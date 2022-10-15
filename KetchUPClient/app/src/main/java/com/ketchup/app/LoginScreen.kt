@@ -7,8 +7,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-
-
+import androidx.recyclerview.widget.RecyclerView
+import com.ketchup.app.models.UserData
+import com.ketchup.app.view.UserAdapter
 class LoginScreen : AppCompatActivity() {
         //var to make toasts
         var toast: Toast? = null

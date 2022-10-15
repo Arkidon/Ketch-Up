@@ -19,7 +19,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_13sdp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStar_toEndOf="parent"
         app:layout_constraintWidth_percent="0.8"/>
     
     <TextView
