@@ -25,9 +25,9 @@
         android:id="@+id/textDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_3sdp"
         android:textColor="#BCBCBC"
-        android:textSize="@dimen/_8sdp"
+        android:textSize="@dimen/_10sdp"
         app:layout_constraintStart_toStartOf="@id/textMessage"
         app:layout_constraintTop_toBottomOf="@id/textMessage"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
