@@ -23,10 +23,10 @@ const val friendPFP = "com.ketchup.app.PFP"
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_menu)
-        initRecyclerView()
         val username = intent.getStringExtra(username)
-        setUser(username)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
+        setUser(username)
+        initRecyclerView()
         spinner.isGone = true;
 
     }

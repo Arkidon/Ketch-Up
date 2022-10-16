@@ -1,7 +1,5 @@
 package com.ketchup.app
 
-import android.os.Bundle
-import com.ketchup.app.R.drawable.*
 import com.ketchup.app.models.UserData
 
 class UserList {

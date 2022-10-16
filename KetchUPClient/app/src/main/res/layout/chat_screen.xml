@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@id/chatPFP"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/charRecyclerView"
+        android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -51,7 +51,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@id/ViewSupp"
         app:layout_constraintBottom_toBottomOf="@id/viewBackground"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="@dimen/_25sdp"
