@@ -22,7 +22,7 @@ class ChatScreen : AppCompatActivity() {
     fun setUser(){
         val username = findViewById<TextView>(R.id.chatName)
         val pfp = findViewById<RoundedImageView>(R.id.chatPFP)
-        Glide.with(pfp.context).load("https://pbs.twimg.com/media/E_XBP6iWYAIJpZk?format=png&name=small").into(pfp)
-        username.text = "Arkidon"
+        Glide.with(pfp.context).load("https://i.pinimg.com/474x/ff/0d/f4/ff0df44c4cd43c7cd964e36b4354e56b.jpg").into(pfp)
+        username.text = "Alice"
     }
 }

@@ -2,17 +2,10 @@ package com.ketchup.app
 
 import android.content.Intent
 import android.os.Bundle
-<<<<<<< HEAD
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
-=======
-import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
->>>>>>> bd9e7b3e8a131ced20e43b377125e90ce8be5cc9
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -35,7 +28,6 @@ open class ChatMenu : AppCompatActivity() {
 
     }
 
-<<<<<<< HEAD
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -53,19 +45,7 @@ open class ChatMenu : AppCompatActivity() {
         val username = findViewById<TextView>(R.id.textName)
         val status = findViewById<TextView>(R.id.userStatus)
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
-        Glide.with(pfp.context).load("https://avatars.githubusercontent.com/u/47338871?v=4").into(pfp)
-        username.text = "Elon Musk"
-        status.text = "Twitter what?"
-=======
-    private fun addUser(){
-        val inflter = LayoutInflater.from(this)
-        val v = inflter.inflate(R.layout.chat_menu,null)
-        val userName = findViewById<TextView>(R.id.textName)
-        val userPFP = findViewById<RoundedImageView>(R.id.pfp)
-        userList.add(UserData("Name : William", getDrawable(william_pfp)))
-        userName.text = userList.get(userList.size-1).username
-        userPFP.background = userList.get(userList.size-1).friendPFP
-
->>>>>>> bd9e7b3e8a131ced20e43b377125e90ce8be5cc9
-    }
+        Glide.with(pfp.context).load("https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png").into(pfp)
+        username.text = "Madeline"
+        status.text = "Strawberry Pie"}
 }

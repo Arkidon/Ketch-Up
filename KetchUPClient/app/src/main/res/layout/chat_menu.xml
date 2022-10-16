@@ -92,12 +92,12 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPFP"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -126,6 +126,18 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Chats"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="@+id/userPFP"
+        app:layout_constraintTop_toBottomOf="@+id/userPFP" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
