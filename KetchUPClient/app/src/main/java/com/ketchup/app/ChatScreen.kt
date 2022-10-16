@@ -7,19 +7,19 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isGone
-import androidx.core.view.size
+
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.models.ChatData
-import com.ketchup.app.models.UserData
+
 import com.ketchup.app.view.ChatAdapter
 import com.ketchup.app.view.ChatList
 import com.ketchup.app.view.ChatList.Companion.chatList
-import com.ketchup.app.view.UserAdapter
+
 import com.makeramen.roundedimageview.RoundedImageView
-import java.time.LocalDate
+
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -40,7 +40,9 @@ class ChatScreen : AppCompatActivity() {
 
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this).apply {
+            this.stackFromEnd = true;
+        }
         val user = findViewById<TextView>(R.id.chatName)
         recyclerView.adapter = ChatAdapter(ChatList.chatList.filter { chatData -> chatData.user.equals(user.text.toString())})
     }
@@ -58,7 +60,6 @@ class ChatScreen : AppCompatActivity() {
         chatList = chatList + newMessage
         val recyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)
         recyclerView.adapter!!.notifyDataSetChanged()
-        recyclerView.scrollToPosition(recyclerView.bottom)
         message.text = null
     }
 }

@@ -3,14 +3,16 @@ package com.ketchup.app
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.ketchup.utils.ShowToast
 
 
 class RegisterScreen : AppCompatActivity() {
-    //var to make toasts
-    var toast: Toast? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_KetchUp)
@@ -23,41 +25,86 @@ class RegisterScreen : AppCompatActivity() {
         //Sing up button
         var singUpButton: Button = findViewById(R.id.signupButton)
 
+        passwordText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                        changeActivityLogin()
+                    }
+
+                    return true
+                }
+                return false
+            }
+        })
+        passwordRepText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                        changeActivityLogin()
+                    }
+                    return true
+                }
+                return false
+            }
+        })
+        userText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                        changeActivityLogin()
+                    }
+
+                    return true
+                }
+                return false
+            }
+        })
+
+
+
 
         singUpButton.setOnClickListener {
 
             //checks if the fields are filled
+            //all goooooood
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                var intent: Intent
-                intent = Intent(this, LoginScreen::class.java)
-                startActivity(intent)
-            }
-            else if (userText.text.isEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isNotEmpty()) {
+                changeActivityLogin()
+            }else if (userText.text.isEmpty()) {
                 passwordRepText.text = null
                 passwordText.text = null
-              showToast("You must provide an user", Toast.LENGTH_SHORT)
-            }
-            else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isNotEmpty()) {
+                ShowToast.showToast(this,"You must provide an user", Toast.LENGTH_SHORT)
+            }else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isNotEmpty()) {
                 passwordRepText.text = null
-                showToast("You must provide a password", Toast.LENGTH_SHORT)
-            } else if ( userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isEmpty()) {
+                ShowToast.showToast(this,"You must provide a password", Toast.LENGTH_SHORT)
+            }else if ( userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isEmpty()) {
                 passwordText.text = null
-                showToast("Your must repeat your password", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this, "Your must repeat your password", Toast.LENGTH_SHORT)
+            }else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isEmpty()){
+                ShowToast.showToast(this,"Your must provide a password and repeat it", Toast.LENGTH_SHORT)
                 //checks if pass match
-            }else if (!(passwordText.text.contentEquals(passwordRepText.text)) && passwordText.text.isNotEmpty())
-                showToast("Your passwords must match", Toast.LENGTH_SHORT)
-            else
+            }else if (!(passwordText.text.contentEquals(passwordRepText.text)) && passwordText.text.isNotEmpty()) {
+                ShowToast.showToast(this, "Your passwords must match", Toast.LENGTH_SHORT)
+            }else
             {
-                showToast("You must provide an user and a password", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this,"You must provide an user and a password", Toast.LENGTH_SHORT)
             }
         }
     }
-    fun showToast(text: CharSequence?, duration: Int) {
-        if (toast == null) toast = Toast.makeText(applicationContext, text, duration)
-        else{
-            toast?.cancel()
-            toast?.setText(text)
-        }
-        toast?.show()
+    // function to change activity to login and finish this activity
+    fun changeActivityLogin(){
+        val intent = Intent(this, LoginScreen::class.java)
+        startActivity(intent)
+        finish()
+
     }
 }

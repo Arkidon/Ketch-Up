@@ -2,17 +2,21 @@ package com.ketchup.app
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ketchup.utils.ShowToast
 
 const val username = "com.ketchup.app.selfUSERNAME"
 
 class LoginScreen : AppCompatActivity() {
-        //var to make toasts
-        var toast: Toast? = null
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,42 +29,77 @@ class LoginScreen : AppCompatActivity() {
         var userText : EditText = findViewById(R.id.usernameText)
         var passwordText : EditText = findViewById(R.id.passwordField)
 
+        //keyboard compatibility
+        userText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
+                        var intent: Intent =
+                            Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
+                        startActivity(intent)
+                        finish()
+                    }
+                    return true
+                }
+                return false
+            }
+        })
+        passwordText.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
+                        var intent: Intent =
+                            Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
+                        startActivity(intent)
+                        finish()
+                    }
+
+                    return true
+                }
+                return false
+            }
+        })
+
+
         //takes to the chats selects
         loginButton.setOnClickListener {
 
             //checks if the fields are filled
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-                var intent: Intent
-                intent = Intent(this, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
+
+                var intent: Intent =
+                    Intent(this, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
                 startActivity(intent)
                 finish()
+
              }
             else if (userText.text.isEmpty() && passwordText.text.isNotEmpty()) {
                 passwordText.text = null
-                showToast("You must provide an user", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this,"You must provide an user", Toast.LENGTH_SHORT)
             }
             else if (userText.text.isNotEmpty() && passwordText.text.isEmpty()) {
-                showToast("You must provide a password", Toast.LENGTH_SHORT)
+                ShowToast.showToast(this,"You must provide a password", Toast.LENGTH_SHORT)
             }
             else {
-               showToast("You must provide an user and a password", Toast.LENGTH_SHORT)
+               ShowToast.showToast(this,"You must provide an user and a password", Toast.LENGTH_SHORT)
             }
         }
             //takes to the register screen
             registerButton.setOnClickListener {
-            var intent: Intent
-            intent = Intent(this,  RegisterScreen::class.java)
+            var intent: Intent = Intent(this,  RegisterScreen::class.java)
             startActivity(intent)
+                finish()
         }
 
     }
-    //function to check if toast is showing
-    fun showToast(text: CharSequence?, duration: Int) {
-        if (toast == null) toast = Toast.makeText(applicationContext, text, duration)
-        else{
-            toast?.cancel()
-            toast?.setText(text)
-        }
-        toast?.show()
-    }
+
+
+
+ 
 }
