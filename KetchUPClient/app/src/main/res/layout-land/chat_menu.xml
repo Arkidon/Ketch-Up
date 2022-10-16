@@ -39,7 +39,7 @@
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
         android:text=""
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
@@ -55,7 +55,7 @@
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
         android:text=""
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_10sdp"
         app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
@@ -92,7 +92,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -113,7 +113,7 @@
             android:id="@+id/errorMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="start"
             android:layout_marginStart="@dimen/_24sdp"
             android:layout_marginEnd="@dimen/_24sdp"
             android:fontFamily="@font/patua_one"
@@ -129,13 +129,14 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:fontFamily="@font/patua_one"
         android:text="Chats"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_25sdp"
-        app:layout_constraintStart_toStartOf="@+id/userPFP"
-        app:layout_constraintTop_toBottomOf="@+id/userPFP" />
+        app:layout_constraintBottom_toBottomOf="@+id/userStatus"
+        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
+        app:layout_constraintStart_toEndOf="@+id/userPFP"
+        app:layout_constraintTop_toTopOf="@+id/textName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

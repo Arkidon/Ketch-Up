@@ -8,6 +8,8 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
+const val username = "com.ketchup.app.selfUSERNAME"
+
 class LoginScreen : AppCompatActivity() {
         //var to make toasts
         var toast: Toast? = null
@@ -23,15 +25,15 @@ class LoginScreen : AppCompatActivity() {
         var userText : EditText = findViewById(R.id.usernameText)
         var passwordText : EditText = findViewById(R.id.passwordField)
 
-
         //takes to the chats selects
         loginButton.setOnClickListener {
 
             //checks if the fields are filled
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
                 var intent: Intent
-                intent = Intent(this, ChatMenu::class.java)
+                intent = Intent(this, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
                 startActivity(intent)
+                finish()
              }
             else if (userText.text.isEmpty() && passwordText.text.isNotEmpty()) {
                 passwordText.text = null

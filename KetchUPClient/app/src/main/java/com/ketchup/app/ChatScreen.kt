@@ -15,14 +15,15 @@ class ChatScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_screen)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
-        spinner.isGone = true;
-        setUser()
+        spinner.isGone = false;
+        val userName = intent.getStringExtra(friendName)
+        val friendPFP = intent.getStringExtra(friendPFP)
+        setUser(userName, friendPFP)
     }
 
-    fun setUser(){
-        val username = findViewById<TextView>(R.id.chatName)
+    fun setUser(userName:String?, friendPFP:String?){
+        findViewById<TextView>(R.id.chatName).apply { text = userName }
         val pfp = findViewById<RoundedImageView>(R.id.chatPFP)
-        Glide.with(pfp.context).load("https://i.pinimg.com/474x/ff/0d/f4/ff0df44c4cd43c7cd964e36b4354e56b.jpg").into(pfp)
-        username.text = "Alice"
+        Glide.with(pfp.context).load(friendPFP).into(pfp)
     }
 }

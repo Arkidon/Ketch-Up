@@ -13,8 +13,10 @@ import com.ketchup.app.models.UserData
 import com.ketchup.app.view.UserAdapter
 import com.makeramen.roundedimageview.RoundedImageView
 
+const val friendName = "com.ketchup.app.USERNAME"
+const val friendPFP = "com.ketchup.app.PFP"
 
-open class ChatMenu : AppCompatActivity() {
+ class ChatMenu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -22,7 +24,8 @@ open class ChatMenu : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_menu)
         initRecyclerView()
-        setUser()
+        val username = intent.getStringExtra(username)
+        setUser(username)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
         spinner.isGone = true;
 
@@ -36,16 +39,19 @@ open class ChatMenu : AppCompatActivity() {
 
     fun onItemSelected(userData: UserData){
         var goChat: Intent
+        val extras = Bundle()
         goChat = Intent(this, ChatScreen::class.java)
+        extras.putString(friendName, userData.friendName)
+        extras.putString(friendPFP, userData.pfp)
+        goChat.putExtras(extras)
         startActivity(goChat)
 
     }
 
-    fun setUser(){
-        val username = findViewById<TextView>(R.id.textName)
+    fun setUser(username:String?){
+        val user_name = findViewById<TextView>(R.id.textName).apply { text = username }
         val status = findViewById<TextView>(R.id.userStatus)
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         Glide.with(pfp.context).load("https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png").into(pfp)
-        username.text = "Madeline"
         status.text = "Strawberry Pie"}
 }
