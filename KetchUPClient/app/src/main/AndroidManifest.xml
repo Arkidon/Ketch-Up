@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31" >
         <activity
             android:name=".RegisterScreen"
