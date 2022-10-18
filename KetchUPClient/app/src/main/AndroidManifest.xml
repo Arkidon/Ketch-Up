@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/splashScreenTheme"
-        tools:targetApi="31">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31" >
         <activity
             android:name=".ChatScreen"
             android:exported="false">
@@ -19,6 +20,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
+
         <activity
             android:name=".RegisterScreen"
             android:exported="false">
