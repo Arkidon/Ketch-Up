@@ -2,15 +2,14 @@ package com.ketchup.app
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ketchup.utils.CreateDatabase
 import com.ketchup.utils.ShowToast
 
 const val username = "com.ketchup.app.selfUSERNAME"
@@ -23,12 +22,15 @@ class LoginScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
         //login and register buttons
-        var loginButton: Button = findViewById(R.id.loginButton)
-        var registerButton: Button = findViewById(R.id.signupButton)
+        val loginButton: Button = findViewById(R.id.loginButton)
+        val registerButton: Button = findViewById(R.id.signupButton)
         //Email and password texts
-        var userText : EditText = findViewById(R.id.usernameText)
-        var passwordText : EditText = findViewById(R.id.passwordField)
-
+        val userText : EditText = findViewById(R.id.usernameText)
+        val passwordText : EditText = findViewById(R.id.passwordField)
+        //creates the database
+        val db = CreateDatabase.createBd(this)
+        val userDao = db.userDao()
+        // user to use the database
         //keyboard compatibility
         userText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
@@ -54,7 +56,7 @@ class LoginScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-                        var intent: Intent =
+                        val intent: Intent =
                             Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
                         startActivity(intent)
                         finish()
@@ -72,12 +74,16 @@ class LoginScreen : AppCompatActivity() {
 
             //checks if the fields are filled
             if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-
-                var intent: Intent =
-                    Intent(this, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
-                startActivity(intent)
-                finish()
-
+                 val userdb = userDao.findByName(username)
+                 if (!userdb.equals(username)) {
+                     ShowToast.showToast(this, "Username not found", Toast.LENGTH_SHORT)
+                 }else
+                 {
+                     val intent: Intent =
+                         Intent(this, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
+                     startActivity(intent)
+                     finish()
+                 }
              }
             else if (userText.text.isEmpty() && passwordText.text.isNotEmpty()) {
                 passwordText.text = null
@@ -92,7 +98,7 @@ class LoginScreen : AppCompatActivity() {
         }
             //takes to the register screen
             registerButton.setOnClickListener {
-            var intent: Intent = Intent(this,  RegisterScreen::class.java)
+            val intent: Intent = Intent(this,  RegisterScreen::class.java)
             startActivity(intent)
                 finish()
         }
@@ -101,5 +107,5 @@ class LoginScreen : AppCompatActivity() {
 
 
 
- 
+
 }
