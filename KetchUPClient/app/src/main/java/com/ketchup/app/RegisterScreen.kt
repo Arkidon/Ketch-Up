@@ -18,16 +18,11 @@ class RegisterScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.activity_register_screen)
 
-        /**
-         * User and password texts
-         */
+        //User and password texts
         var userText: EditText = findViewById(R.id.userSingField)
         var passwordText: EditText = findViewById(R.id.passwordSingField)
         var passwordRepText: EditText = findViewById(R.id.passwordRepSignField)
-
-        /**
-         * Sing up button
-         */
+        //Sing up button
         var singUpButton: Button = findViewById(R.id.signupButton)
 
         passwordText.setOnKeyListener(object : View.OnKeyListener {
@@ -46,11 +41,8 @@ class RegisterScreen : AppCompatActivity() {
             }
         })
         passwordRepText.setOnKeyListener(object : View.OnKeyListener {
-
-            /**
-             * If the event is a key-down event on the "enter" button
-             */
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
                 if (event.action == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
@@ -63,10 +55,8 @@ class RegisterScreen : AppCompatActivity() {
             }
         })
         userText.setOnKeyListener(object : View.OnKeyListener {
-            /**
-             * If the event is a key-down event on the "enter" button
-             */
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
                 if (event.action == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
