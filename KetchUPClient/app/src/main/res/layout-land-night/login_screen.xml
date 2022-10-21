@@ -82,13 +82,13 @@
 
     <TextView
         android:id="@+id/welcomeText"
-        android:layout_width="106dp"
-        android:layout_height="37dp"
-        android:fontFamily="sans-serif-black"
+        android:layout_width="177dp"
+        android:layout_height="46dp"
+        android:fontFamily="@font/patua_one"
         android:text="Welcome!"
-        android:textColor="@color/white"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"

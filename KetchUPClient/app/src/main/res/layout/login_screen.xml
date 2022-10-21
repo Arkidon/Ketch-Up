@@ -67,13 +67,15 @@
 
     <TextView
         android:id="@+id/welcomeText"
-        android:layout_width="106dp"
-        android:layout_height="37dp"
+        android:layout_width="171dp"
+        android:layout_height="36dp"
         android:layout_marginTop="70dp"
         android:fontFamily="@font/patua_one"
         android:text="Welcome!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/black"
+        android:textSize="30dp"
         app:layout_constraintBottom_toTopOf="@+id/usernameText"
         app:layout_constraintEnd_toEndOf="@+id/appLogo"
         app:layout_constraintStart_toStartOf="@+id/appLogo"
