@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_color"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="@dimen/_8sdp">
 
@@ -50,8 +51,8 @@
         android:maxLines="1"
         android:text=""
         android:textAlignment="textStart"
-        android:textColor="@color/dark_color"
-        android:textColorHint="@color/dark_color"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
         app:layout_constraintStart_toEndOf="@id/ViewSupp"
@@ -70,8 +71,8 @@
         android:maxLines="1"
         android:text=""
         android:textAlignment="textStart"
-        android:textColor="#676767"
-        android:textColorHint="#676767"
+        android:textColor="#C8C7C7"
+        android:textColorHint="#C8C7C7"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="@+id/changePFP"
         app:layout_constraintStart_toStartOf="@+id/changeName"
@@ -88,7 +89,7 @@
         android:layout_marginTop="20dp"
         android:fontFamily="@font/patua_one"
         android:text="@string/settingText"
-        android:textColor="@color/dark_color"
+        android:textColor="@color/white"
         android:textSize="@dimen/_25sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
