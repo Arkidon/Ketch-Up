@@ -17,8 +17,8 @@ class SettingScreen: AppCompatActivity() {
         setUser(userName, selfPFP, selfStatus)
     }
     fun setUser(userName:String?, selfPFP:String?, selfStatus:String?){
-        findViewById<TextView>(R.id.changeName).apply { hint = userName }
-        findViewById<TextView>(R.id.changeStatus).apply { hint = selfStatus }
+        findViewById<TextView>(R.id.changeName).apply { text = userName }
+        findViewById<TextView>(R.id.changeStatus).apply { text = selfStatus }
         val pfp = findViewById<RoundedImageView>(R.id.changePFP)
         Glide.with(pfp.context).load(selfPFP).into(pfp)
     }
