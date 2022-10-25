@@ -10,13 +10,12 @@
         android:id="@+id/userPFP"
         android:layout_width="@dimen/_43sdp"
         android:layout_height="@dimen/_43sdp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:background="#B5B5B5"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@+id/fabNewChat"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/userStatus"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textName"
         app:riv_mutate_background="true"
         app:riv_oval="true"
         tools:ignore="ImageContrastCheck" />
@@ -27,38 +26,38 @@
         android:layout_height="1dp"
         app:layout_constraintBottom_toBottomOf="@+id/userPFP"
         app:layout_constraintTop_toTopOf="@id/userPFP"
-        app:layout_constraintStart_toEndOf="@id/userPFP"/>
+        app:layout_constraintStart_toStartOf="@id/userPFP"/>
 
     <TextView
         android:id="@+id/textName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_8sdp"
-        android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
+        android:paddingEnd="@dimen/_10sdp"
         android:text=""
-        android:textAlignment="textStart"
+        android:textAlignment="textEnd"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_16sdp"
-        app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
-        app:layout_constraintStart_toEndOf="@id/ViewSupp" />
+        app:layout_constraintBottom_toBottomOf="@id/fabNewChat"
+        app:layout_constraintEnd_toStartOf="@+id/ViewSupp"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/fabNewChat" />
 
     <TextView
         android:id="@+id/userStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
+        android:paddingEnd="@dimen/_10sdp"
         android:text=""
-        android:textAlignment="textStart"
+        android:textAlignment="textEnd"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_10sdp"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
+        app:layout_constraintEnd_toEndOf="@+id/textName"
         app:layout_constraintStart_toStartOf="@+id/textName"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
@@ -72,9 +71,9 @@
         android:src="@drawable/ic_add_user"
         app:backgroundTint="#FFFFFF"
         app:borderWidth="0dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/textName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textName"
+        app:layout_constraintBottom_toBottomOf="@id/userStatus"
         app:tint="@color/dark_color"
         tools:layout_editor_absoluteY="11dp" />
 
@@ -134,8 +133,8 @@
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_25sdp"
         app:layout_constraintBottom_toBottomOf="@+id/userStatus"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
-        app:layout_constraintStart_toEndOf="@+id/userPFP"
+        app:layout_constraintEnd_toStartOf="@+id/userPFP"
+        app:layout_constraintStart_toEndOf="@+id/fabNewChat"
         app:layout_constraintTop_toTopOf="@+id/textName" />
 
 
