@@ -119,6 +119,10 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+USERNAME_MAX_LENGTH = 25
+
+PASSWORD_MAX_LENGTH = 50
+
 # Sets the minimun password length
 PASSWORD_MINIMUM_LENGTH = 6
 
