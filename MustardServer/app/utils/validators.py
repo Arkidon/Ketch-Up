@@ -14,7 +14,7 @@ def user_data_validation(request: HttpRequest) -> dict | bool:
     """
 
     try:
-        body = json.loads(request.POST)
+        body = json.loads(request.body.decode('utf-8'))
 
     except JSONDecodeError:
         # Print for debugging purposes
