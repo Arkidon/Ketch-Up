@@ -120,11 +120,13 @@ class LoginScreen : AppCompatActivity() {
 
     private fun login(){
         val queue = Volley.newRequestQueue(this)
-        val url = "http://10.0.2.2:8000"
+        val url = "http://192.168.146.19:8000"
 
         val json: JSONObject = JSONObject()
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
+
+
 
         val request = JsonObjectRequest(Request.Method.POST, url, json,
             // Success response handle
@@ -134,7 +136,6 @@ class LoginScreen : AppCompatActivity() {
                     var intent: Intent =
                         Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
                     startActivity(intent)
-                    finish()
                 }
             },
 
