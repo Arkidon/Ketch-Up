@@ -20,7 +20,9 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.utils.ShowToast
 import com.ketchup.utils.TokenFile
+import com.ketchup.utils.UrlFile
 import org.json.JSONObject
+import java.net.URL
 import kotlin.math.log
 
 const val username = "com.ketchup.app.selfUSERNAME"
@@ -38,6 +40,11 @@ class LoginScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
+
+        //if url is default takes to dev activity
+       if( UrlFile.readUrl(this).equals("http://127.0.0.1")){
+           startActivity(Intent(this,DevScreen::class.java))
+      }
         //login and register buttons
         loginButton = findViewById(R.id.loginButton)
         registerButton = findViewById(R.id.signupButton)
@@ -126,14 +133,13 @@ class LoginScreen : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
     }
+
 
 
     private fun login(){
         val queue = Volley.newRequestQueue(this)
-        val url = "http://192.168.146.19:8000"
-
+        val url = UrlFile.readUrl(this)+"/login"
         val json: JSONObject = JSONObject()
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
