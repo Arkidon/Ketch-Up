@@ -16,6 +16,7 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.JsonRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.utils.ShowToast
 import org.json.JSONObject
 import kotlin.math.log
@@ -28,6 +29,7 @@ class LoginScreen : AppCompatActivity() {
     private lateinit var registerButton : Button
     private lateinit var userText: EditText
     private lateinit var passwordText: EditText
+    private lateinit var devButton: FloatingActionButton
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,7 @@ class LoginScreen : AppCompatActivity() {
         //Email and password texts
         userText = findViewById(R.id.usernameText)
         passwordText = findViewById(R.id.passwordField)
+        devButton = findViewById<FloatingActionButton>(R.id.devButton)
 
 
         //keyboard compatibility
@@ -115,6 +118,13 @@ class LoginScreen : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
+        devButton.setOnClickListener{
+            var intent: Intent = Intent(this,  DevScreen::class.java)
+            startActivity(intent)
+            finish()
+        }
+
     }
 
 
