@@ -10,6 +10,9 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.ketchup.exceptions.ResponseNotEmpty
 import org.json.JSONObject
 
+/**
+ * Custom Volley request for handling JSON requests that return an empty response body"
+ */
 
 class EmptyResponseJsonRequest(method: Int, url: String, jsonRequest: JSONObject?, listener: Listener<JSONObject>,
                                errorListener: ErrorListener?) :
