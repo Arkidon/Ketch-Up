@@ -5,7 +5,7 @@ from django.conf import settings
 class Sessions(models.Model):
     session_id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
-    session_token = models.CharField(max_length=32)
+    session_token = models.CharField(max_length=32, unique=True)
     active = models.BooleanField()
 
 
