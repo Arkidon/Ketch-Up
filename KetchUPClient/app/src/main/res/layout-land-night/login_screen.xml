@@ -13,8 +13,8 @@
         android:layout_height="53dp"
         android:layout_marginTop="20dp"
         android:autofillHints=""
-        android:background="@drawable/user_mokup_dark"
-        android:drawableStart="@drawable/lock_icon_ligh"
+        android:background="@drawable/text_field_dark"
+        android:drawableStart="@drawable/ic_password"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Password"
@@ -36,8 +36,9 @@
         android:layout_height="57dp"
         android:layout_marginTop="100dp"
         android:autofillHints=""
-        android:background="@drawable/user_mokup_dark"
-        android:drawableStart="@drawable/user_icon_light"
+        android:background="@drawable/text_field_dark"
+        android:drawableStart="@drawable/ic_user"
+        android:drawableTint="#AFAFAF"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Username"
@@ -104,6 +105,6 @@
         app:layout_constraintHorizontal_bias="0.07"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/ketchup_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

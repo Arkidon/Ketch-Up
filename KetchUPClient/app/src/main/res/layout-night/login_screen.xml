@@ -32,8 +32,9 @@
         android:layout_marginTop="100dp"
         android:layout_marginBottom="10dp"
         android:autofillHints=""
-        android:background="@drawable/user_mokup_dark"
-        android:drawableStart="@drawable/user_icon_light"
+        android:background="@drawable/text_field_dark"
+        android:drawableStart="@drawable/ic_user"
+        android:drawableTint="#AFAFAF"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Username"
@@ -53,8 +54,8 @@
         android:layout_width="0dp"
         android:layout_height="53dp"
         android:autofillHints=""
-        android:background="@drawable/user_mokup_dark"
-        android:drawableStart="@drawable/lock_icon_ligh"
+        android:background="@drawable/text_field_dark"
+        android:drawableStart="@drawable/ic_password"
         android:drawablePadding="10dp"
         android:ems="10"
         android:hint="Password"
@@ -107,7 +108,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/ketchup_logo" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -123,7 +124,7 @@
         app:layout_constraintBottom_toTopOf="@+id/appLogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dev_setting_ic"
+        app:srcCompat="@drawable/ic_dev_settings"
         app:tint="#D6D6D6"
         tools:ignore="SpeakableTextPresentCheck" />
 
