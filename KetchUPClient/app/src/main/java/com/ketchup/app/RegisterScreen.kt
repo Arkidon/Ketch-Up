@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.ketchup.utils.ShowToast
 import com.android.volley.TimeoutError
+import com.ketchup.utils.EmptyResponseJsonRequest
 import com.ketchup.utils.TokenFile
 import com.ketchup.utils.UrlFile
 import org.json.JSONObject
@@ -134,15 +135,16 @@ class RegisterScreen : AppCompatActivity() {
         }
 
         val queue = Volley.newRequestQueue(this)
+
         val url = UrlFile.readUrl(this)+"/signup"
-        Log.i("url", url)
+
 
         val json: JSONObject = JSONObject()
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
 
 
-        val request = JsonObjectRequest(
+        val request = EmptyResponseJsonRequest(
             Request.Method.POST, url, json,
             // Success response handle
             { response ->
@@ -154,7 +156,7 @@ class RegisterScreen : AppCompatActivity() {
                 // Connection timed out
                 if(error is TimeoutError){
                     ShowToast.showToast(this, "Server connection timed out", Toast.LENGTH_SHORT)
-                    return@JsonObjectRequest
+                    return@EmptyResponseJsonRequest
                 }
 
                 val status : Int = error.networkResponse.statusCode
@@ -163,12 +165,12 @@ class RegisterScreen : AppCompatActivity() {
                     userText.text = null
                     passwordText.text = null
                     passwordRepText.text = null
-                    return@JsonObjectRequest
+                    return@EmptyResponseJsonRequest
                 }
                 if (status == 404 || status == 405 || status == 400){
                     ShowToast.showToast(this, "Error conneting with the server", Toast.LENGTH_SHORT)
                     Log.i(null, error.networkResponse.statusCode.toString())
-                    return@JsonObjectRequest
+                    return@EmptyResponseJsonRequest
                 }
 
 
@@ -185,7 +187,6 @@ class RegisterScreen : AppCompatActivity() {
     fun changeActivityLogin(){
         val intent = Intent(this, LoginScreen::class.java)
         startActivity(intent)
-        finish()
 
     }
 }
