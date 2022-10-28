@@ -38,6 +38,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".DevScreen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".SettingScreen"
             android:exported="false">
             <meta-data

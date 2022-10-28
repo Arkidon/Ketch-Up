@@ -42,7 +42,7 @@ class LoginScreen : AppCompatActivity() {
         //Email and password texts
         userText = findViewById(R.id.usernameText)
         passwordText = findViewById(R.id.passwordField)
-        devButton = findViewById<FloatingActionButton>(R.id.devButton)
+        devButton = findViewById(R.id.devButton)
 
 
         //keyboard compatibility

@@ -82,29 +82,7 @@ class RegisterScreen : AppCompatActivity() {
 
         singUpButton.setOnClickListener {
 
-            //checks if the fields are filled
-            //all goooooood
-            if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                changeActivityLogin()
-            }else if (userText.text.isEmpty()) {
-                passwordRepText.text = null
-                passwordText.text = null
-                ShowToast.showToast(this,"You must provide an user", Toast.LENGTH_SHORT)
-            }else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isNotEmpty()) {
-                passwordRepText.text = null
-                ShowToast.showToast(this,"You must provide a password", Toast.LENGTH_SHORT)
-            }else if ( userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.isEmpty()) {
-                passwordText.text = null
-                ShowToast.showToast(this, "Your must repeat your password", Toast.LENGTH_SHORT)
-            }else if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isEmpty()){
-                ShowToast.showToast(this,"Your must provide a password and repeat it", Toast.LENGTH_SHORT)
-                //checks if pass match
-            }else if (!(passwordText.text.contentEquals(passwordRepText.text)) && passwordText.text.isNotEmpty()) {
-                ShowToast.showToast(this, "Your passwords must match", Toast.LENGTH_SHORT)
-            }else
-            {
-                ShowToast.showToast(this,"You must provide an user and a password", Toast.LENGTH_SHORT)
-            }
+            signUp()
         }
     }
 
@@ -147,18 +125,18 @@ class RegisterScreen : AppCompatActivity() {
             return
         }
 
+        if(!(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.toString().equals(passwordText.text.toString()))) {
+            Log.i(null, "Fields are empty :")
+            return
+        }
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://192.168.146.19:8000"
+        val url = "http://192.168.146.19:8000/signup"
 
         val json: JSONObject = JSONObject()
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
 
-        if(!(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.equals(passwordText.text))) {
-            Log.i(null, "Fields are empty :")
-            return
-        }
 
         val request = JsonObjectRequest(
             Request.Method.POST, url, json,
@@ -169,19 +147,20 @@ class RegisterScreen : AppCompatActivity() {
 
             // Error response handle
             { error ->
-                val status = error.networkResponse.statusCode.toString();
-                if (status.equals("409")){
+                val status : Int = error.networkResponse.statusCode
+                if (status ==409){
                     ShowToast.showToast(this, "Users already exits",Toast.LENGTH_SHORT)
+                    userText.text = null
+                    passwordText.text = null
+                    passwordRepText.text = null
                     return@JsonObjectRequest
                 }
-                if (status.equals("400")){
+                if (status == 404 || status == 405 || status == 400){
                     ShowToast.showToast(this, "Error conneting with the server", Toast.LENGTH_SHORT)
-                    Log.i(null, "Error with Json Object")
+                    Log.i(null, error.networkResponse.statusCode.toString())
                     return@JsonObjectRequest
                 }
-                if(status.equals("401")){
 
-                }
 
                 Log.i(null, error.networkResponse.statusCode.toString())
                 Log.i(null, error.toString())
