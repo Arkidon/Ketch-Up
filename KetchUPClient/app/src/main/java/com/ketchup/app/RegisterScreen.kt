@@ -184,7 +184,6 @@ class RegisterScreen : AppCompatActivity() {
     fun changeActivityLogin(){
         val intent = Intent(this, LoginScreen::class.java)
         startActivity(intent)
-        finish()
 
     }
 }

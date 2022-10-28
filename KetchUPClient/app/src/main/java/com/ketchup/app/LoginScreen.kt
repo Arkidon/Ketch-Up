@@ -118,13 +118,11 @@ class LoginScreen : AppCompatActivity() {
         registerButton.setOnClickListener {
             var intent: Intent = Intent(this,  RegisterScreen::class.java)
             startActivity(intent)
-            finish()
         }
 
         devButton.setOnClickListener{
             var intent: Intent = Intent(this,  DevScreen::class.java)
             startActivity(intent)
-            finish()
         }
 
     }
@@ -132,7 +130,7 @@ class LoginScreen : AppCompatActivity() {
 
     private fun login(){
         val queue = Volley.newRequestQueue(this)
-        val url = "http://192.168.146.19:8000"
+        val url = "http://10.0.2.2:8000/login"
 
         val json: JSONObject = JSONObject()
         json.put("username", userText.text.toString())
