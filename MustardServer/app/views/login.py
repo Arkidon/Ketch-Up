@@ -10,6 +10,9 @@ import json
 
 
 def view(request):
+    if request.method != 'POST':
+        return HttpResponse(status=405)
+
     credentials = validators.user_data_validation(request)
 
     # Checks if the credentials have the correct format, if not, returns a 400 error code
@@ -30,7 +33,7 @@ def view(request):
     if not check_password(password, user.password):
         return HttpResponse(status=401)
 
-    # Genereates the session_token
+    # Generates the session_token
     session_token = generate_session_token.generate()
 
     return JsonResponse({'session_id': session_token})
