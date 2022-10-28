@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.TimeoutError
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.JsonRequest
@@ -151,6 +152,12 @@ class LoginScreen : AppCompatActivity() {
 
             // Error response handle
             { error ->
+                // Connection timed out
+                if(error is TimeoutError){
+                    ShowToast.showToast(this, "Server connection timed out", Toast.LENGTH_SHORT)
+                    return@JsonObjectRequest
+                }
+
                 Log.i(null, error.networkResponse.statusCode.toString())
                 Log.i(null, error.toString())
                 ShowToast.showToast(this,"Error connecting to the server", Toast.LENGTH_SHORT)

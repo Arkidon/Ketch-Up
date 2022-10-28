@@ -13,7 +13,9 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.ketchup.utils.ShowToast
+import com.android.volley.TimeoutError
 import org.json.JSONObject
+import kotlin.math.sign
 
 
 class RegisterScreen : AppCompatActivity() {
@@ -42,7 +44,7 @@ class RegisterScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                        changeActivityLogin()
+                        signUp()
                     }
 
                     return true
@@ -57,7 +59,7 @@ class RegisterScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                        changeActivityLogin()
+                        signUp()
                     }
                     return true
                 }
@@ -71,7 +73,7 @@ class RegisterScreen : AppCompatActivity() {
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
                     if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
-                        changeActivityLogin()
+                        signUp()
                     }
 
                     return true
@@ -81,7 +83,6 @@ class RegisterScreen : AppCompatActivity() {
         })
 
         singUpButton.setOnClickListener {
-
             signUp()
         }
     }
@@ -147,8 +148,14 @@ class RegisterScreen : AppCompatActivity() {
 
             // Error response handle
             { error ->
+                // Connection timed out
+                if(error is TimeoutError){
+                    ShowToast.showToast(this, "Server connection timed out", Toast.LENGTH_SHORT)
+                    return@JsonObjectRequest
+                }
+
                 val status : Int = error.networkResponse.statusCode
-                if (status ==409){
+                if (status == 409){
                     ShowToast.showToast(this, "Users already exits",Toast.LENGTH_SHORT)
                     userText.text = null
                     passwordText.text = null
