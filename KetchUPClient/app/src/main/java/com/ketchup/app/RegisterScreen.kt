@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.android.volley.NoConnectionError
 import com.android.volley.Request
 import com.android.volley.TimeoutError
 import com.android.volley.toolbox.Volley
@@ -151,6 +152,12 @@ class RegisterScreen : AppCompatActivity() {
                 // Connection timed out
                 if(error is TimeoutError){
                     ShowToast.showToast(this, "Server connection timed out", Toast.LENGTH_SHORT)
+                    return@EmptyResponseJsonRequest
+                }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    ShowToast.showToast(this, "No internet connection", Toast.LENGTH_SHORT)
                     return@EmptyResponseJsonRequest
                 }
 
