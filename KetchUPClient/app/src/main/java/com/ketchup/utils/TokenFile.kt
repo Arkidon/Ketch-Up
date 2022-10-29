@@ -9,12 +9,12 @@ class TokenFile {
         private const val filename : String = "token"
 
         fun readToken(context: Context): String{
-            val file: File = File(context.filesDir, filename)
+            val file = File(context.filesDir, filename)
             return file.readText(Charset.defaultCharset())
         }
 
         fun writeToken(token: String, context: Context){
-            val file: File = File(context.filesDir, filename)
+            val file = File(context.filesDir, filename)
             file.writeText(token, Charset.defaultCharset())
         }
     }

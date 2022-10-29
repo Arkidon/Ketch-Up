@@ -16,7 +16,8 @@ class SettingScreen: AppCompatActivity() {
         val selfStatus = intent.getStringExtra(selfStatus)
         setUser(userName, selfPFP, selfStatus)
     }
-    fun setUser(userName:String?, selfPFP:String?, selfStatus:String?){
+
+    private fun setUser(userName:String?, selfPFP:String?, selfStatus:String?){
         findViewById<TextView>(R.id.changeName).apply { text = userName }
         findViewById<TextView>(R.id.changeStatus).apply { text = selfStatus }
         val pfp = findViewById<RoundedImageView>(R.id.changePFP)

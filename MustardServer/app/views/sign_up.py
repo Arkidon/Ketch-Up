@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from app.models import Users
@@ -21,6 +22,6 @@ def view(request):
     except ObjectDoesNotExist:
         pass
 
-    Users.objects.create(username=username, password=password)
+    Users.objects.create(username=username, password=make_password(password))
 
     return HttpResponse(status=200)

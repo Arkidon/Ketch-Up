@@ -1,7 +1,5 @@
 package com.ketchup.app
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -9,16 +7,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.ketchup.utils.ShowToast
 import com.android.volley.TimeoutError
+import com.android.volley.toolbox.Volley
 import com.ketchup.utils.EmptyResponseJsonRequest
-import com.ketchup.utils.TokenFile
+import com.ketchup.utils.ShowToast
 import com.ketchup.utils.UrlFile
 import org.json.JSONObject
-import kotlin.math.sign
 
 
 class RegisterScreen : AppCompatActivity() {
@@ -46,7 +42,7 @@ class RegisterScreen : AppCompatActivity() {
                 if (event.action == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
-                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordText.text.contentEquals(passwordRepText.text)) {
                         signUp()
                     }
 
@@ -61,7 +57,7 @@ class RegisterScreen : AppCompatActivity() {
                 if (event.action == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
-                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordText.text.contentEquals(passwordRepText.text)) {
                         signUp()
                     }
                     return true
@@ -75,7 +71,7 @@ class RegisterScreen : AppCompatActivity() {
                 if (event.action == KeyEvent.ACTION_DOWN &&
                     keyCode == KeyEvent.KEYCODE_ENTER
                 ) {
-                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()  && passwordText.text.contentEquals(passwordRepText.text)) {
+                    if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordText.text.contentEquals(passwordRepText.text)) {
                         signUp()
                     }
 
@@ -113,7 +109,7 @@ class RegisterScreen : AppCompatActivity() {
         }
 
         if (userText.text.isNotEmpty() && passwordText.text.isEmpty() && passwordRepText.text.isEmpty()){
-            //checks if passwords match
+            // Checks if passwords match
             ShowToast.showToast(this,"Your must provide a password and repeat it", Toast.LENGTH_SHORT)
             return
         }
@@ -123,13 +119,12 @@ class RegisterScreen : AppCompatActivity() {
             return
         }
 
-        if(userText.text.isEmpty() && passwordText.text.isEmpty())
-        {
+        if(userText.text.isEmpty() && passwordText.text.isEmpty()) {
             ShowToast.showToast(this,"You must provide an user and a password", Toast.LENGTH_SHORT)
             return
         }
 
-        if(!(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.toString().equals(passwordText.text.toString()))) {
+        if(!(userText.text.isNotEmpty() && passwordText.text.isNotEmpty() && passwordRepText.text.toString() == passwordText.text.toString())) {
             Log.i(null, "Fields are empty :")
             return
         }
@@ -139,7 +134,7 @@ class RegisterScreen : AppCompatActivity() {
         val url = UrlFile.readUrl(this)+"/signup"
 
 
-        val json: JSONObject = JSONObject()
+        val json = JSONObject()
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
 
@@ -183,10 +178,11 @@ class RegisterScreen : AppCompatActivity() {
         queue.add(request)
     }
 
-    // function to change activity to login and finish this activity
-    fun changeActivityLogin(){
+    // Function to change activity to login and finish this activity
+    /*fun changeActivityLogin(){
         val intent = Intent(this, LoginScreen::class.java)
         startActivity(intent)
 
     }
+     */
 }
