@@ -102,4 +102,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ketchup_logo" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/devButton"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:outlineAmbientShadowColor="@color/white"
+        android:outlineSpotShadowColor="@color/white"
+        app:backgroundTint="#FFFFFF"
+        app:borderWidth="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_dev_settings"
+        app:tint="@color/dark_color"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
