@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.TimeoutError
+import com.android.volley.NoConnectionError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -153,11 +154,18 @@ class LoginScreen : AppCompatActivity() {
 
             // Error response handle
             { error ->
-                // Connection timed out
+                // Connection timed out validation
                 if(error is TimeoutError){
                     ShowToast.showToast(this, "Server connection timed out", Toast.LENGTH_SHORT)
                     return@JsonObjectRequest
                 }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    ShowToast.showToast(this, "No internet connection", Toast.LENGTH_SHORT)
+                    return@JsonObjectRequest
+                }
+
                 val status = error.networkResponse.statusCode
                 if ( status == 404 || status == 405 || status == 400){
                     ShowToast.showToast(this, "Error conneting with the server", Toast.LENGTH_SHORT)
@@ -165,7 +173,7 @@ class LoginScreen : AppCompatActivity() {
                     return@JsonObjectRequest
                 }
                 if (status == 401){
-                    ShowToast.showToast(this, "Error with username or password", Toast.LENGTH_SHORT)
+                    ShowToast.showToast(this, "Invalid username or/and password", Toast.LENGTH_SHORT)
                     Log.i(null, error.networkResponse.statusCode.toString())
                     return@JsonObjectRequest
                 }
