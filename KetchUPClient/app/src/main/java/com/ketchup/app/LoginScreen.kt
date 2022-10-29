@@ -35,7 +35,10 @@ class LoginScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
 
-        //if url is default takes to dev activity
+        // If url is default takes to dev activity
+        if( UrlFile.readUrl(this).equals("http://127.0.0.1")){
+            startActivity(Intent(this, DevScreen::class.java))
+        }
 
         //login and register buttons
         loginButton = findViewById(R.id.loginButton)
@@ -45,9 +48,6 @@ class LoginScreen : AppCompatActivity() {
         passwordText = findViewById(R.id.passwordField)
         devButton = findViewById(R.id.devButton)
 
-        if( UrlFile.readUrl(this).equals("http://127.0.0.1")){
-            startActivity(Intent(this, DevScreen::class.java))
-        }
         //keyboard compatibility
         userText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
