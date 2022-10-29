@@ -2,7 +2,6 @@ package com.ketchup.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -35,7 +34,7 @@ const val selfPFP = "com.ketchup.app.selfPFP"
         initRecyclerView()
         val status = findViewById<TextView>(R.id.userStatus)
         pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
-        spinner.isGone = true;
+        spinner.isGone = true
 
     }
 
@@ -45,10 +44,9 @@ const val selfPFP = "com.ketchup.app.selfPFP"
         recyclerView.adapter = UserAdapter(UserList.userList) { userData -> onItemSelected(userData) }
     }
 
-    fun profileSelected(username: String?, selfpfp: String, status: String){
-        var goSettings: Intent
+    private fun profileSelected(username: String?, selfpfp: String, status: String){
         val extras = Bundle()
-        goSettings = Intent(this, SettingScreen::class.java)
+        val goSettings = Intent(this, SettingScreen::class.java)
         extras.putString(selfName, username)
         extras.putString(selfStatus, status)
         extras.putString(selfPFP, selfpfp)
@@ -57,10 +55,9 @@ const val selfPFP = "com.ketchup.app.selfPFP"
 
     }
 
-    fun onItemSelected(userData: UserData){
-        var goChat: Intent
+    private fun onItemSelected(userData: UserData){
         val extras = Bundle()
-        goChat = Intent(this, ChatScreen::class.java)
+        val goChat = Intent(this, ChatScreen::class.java)
         extras.putString(friendName, userData.friendName)
         extras.putString(friendPFP, userData.pfp)
         goChat.putExtras(extras)
@@ -68,8 +65,8 @@ const val selfPFP = "com.ketchup.app.selfPFP"
 
     }
 
-    fun setUser(username:String?, pfp:RoundedImageView, selfpfp:String){
-        val user_name = findViewById<TextView>(R.id.textName).apply { text = username }
+    private fun setUser(username:String?, pfp:RoundedImageView, selfpfp:String){
+        // val user_name = findViewById<TextView>(R.id.textName).apply { text = username }
         val status = findViewById<TextView>(R.id.userStatus)
         Glide.with(pfp.context).load(selfpfp).into(pfp)
         status.text = "Strawberry Pie"}

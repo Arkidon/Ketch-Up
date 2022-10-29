@@ -11,19 +11,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
-import com.android.volley.Response
 import com.android.volley.TimeoutError
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.JsonRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.utils.ShowToast
-import com.ketchup.utils.TokenFile
 import com.ketchup.utils.UrlFile
 import org.json.JSONObject
-import java.net.URL
-import kotlin.math.log
 
 const val username = "com.ketchup.app.selfUSERNAME"
 
@@ -43,7 +37,7 @@ class LoginScreen : AppCompatActivity() {
 
         //if url is default takes to dev activity
        if( UrlFile.readUrl(this).equals("http://127.0.0.1")){
-           startActivity(Intent(this,DevScreen::class.java))
+           startActivity(Intent(this, DevScreen::class.java))
       }
         //login and register buttons
         loginButton = findViewById(R.id.loginButton)
@@ -123,12 +117,12 @@ class LoginScreen : AppCompatActivity() {
 
         //takes to the register screen
         registerButton.setOnClickListener {
-            var intent: Intent = Intent(this,  RegisterScreen::class.java)
+            val intent = Intent(this,  RegisterScreen::class.java)
             startActivity(intent)
         }
 
         devButton.setOnClickListener{
-            var intent: Intent = Intent(this,  DevScreen::class.java)
+            val intent = Intent(this,  DevScreen::class.java)
             startActivity(intent)
         }
     }
@@ -140,7 +134,7 @@ class LoginScreen : AppCompatActivity() {
 
         val url = UrlFile.readUrl(this)+"/login"
 
-        val json: JSONObject = JSONObject()
+        val json = JSONObject()
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
 
@@ -151,7 +145,7 @@ class LoginScreen : AppCompatActivity() {
             { response ->
                 Log.i(null, response.toString())
                 if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-                    var intent: Intent =
+                    val intent: Intent =
                         Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
                     startActivity(intent)
                 }

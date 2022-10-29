@@ -2,15 +2,12 @@ package com.ketchup.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ketchup.utils.ShowToast
 import com.ketchup.utils.UrlFile
-import org.w3c.dom.Text
 
 class DevScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,7 +15,7 @@ class DevScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.debug_settings_screen)
 
-        //button and fields
+        // Button and fields
         val devButton: Button = findViewById(R.id.devButton)
         val urlField : EditText = findViewById(R.id.urlField)
 
@@ -45,8 +42,4 @@ class DevScreen : AppCompatActivity() {
         }
     }
 
-
-
-
-
-    }
+}
