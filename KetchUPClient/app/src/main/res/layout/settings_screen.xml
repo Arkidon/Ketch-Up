@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/_8sdp">
+
+    <EditText
+        android:id="@+id/repeatNewPassField"
+        android:layout_width="350dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/text_field_light"
+        android:drawableStart="@drawable/ic_password"
+        android:drawableTint="@color/dark_color"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Please repeat your new password"
+        android:inputType="textPassword"
+        android:paddingStart="10dp"
+        android:textColorHint="#4A4A4A"
+        android:fontFamily="@font/patua_one"
+        android:textColor="@color/dark_color"
+        app:layout_constraintEnd_toEndOf="@+id/newPassField"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/newPassField"
+        app:layout_constraintTop_toBottomOf="@+id/newPassField"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/newPassField"
+        android:layout_width="350dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/text_field_light"
+        android:drawableStart="@drawable/ic_password"
+        android:drawableTint="@color/dark_color"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:hint="Please type the new password"
+        android:inputType="textPassword"
+        android:paddingStart="10dp"
+        android:textColorHint="#4A4A4A"
+        android:fontFamily="@font/patua_one"
+        android:textColor="@color/dark_color"
+        app:layout_constraintEnd_toEndOf="@+id/actualPassField"
+        app:layout_constraintStart_toStartOf="@+id/actualPassField"
+        app:layout_constraintTop_toBottomOf="@+id/actualPassField"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/actualPassField"
+        android:layout_width="350dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/text_field_light"
+        android:drawableStart="@drawable/ic_password"
+        android:drawableTint="@color/dark_color"
+        android:drawablePadding="10dp"
+        android:ems="10"
+        android:fontFamily="@font/patua_one"
+        android:hint="Please type your actual password"
+        android:inputType="textPassword"
+        android:paddingStart="10dp"
+        android:textColor="@color/dark_color"
+        android:textColorHint="#4A4A4A"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actualPassText"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/actualPassText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Here you can change the password"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="@+id/actualPassField"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/actualPassField"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+    <TextView
+        android:id="@+id/profileText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Profile"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="@+id/settingsText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/settingsText"
+        app:layout_constraintTop_toBottomOf="@+id/settingsText" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Status"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="@+id/changeStatus"
+        app:layout_constraintStart_toStartOf="@+id/changeStatus"
+        app:layout_constraintTop_toBottomOf="@+id/changeName" />
+
+    <TextView
+        android:id="@+id/nameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Name"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_13sdp"
+        app:layout_constraintEnd_toEndOf="@+id/changeName"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/changeName"
+        app:layout_constraintTop_toBottomOf="@+id/profileText" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/changePFP"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:background="#B5B5B5"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="@id/changeStatus"
+        app:layout_constraintEnd_toEndOf="@+id/settingsText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/settingsText"
+        app:layout_constraintTop_toBottomOf="@+id/nameText"
+        app:riv_mutate_background="true"
+        app:riv_oval="true"
+        tools:ignore="ImageContrastCheck" />
+
+    <View
+        android:id="@+id/ViewSupp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@+id/changePFP"
+        app:layout_constraintStart_toEndOf="@id/changePFP"
+        app:layout_constraintTop_toTopOf="@id/changePFP"
+        app:layout_constraintVertical_bias="0.327" />
+
+    <!--<ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <EditText
+        android:id="@+id/changeName"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/patua_one"
+        android:hint=""
+        android:inputType="text"
+        android:maxLines="1"
+        android:text=""
+        android:textAlignment="textStart"
+        android:textColor="#676767"
+        android:textColorHint="#B1B1B1"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
+        app:layout_constraintEnd_toEndOf="@+id/actualPassField"
+        app:layout_constraintStart_toEndOf="@id/ViewSupp"
+        app:layout_constraintTop_toBottomOf="@+id/nameText"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <EditText
+        android:id="@+id/changeStatus"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/patua_one"
+        android:hint=""
+        android:inputType="text"
+        android:maxLines="1"
+        android:text=""
+        android:textAlignment="textStart"
+        android:textColor="#676767"
+        android:textColorHint="#9F9F9F"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintEnd_toEndOf="@+id/actualPassField"
+        app:layout_constraintStart_toStartOf="@+id/changeName"
+        app:layout_constraintTop_toBottomOf="@+id/statusText"
+        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+    <TextView
+        android:id="@+id/settingsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/patua_one"
+        android:text="@string/settingText"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/passwordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="47dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Password"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="@+id/actualPassText"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/actualPassText"
+        app:layout_constraintTop_toBottomOf="@+id/changePFP" />
+
+    <Button
+        android:id="@+id/applyButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#EF5252"
+        android:fontFamily="@font/patua_one"
+        android:text="Apply changes"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/repeatNewPassField"
+        app:layout_constraintStart_toStartOf="@+id/repeatNewPassField"
+        app:layout_constraintTop_toBottomOf="@+id/repeatNewPassField"
+        tools:ignore="TextContrastCheck" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
