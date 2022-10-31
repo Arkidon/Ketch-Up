@@ -13,8 +13,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:fontFamily="@font/patua_one"
+        android:text="Here you can put the ip"
         android:textColor="@color/white"
-        android:text="Here you can put the url"
         android:textSize="@dimen/_15sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,7 +28,7 @@
         android:background="@drawable/text_field_dark"
         android:ems="10"
         android:fontFamily="@font/patua_one"
-        android:hint="http://127.0.0.1"
+        android:hint="127.0.0.1"
         android:inputType="textPersonName"
         android:paddingStart="@dimen/_10sdp"
         android:textColor="#AFAFAF"

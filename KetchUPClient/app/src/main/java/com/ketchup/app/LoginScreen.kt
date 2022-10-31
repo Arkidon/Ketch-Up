@@ -133,7 +133,7 @@ class LoginScreen : AppCompatActivity() {
     private fun login(){
         val queue = Volley.newRequestQueue(this)
 
-        val url = UrlFile.readUrl(this)+"/login"
+        val url = "http://"+UrlFile.readUrl(this)+"/login"
 
         val json = JSONObject()
         json.put("username", userText.text.toString())
