@@ -26,11 +26,12 @@ class ChatWebSocket{
         private var webSocket: WebSocket? = null
 
         fun createConnection(context: Context){
-            val client = OkHttpClient()
-            val request = Request.Builder().url("ws://" + UrlFile.readUrl(context) + "ws-test").build()
-            val listener = ChatWebSocketListener()
-
-            webSocket = client.newWebSocket(request, listener)
+            if(webSocket == null){
+                val client = OkHttpClient()
+                val request = Request.Builder().url("ws://" + UrlFile.readUrl(context) + "/ws-test").build()
+                val listener = ChatWebSocketListener()
+                webSocket = client.newWebSocket(request, listener)
+            }
         }
 
         fun closeConnection(){
