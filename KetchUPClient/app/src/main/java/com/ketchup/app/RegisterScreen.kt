@@ -132,7 +132,7 @@ class RegisterScreen : AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
 
-        val url = UrlFile.readUrl(this)+"/signup"
+        val url = "http://"+UrlFile.readUrl(this)+"/signup"
 
 
         val json = JSONObject()
