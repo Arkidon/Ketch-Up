@@ -3,7 +3,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ketchup.app.R
-import com.ketchup.app.UserList
 import com.ketchup.app.models.UserData
 
 class UserAdapter(private val userList: List<UserData>, private val onClickListener:(UserData) -> Unit): RecyclerView.Adapter<UserViewHolder>(){
