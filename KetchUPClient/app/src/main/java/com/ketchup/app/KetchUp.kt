@@ -24,7 +24,7 @@ class KetchUp: Application() {
     @Override
     override fun onCreate() {
         super.onCreate()
-        KetchUp.context = applicationContext
+        context = applicationContext
     }
 
 }
