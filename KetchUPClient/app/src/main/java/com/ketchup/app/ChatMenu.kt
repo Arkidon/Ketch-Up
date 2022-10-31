@@ -45,7 +45,7 @@ class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
 
         val queue = Volley.newRequestQueue(this)
-        val url = UrlFile.readUrl(this) + "/request-users"
+        val url = "http://" + UrlFile.readUrl(this) + "/request-users"
 
         val request = StringRequest(
             Request.Method.GET, url,
