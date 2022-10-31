@@ -1,5 +1,7 @@
 package com.ketchup.utils
 
+import android.content.Context
+import android.util.Log
 import okhttp3.*
 
 class ChatWebSocketListener : WebSocketListener() {
@@ -23,9 +25,9 @@ class ChatWebSocket{
     companion object{
         private var webSocket: WebSocket? = null
 
-        fun createConnection(){
+        fun createConnection(context: Context){
             val client = OkHttpClient()
-            val request = Request.Builder().url("ws://127.0.0.1:8000/ws-test").build()
+            val request = Request.Builder().url("ws://" + UrlFile.readUrl(context) + "ws-test").build()
             val listener = ChatWebSocketListener()
 
             webSocket = client.newWebSocket(request, listener)
@@ -37,7 +39,7 @@ class ChatWebSocket{
 
         fun sendMessage(message: String){
             webSocket?.send(message)
-            println("Message sent $message")
+            Log.i(null, "Message sent $message")
         }
     }
 }
