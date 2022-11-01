@@ -1,17 +1,15 @@
 import base64
 import os.path
 
-from django.http import HttpResponse, JsonResponse
-from app.decorators import session_required
-from app.models import Users
 from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
+
+from app.models import Users
 
 
-def view(request):
-    # Request method validation
-    if request.method != 'GET':
-        return HttpResponse(status=405)
-
+@require_http_methods('GET')
+def view(request): # noqa
     # Temporary code for testing purposes, the intended
     # behaviour is to filter by the users that has been added
     users_models_list = Users.objects.all()

@@ -1,10 +1,13 @@
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods
+
 from app.models import Users
 from app.utils import validators
 
 
+@require_http_methods('POST')
 def view(request):
     credentials = validators.user_data_validation(request)
 

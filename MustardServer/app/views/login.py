@@ -1,18 +1,14 @@
 from django.contrib.auth.hashers import check_password
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse, JsonResponse
-from json.decoder import JSONDecodeError
-from django.conf import settings
+from django.views.decorators.http import require_http_methods
+
 from app.models import Users
-from app.decorators import session_required
 from app.utils import generate_session_token, validators
-import json
 
 
+@require_http_methods('POST')
 def view(request):
-    if request.method != 'POST':
-        return HttpResponse(status=405)
-
     credentials = validators.user_data_validation(request)
 
     # Checks if the credentials have the correct format, if not, returns a 400 error code
