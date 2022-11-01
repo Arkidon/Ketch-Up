@@ -1,16 +1,18 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id  'kotlin-kapt'
 }
 
 android {
     namespace 'com.ketchup.app'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.ketchup.app"
         minSdk 28
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -33,6 +35,13 @@ android {
 }
 
 dependencies {
+    def room_version = "2.4.3"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
     implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     // Dependency to resolver issues with okhttp3
     implementation ('com.google.firebase:firebase-messaging:23.1.0'){
