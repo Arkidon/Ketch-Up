@@ -34,7 +34,7 @@ class ChatWebSocket{
         fun createConnection(context: Context){
             if(webSocket == null){
                 val client = OkHttpClient()
-                val request = Request.Builder().url("ws://" + UrlFile.readUrl(context) + "/ws-test").build()
+                val request = Request.Builder().url("ws://" + ServerAddress.readUrl(context) + "/ws-test").build()
                 webSocketListener = ChatWebSocketListener()
                 webSocket = client.newWebSocket(request, webSocketListener)
             }

@@ -17,7 +17,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.utils.ShowToast
-import com.ketchup.utils.UrlFile
+import com.ketchup.utils.ServerAddress
 import org.json.JSONObject
 
 const val username = "com.ketchup.app.selfUSERNAME"
@@ -37,7 +37,7 @@ class LoginScreen : AppCompatActivity() {
         setContentView(R.layout.login_screen)
 
         // If url is default takes to dev activity
-        if( UrlFile.readUrl(this).equals("http://127.0.0.1")){
+        if( ServerAddress.readUrl(this).equals("http://127.0.0.1")){
             startActivity(Intent(this, DevScreen::class.java))
         }
 
@@ -133,7 +133,7 @@ class LoginScreen : AppCompatActivity() {
     private fun login(){
         val queue = Volley.newRequestQueue(this)
 
-        val url = "http://"+UrlFile.readUrl(this)+"/login"
+        val url = "http://"+ServerAddress.readUrl(this)+"/login"
 
         val json = JSONObject()
         json.put("username", userText.text.toString())

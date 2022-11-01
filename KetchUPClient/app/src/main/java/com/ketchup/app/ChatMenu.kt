@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide
 import com.ketchup.app.models.UserData
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.utils.ChatWebSocket
-import com.ketchup.utils.UrlFile
+import com.ketchup.utils.ServerAddress
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
 
@@ -45,9 +45,11 @@ class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
 
         val queue = Volley.newRequestQueue(this)
-        val url = "http://" + UrlFile.readUrl(this) + "/request-users"
+        val url = "http://" + ServerAddress.readUrl(this) + "/request-users"
 
-        val request = StringRequest(
+        // Object expression for overriding the getHeader method to insert the
+        // Authorization header.
+        val request: StringRequest = object: StringRequest(
             Request.Method.GET, url,
             // Success response handle
             { response ->
@@ -75,7 +77,7 @@ class ChatMenu : AppCompatActivity() {
             },
 
             // Error response handle
-            { error ->
+            StringRequest@{ error ->
                 // Connection timed out validation
                 if(error is TimeoutError){
                     Log.i(null, "Timeout Error")
@@ -101,10 +103,22 @@ class ChatMenu : AppCompatActivity() {
                 Log.i(null, error.networkResponse.statusCode.toString())
                 Log.i(null, error.toString())
             }
-        )
+        ){
+            /**
+             * Adds custom http request headers
+             */
+            @Override
+            override fun getHeaders(): MutableMap<String, String> {
+                val params: HashMap<String, String> = HashMap()
+
+                // Test value
+                params["Authorization"] = "Test"
+
+                return params
+            }
+        }
 
         queue.add(request)
-
 
         // Initialize the WebSocket channel
         ChatWebSocket.createConnection(this)

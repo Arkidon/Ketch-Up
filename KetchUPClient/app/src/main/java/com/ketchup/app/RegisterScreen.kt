@@ -14,7 +14,7 @@ import com.android.volley.TimeoutError
 import com.android.volley.toolbox.Volley
 import com.ketchup.utils.EmptyResponseJsonRequest
 import com.ketchup.utils.ShowToast
-import com.ketchup.utils.UrlFile
+import com.ketchup.utils.ServerAddress
 import org.json.JSONObject
 
 
@@ -132,7 +132,7 @@ class RegisterScreen : AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
 
-        val url = "http://"+UrlFile.readUrl(this)+"/signup"
+        val url = "http://"+ServerAddress.readUrl(this)+"/signup"
 
 
         val json = JSONObject()
