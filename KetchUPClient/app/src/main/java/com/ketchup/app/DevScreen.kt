@@ -50,8 +50,8 @@ class DevScreen : AppCompatActivity() {
      */
     private fun updateIP(){
         // Checks if the EditField is empty
-        if (ipField.text == null) {
-            ShowToast.showToast(this, "You must provide an IP", Toast.LENGTH_SHORT)
+        if (ipField.text.toString().isEmpty()) {
+            ShowToast.showToast(this, "You must provide an IP address", Toast.LENGTH_SHORT)
             return
         }
 
@@ -64,7 +64,14 @@ class DevScreen : AppCompatActivity() {
         val request = StringRequest(
             Request.Method.GET, url,
             // Success response handle
-            {
+            { response ->
+
+                // Checks if the response is the expected value
+                if(response.toString() != "KetchUp"){
+                    ShowToast.showToast(this, "Wrong server address", Toast.LENGTH_SHORT)
+                    return@StringRequest
+                }
+
                 // Displays a Toast
                 ShowToast.showToast(this, "Connection established", Toast.LENGTH_LONG)
 
