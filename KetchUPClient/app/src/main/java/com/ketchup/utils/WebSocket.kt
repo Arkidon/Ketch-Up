@@ -2,6 +2,7 @@ package com.ketchup.utils
 
 import android.content.Context
 import android.util.Log
+import com.ketchup.app.KetchUp
 import okhttp3.*
 
 class ChatWebSocketListener : WebSocketListener() {
@@ -44,12 +45,10 @@ class ChatWebSocket{
             webSocket?.close(1000, "")
         }
 
-        fun sendMessage(message: String){
-            webSocket?.send(message)
+        fun sendMessage(message: String): Boolean {
             Log.i(null, "Message sent $message")
+            return webSocket?.send(message) ?: false
         }
 
-        fun updateContext(context: Context){
-        }
     }
 }
