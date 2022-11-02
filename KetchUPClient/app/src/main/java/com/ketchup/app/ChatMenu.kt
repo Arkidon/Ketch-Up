@@ -66,8 +66,9 @@ class ChatMenu : AppCompatActivity() {
                     val friendBitmapImage = BitmapFactory.decodeByteArray(base64Image, 0, base64Image.size)
 
                     val userData = UserData(friendUsername, "Placeholder", friendBitmapImage)
-
-                    usersList.add(userData)
+                    if(!friendUsername.equals(username)){
+                        usersList.add(userData)
+                    }
                 }
 
                 initRecyclerView(usersList)
