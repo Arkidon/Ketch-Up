@@ -1,8 +1,12 @@
 package com.ketchup.utils
 
+import android.content.Context
+import android.util.Log
+import com.ketchup.app.KetchUp
 import okhttp3.*
 
 class ChatWebSocketListener : WebSocketListener() {
+
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         // Handles the websocket connection opening
@@ -11,10 +15,14 @@ class ChatWebSocketListener : WebSocketListener() {
     override fun onMessage(webSocket: WebSocket, text: String) {
         // Handles the message received event
         println(text)
+
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         // Handles the websocket connection closing
+    }
+
+    fun updateContext(context: Context){
     }
 
 }
@@ -22,22 +30,25 @@ class ChatWebSocketListener : WebSocketListener() {
 class ChatWebSocket{
     companion object{
         private var webSocket: WebSocket? = null
+        private lateinit var webSocketListener: ChatWebSocketListener
 
-        fun createConnection(){
-            val client = OkHttpClient()
-            val request = Request.Builder().url("ws://127.0.0.1:8000/ws-test").build()
-            val listener = ChatWebSocketListener()
-
-            webSocket = client.newWebSocket(request, listener)
+        fun createConnection(context: Context){
+            if(webSocket == null){
+                val client = OkHttpClient()
+                val request = Request.Builder().url("ws://" + ServerAddress.readUrl(context) + "/ws-test").build()
+                webSocketListener = ChatWebSocketListener()
+                webSocket = client.newWebSocket(request, webSocketListener)
+            }
         }
 
         fun closeConnection(){
             webSocket?.close(1000, "")
         }
 
-        fun sendMessage(message: String){
-            webSocket?.send(message)
-            println("Message sent $message")
+        fun sendMessage(message: String): Boolean {
+            Log.i(null, "Message sent $message")
+            return webSocket?.send(message) ?: false
         }
+
     }
 }
