@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.models.ChatData
 import com.ketchup.app.view.ChatAdapter
 import com.ketchup.app.view.ChatList.Companion.chatList
+import com.ketchup.utils.ChatWebSocket
 import com.makeramen.roundedimageview.RoundedImageView
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -52,7 +53,7 @@ class ChatScreen : AppCompatActivity() {
     private fun sendMessage(){
         val message : EditText = findViewById(R.id.inputMessage)
         val user : TextView = findViewById(R.id.chatName)
-
+        ChatWebSocket.sendMessage(message.text.toString())
         val newMessage = listOf(ChatData(message.text.toString(),
             LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm")),
             user.text.toString()))
