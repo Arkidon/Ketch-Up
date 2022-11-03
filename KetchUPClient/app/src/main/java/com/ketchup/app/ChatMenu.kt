@@ -66,8 +66,9 @@ class ChatMenu : AppCompatActivity() {
                     val friendBitmapImage = BitmapFactory.decodeByteArray(base64Image, 0, base64Image.size)
 
                     val userData = UserData(friendUsername, "Placeholder", friendBitmapImage)
-
-                    usersList.add(userData)
+                    if(!friendUsername.equals(username)){
+                        usersList.add(userData)
+                    }
                 }
 
                 initRecyclerView(usersList)
@@ -154,7 +155,7 @@ class ChatMenu : AppCompatActivity() {
     }
 
     private fun setUser(username:String?, pfp:RoundedImageView, selfpfp:String){
-        // val user_name = findViewById<TextView>(R.id.textName).apply { text = username }
+        findViewById<TextView>(R.id.textName).apply { text = username }
         val status = findViewById<TextView>(R.id.userStatus)
         Glide.with(pfp.context).load(selfpfp).into(pfp)
         status.text = "Strawberry Pie"}
