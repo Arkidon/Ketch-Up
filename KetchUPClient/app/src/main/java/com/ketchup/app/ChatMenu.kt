@@ -1,28 +1,33 @@
 package com.ketchup.app
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
-import com.android.volley.Request
 import com.android.volley.TimeoutError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.ketchup.app.models.UserData
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ketchup.app.database.AppDatabase
+import com.ketchup.app.database.Users
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.utils.ChatWebSocket
 import com.ketchup.utils.ServerAddress
+import com.ketchup.utils.ShowToast
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
+import java.io.ByteArrayInputStream
+import java.io.InputStream
+import java.net.URLConnection
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -41,40 +46,66 @@ class ChatMenu : AppCompatActivity() {
         val username = intent.getStringExtra(username)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
+        val fabNewChat = findViewById<FloatingActionButton>(R.id.fabNewChat)
         val selfpfp = "https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png"
         setUser(username, pfp, selfpfp)
+        val db = AppDatabase.createInstance(this)
+        val userDao = db?.userDao()
 
+
+
+        val usersList : ArrayList<Users> = userDao?.getAllUsers() as ArrayList<Users>
+        initRecyclerView(usersList)
+
+        val status = findViewById<TextView>(R.id.userStatus)
+        pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
+        spinner.isGone = true
+
+        fabNewChat.setOnClickListener {
+            requestUsers()
+        }
+
+    }
+
+    // Object expression for overriding the getHeader method to insert the
+    // Authorization header.
+   private fun requestUsers(){
+        var usersList : ArrayList<Users>? = null
         val queue = Volley.newRequestQueue(this)
+        val db = AppDatabase.createInstance(this)
+        val userDao = db?.userDao()
         val url = "http://" + ServerAddress.readUrl(this) + "/request-users"
-
-        // Object expression for overriding the getHeader method to insert the
-        // Authorization header.
         val request: StringRequest = object: StringRequest(
-            Request.Method.GET, url,
+            Method.GET, url,
             // Success response handle
             { response ->
                 val jsonObject = JSONObject(response.toString())
                 val users = jsonObject.getJSONArray("users")
 
-                val usersList = ArrayList<UserData>()
 
                 for (i in 0 until users.length()){
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
+                    val userId  = users.getJSONObject(i).getInt("id")
 
-                    val base64Image = Base64.decode(picture, Base64.DEFAULT)
-                    val friendBitmapImage = BitmapFactory.decodeByteArray(base64Image, 0, base64Image.size)
 
-                    val userData = UserData(friendUsername, "Placeholder", friendBitmapImage)
-                    if(!friendUsername.equals(username)){
-                        usersList.add(userData)
-                    }
+                    val imageByteArray = Base64.decode(picture, Base64.DEFAULT)
+                    val ism: InputStream = ByteArrayInputStream(imageByteArray)
+                    URLConnection.guessContentTypeFromStream(ism).split("/")[1]
+
+                    val user = Users(friendUsername, userId, null, "placeholder")
+                    if(friendUsername.equals(username)) continue
+                    if (userId == userDao?.getUsersId(userId)) continue
+                    userDao?.insertUser(user)
+         /*
+                    usersList?.add(user)
                 }
-
-                initRecyclerView(usersList)
-                val status = findViewById<TextView>(R.id.userStatus)
-                pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
-                spinner.isGone = true
+                if(usersList == null) {
+                    ShowToast.showToast(this, "New users not found", Toast.LENGTH_SHORT)
+                }else{
+                    initRecyclerView(usersList)
+        */
+                }
             },
 
             // Error response handle
@@ -127,7 +158,10 @@ class ChatMenu : AppCompatActivity() {
 
     }
 
-    private fun initRecyclerView(usersList: ArrayList<UserData>) {
+    private fun refreshRecyclerView(){
+
+    }
+    private fun initRecyclerView(usersList: ArrayList<Users>) {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = UserAdapter(usersList) { userData -> onItemSelected(userData) }
@@ -144,11 +178,11 @@ class ChatMenu : AppCompatActivity() {
 
     }
 
-    private fun onItemSelected(userData: UserData){
+    private fun onItemSelected(userData: Users){
         val extras = Bundle()
         val goChat = Intent(this, ChatScreen::class.java)
-        extras.putString(friendName, userData.friendName)
-        extras.putParcelable("Image", userData.pfp)
+        extras.putString(friendName, userData.alias)
+        extras.putParcelable("Image", null)
         goChat.putExtras(extras)
         startActivity(goChat)
 
