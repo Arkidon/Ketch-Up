@@ -1,5 +1,7 @@
 package com.ketchup.app.database
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.room.TypeConverter
 import java.util.*
 
@@ -14,4 +16,6 @@ class Converters {
     fun dateToTimestamp(date: Date?): Long? {
         return date?.time?.toLong()
     }
+
+
 }
