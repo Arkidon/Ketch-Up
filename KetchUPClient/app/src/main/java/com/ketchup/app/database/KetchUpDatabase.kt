@@ -70,9 +70,10 @@ data class AdditionalChatGroupInformation(
     tableName = ChatMembership.TABLE_NAME
 )
 data class ChatMembership(
-    @ColumnInfo(name = "chat_id")val chat_id: Int,
+    @PrimaryKey(autoGenerate = true) var membership_Id: Int,
+    @ColumnInfo(name = "chat_id")var chat_id: Int,
     @ColumnInfo(name = "role") var role: String,
-    @PrimaryKey @ColumnInfo(name = "user_id") var user_id: Int
+    @ColumnInfo(name = "user_id") var user_id: Int
 
 ){
     companion object{
