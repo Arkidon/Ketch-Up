@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os.path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -127,6 +127,45 @@ PASSWORD_MINIMUM_LENGTH = 6
 
 ASGI_APPLICATION = "MustardServer.asgi.application"
 
+SETTINGS_FILE = "development_settings.txt"
+
+# Default values for the redis service
+DEFAULT_REDIS_SERVICE_IP = "127.0.0.1"
+DEFAULT_REDIS_SERVICE_PORT = "6379"
+
+# Path for the development settings files
+DEVELOPMENT_SETTINGS_FILE = os.path.join(BASE_DIR, 'development_settings.txt')
+
+# Checks if the file does not exist, if it does not, creates it with a default set of values
+if not os.path.isfile(DEVELOPMENT_SETTINGS_FILE):
+    with open(DEVELOPMENT_SETTINGS_FILE, 'w') as settings_file:
+        settings_file.write("REDIS_SERVICE_IP=" + DEFAULT_REDIS_SERVICE_IP + "\n")
+        settings_file.write("REDIS_SERVICE_PORT" + DEFAULT_REDIS_SERVICE_PORT)
+
+# Dictionary to store the settings
+settings = {}
+
+# Reads the values from the file
+with open(DEVELOPMENT_SETTINGS_FILE, 'r') as settings_file:
+    line = settings_file.readline()
+
+    while line != '':
+        try:
+            # Splits the values using '=' as separator
+            values = line.split('=')
+
+            # Stores the value in the dictionary, removes possible line break char
+            settings[values[0]] = values[1].replace('\n', '')
+
+        except IndexError:
+            print("Invalid setting skipped")
+
+        # Reads the next line
+        line = settings_file.readline()
+
+print("Redis IP:", settings['REDIS_SERVICE_IP'], 'Redis port:', settings['REDIS_SERVICE_PORT'])
+
+# Redis configuration
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
