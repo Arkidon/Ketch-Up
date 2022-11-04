@@ -12,11 +12,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
 import com.android.volley.TimeoutError
+import com.android.volley.NoConnectionError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.utils.ShowToast
-import com.ketchup.utils.UrlFile
+import com.ketchup.utils.ServerAddress
 import org.json.JSONObject
 
 const val username = "com.ketchup.app.selfUSERNAME"
@@ -35,7 +36,10 @@ class LoginScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
 
-        //if url is default takes to dev activity
+        // If url is default takes to dev activity
+        if( ServerAddress.readUrl(this).equals("http://127.0.0.1")){
+            startActivity(Intent(this, DevScreen::class.java))
+        }
 
         //login and register buttons
         loginButton = findViewById(R.id.loginButton)
@@ -45,9 +49,6 @@ class LoginScreen : AppCompatActivity() {
         passwordText = findViewById(R.id.passwordField)
         devButton = findViewById(R.id.devButton)
 
-        if( UrlFile.readUrl(this).equals("http://127.0.0.1")){
-            startActivity(Intent(this, DevScreen::class.java))
-        }
         //keyboard compatibility
         userText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
@@ -132,7 +133,7 @@ class LoginScreen : AppCompatActivity() {
     private fun login(){
         val queue = Volley.newRequestQueue(this)
 
-        val url = UrlFile.readUrl(this)+"/login"
+        val url = "http://"+ServerAddress.readUrl(this)+"/login"
 
         val json = JSONObject()
         json.put("username", userText.text.toString())
@@ -153,11 +154,18 @@ class LoginScreen : AppCompatActivity() {
 
             // Error response handle
             { error ->
-                // Connection timed out
+                // Connection timed out validation
                 if(error is TimeoutError){
                     ShowToast.showToast(this, "Server connection timed out", Toast.LENGTH_SHORT)
                     return@JsonObjectRequest
                 }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    ShowToast.showToast(this, "No internet connection", Toast.LENGTH_SHORT)
+                    return@JsonObjectRequest
+                }
+
                 val status = error.networkResponse.statusCode
                 if ( status == 404 || status == 405 || status == 400){
                     ShowToast.showToast(this, "Error conneting with the server", Toast.LENGTH_SHORT)
@@ -165,7 +173,7 @@ class LoginScreen : AppCompatActivity() {
                     return@JsonObjectRequest
                 }
                 if (status == 401){
-                    ShowToast.showToast(this, "Error with username or password", Toast.LENGTH_SHORT)
+                    ShowToast.showToast(this, "Invalid username or/and password", Toast.LENGTH_SHORT)
                     Log.i(null, error.networkResponse.statusCode.toString())
                     return@JsonObjectRequest
                 }

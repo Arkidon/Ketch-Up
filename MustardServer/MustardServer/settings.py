@@ -126,3 +126,12 @@ PASSWORD_MAX_LENGTH = 50
 PASSWORD_MINIMUM_LENGTH = 6
 
 ASGI_APPLICATION = "MustardServer.asgi.application"
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
