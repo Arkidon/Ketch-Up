@@ -27,6 +27,7 @@ def view(request): # noqa
 
     for user_model in users_models_list:
         users_list.append({"username": user_model.username,
-                           "picture": image_data})
+                           "picture": image_data,
+                           "id": user_model.user_id})
 
     return JsonResponse({'users': users_list})
