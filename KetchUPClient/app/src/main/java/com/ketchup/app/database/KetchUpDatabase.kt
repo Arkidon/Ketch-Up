@@ -1,17 +1,20 @@
 package com.ketchup.app.database
 
 
+
 import androidx.room.*
 import androidx.room.ForeignKey.NO_ACTION
 import java.util.*
 
 
+
 @Entity(tableName = Users.TABLE_NAME)
 data class Users(
-    @ColumnInfo(name = "alias") var alias: String?,
-    @PrimaryKey(autoGenerate = true) val user_id: Int?,
+    @ColumnInfo(name = "alias") var alias: String,
+    @PrimaryKey val user_id: Int,
     @ColumnInfo(name = "pfp") var pfp: String?,
     @ColumnInfo(name = "status") var status: String?,
+
 ){
     companion object{
         const val TABLE_NAME = "Users"
@@ -146,6 +149,15 @@ interface UserDao{
 
     @Query("SELECT * FROM " + Users.TABLE_NAME)
     fun getAllUsers(): List<Users>
+
+    @Query("SELECT user_id FROM " + Users.TABLE_NAME)
+    fun getAllUsersId(): List<Int>
+
+    @Query("SELECT user_id FROM " + Users.TABLE_NAME + " WHERE user_id = :user_id")
+    fun getUsersId(user_id: Int): Int
+
+    @Query("SELECT MAX(user_id) FROM " + Users.TABLE_NAME)
+    fun getMaxUserId(): Int
 
 
     // CHATS
