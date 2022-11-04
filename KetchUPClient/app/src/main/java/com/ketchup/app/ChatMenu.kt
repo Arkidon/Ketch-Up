@@ -21,6 +21,7 @@ import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.utils.ChatWebSocket
+import com.ketchup.utils.ImageStorage
 import com.ketchup.utils.ServerAddress
 import com.ketchup.utils.ShowToast
 import com.makeramen.roundedimageview.RoundedImageView
@@ -88,13 +89,19 @@ class ChatMenu : AppCompatActivity() {
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
 
-
+                    //variables to converter Base64 image to byteArray
                     val imageByteArray = Base64.decode(picture, Base64.DEFAULT)
                     val ism: InputStream = ByteArrayInputStream(imageByteArray)
-                    URLConnection.guessContentTypeFromStream(ism).split("/")[1]
+                    //Method to get extension file from byteArray
+                    val imageExtension = URLConnection.guessContentTypeFromStream(ism).split("/")[1]
+                    //The name of the pfp created with the username and the image extension file
+                    val pictureName = "$friendUsername.$imageExtension"
+                    ImageStorage.writeImageToDisk(imageByteArray,this, pictureName )
 
-                    val user = Users(friendUsername, userId, null, "placeholder")
+                    val user = Users(friendUsername, userId, pictureName, "placeholder")
+                    //Checks if the user is the actually user login
                     if(friendUsername.equals(username)) continue
+                    //Checks if the user is already in the database
                     if (userId == userDao?.getUsersId(userId)) continue
                     userDao?.insertUser(user)
          /*
@@ -159,7 +166,7 @@ class ChatMenu : AppCompatActivity() {
     }
 
     private fun refreshRecyclerView(){
-
+        //TODO
     }
     private fun initRecyclerView(usersList: ArrayList<Users>) {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
