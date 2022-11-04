@@ -3,6 +3,7 @@ package com.ketchup.utils
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Path
 import android.graphics.Picture
 import android.os.Build
 import android.util.Base64.decode
@@ -42,8 +43,10 @@ class ImageStorage {
          */
 
         fun writeImageToDisk(picture: ByteArray, context: Context,filename : String){
-            val path = context.filesDir.toPath().toString()+ File.pathSeparator+ PATHNAME
+            val path = File(context.filesDir.toPath().toString()+File.pathSeparator +PATHNAME)
+            if (!path.exists()) path.mkdir()
             val file = File(path, filename)
+            if (!file.exists()) file.createNewFile()
             val fos = FileOutputStream(file)
             fos.write(picture,0 , picture.size)
         }

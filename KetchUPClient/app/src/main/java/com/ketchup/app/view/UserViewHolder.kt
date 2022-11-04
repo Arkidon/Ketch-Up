@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ketchup.app.R
 import com.ketchup.app.database.Users
+import com.ketchup.utils.ImageStorage
 import com.makeramen.roundedimageview.RoundedImageView
 
 class UserViewHolder(view:View):RecyclerView.ViewHolder(view){
@@ -16,7 +17,7 @@ class UserViewHolder(view:View):RecyclerView.ViewHolder(view){
     fun render(userData: Users, onClickListener:(Users) -> Unit){
         friendName.text = userData.alias
         friendSub.text = userData.status
-        Glide.with(pfp.context).load(userData.pfp).into(pfp)
+        pfp.setImageBitmap(userData.pictureBitmap)
         itemView.setOnClickListener{ onClickListener(userData)}
     }
 }

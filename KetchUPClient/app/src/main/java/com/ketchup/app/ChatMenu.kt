@@ -56,6 +56,10 @@ class ChatMenu : AppCompatActivity() {
 
 
         val usersList : ArrayList<Users> = userDao?.getAllUsers() as ArrayList<Users>
+        for (i in 0 until usersList.size) {
+            usersList[i].pictureBitmap =
+                usersList[i].pfp?.let { ImageStorage.readImageFromDisk(this, it) }
+        }
         initRecyclerView(usersList)
 
         val status = findViewById<TextView>(R.id.userStatus)
@@ -96,8 +100,7 @@ class ChatMenu : AppCompatActivity() {
                     val imageExtension = URLConnection.guessContentTypeFromStream(ism).split("/")[1]
                     //The name of the pfp created with the username and the image extension file
                     val pictureName = "$friendUsername.$imageExtension"
-                    ImageStorage.writeImageToDisk(imageByteArray,this, pictureName )
-
+                    ImageStorage.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
                     if(friendUsername.equals(username)) continue

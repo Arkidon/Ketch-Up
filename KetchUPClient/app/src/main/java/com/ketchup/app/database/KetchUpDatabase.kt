@@ -2,6 +2,7 @@ package com.ketchup.app.database
 
 
 
+import android.graphics.Bitmap
 import androidx.room.*
 import androidx.room.ForeignKey.NO_ACTION
 import java.util.*
@@ -11,15 +12,20 @@ import java.util.*
 @Entity(tableName = Users.TABLE_NAME)
 data class Users(
     @ColumnInfo(name = "alias") var alias: String,
-    @PrimaryKey val user_id: Int,
+    @PrimaryKey var user_id: Int,
     @ColumnInfo(name = "pfp") var pfp: String?,
     @ColumnInfo(name = "status") var status: String?,
-
+    @Ignore var pictureBitmap: Bitmap?
 ){
     companion object{
         const val TABLE_NAME = "Users"
     }
-
+    constructor(alias: String, user_id: Int, pfp: String?,status: String?) : this(alias, user_id, pfp, status,null){
+        this.alias = alias
+        this.user_id = user_id
+        this.pfp = pfp
+        this.status = status
+    }
 }
 
 @Entity(tableName = Chats.TABLE_NAME)
