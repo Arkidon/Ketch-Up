@@ -1,5 +1,6 @@
 package com.ketchup.app
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -145,6 +146,7 @@ class RegisterScreen : AppCompatActivity() {
             // Success response handle
             { response ->
                 Log.i(null, response.toString())
+                startActivity(Intent(this, LoginScreen::class.java))
             },
 
             // Error response handle
