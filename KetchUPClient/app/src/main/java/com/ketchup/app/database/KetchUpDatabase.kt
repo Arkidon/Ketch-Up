@@ -70,7 +70,7 @@ data class AdditionalChatGroupInformation(
     tableName = ChatMembership.TABLE_NAME
 )
 data class ChatMembership(
-    @PrimaryKey(autoGenerate = true) var membership_Id: Int,
+    @PrimaryKey(autoGenerate = true) var membership_id : Int,
     @ColumnInfo(name = "chat_id")var chat_id: Int,
     @ColumnInfo(name = "role") var role: String,
     @ColumnInfo(name = "user_id") var user_id: Int
@@ -87,7 +87,7 @@ data class ChatMembership(
     foreignKeys = [
         ForeignKey(
             entity = ChatMembership::class,
-            parentColumns = arrayOf("user_id"),
+            parentColumns = arrayOf("membership_id"),
             childColumns = arrayOf("user_sender"),
             onDelete = NO_ACTION
         ), ForeignKey(
