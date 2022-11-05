@@ -1,12 +1,13 @@
 package com.ketchup.app
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
+import com.ketchup.app.view.UserList.Companion.userList
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,13 +55,13 @@ class ChatMenu : AppCompatActivity() {
         val userDao = db?.userDao()
 
 
-
-        val usersList : ArrayList<Users> = userDao?.getAllUsers() as ArrayList<Users>
-        for (i in 0 until usersList.size) {
-            usersList[i].pictureBitmap =
-                usersList[i].pfp?.let { ImageStorage.readImageFromDisk(this, it) }
+        //Value to get all users in bd
+        userList = userDao?.getAllUsers() as ArrayList<Users>
+        for (i in 0 until userList.size) {
+            userList[i].pictureBitmap =
+                userList[i].pfp?.let { ImageStorage.readImageFromDisk(this, it) }
         }
-        initRecyclerView(usersList)
+        initRecyclerView()
 
         val status = findViewById<TextView>(R.id.userStatus)
         pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
@@ -75,12 +76,13 @@ class ChatMenu : AppCompatActivity() {
     // Object expression for overriding the getHeader method to insert the
     // Authorization header.
    private fun requestUsers(){
-        var usersList : ArrayList<Users>? = null
+
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
         val url = "http://" + ServerAddress.readUrl(this) + "/request-users"
-        val request: StringRequest = object: StringRequest(
+        val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
+        object: StringRequest(
             Method.GET, url,
             // Success response handle
             { response ->
@@ -103,19 +105,14 @@ class ChatMenu : AppCompatActivity() {
                     ImageStorage.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
-                    if(friendUsername.equals(username)) continue
-                    //Checks if the user is already in the database
+
                     if (userId == userDao?.getUsersId(userId)) continue
                     userDao?.insertUser(user)
-         /*
-                    usersList?.add(user)
+                    userList.add(user)
+
+                    refreshRecyclerView()
                 }
-                if(usersList == null) {
-                    ShowToast.showToast(this, "New users not found", Toast.LENGTH_SHORT)
-                }else{
-                    initRecyclerView(usersList)
-        */
-                }
+
             },
 
             // Error response handle
@@ -168,13 +165,20 @@ class ChatMenu : AppCompatActivity() {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun refreshRecyclerView(){
-        //TODO
+        val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
+        for (i in 0 until userList.size) {
+            userList[i].pictureBitmap =
+                userList[i].pfp?.let { ImageStorage.readImageFromDisk(this, it) }
+        }
+
+        recyclerView.adapter!!.notifyItemInserted(userList.size-1)
     }
-    private fun initRecyclerView(usersList: ArrayList<Users>) {
+    private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = UserAdapter(usersList) { userData -> onItemSelected(userData) }
+        recyclerView.adapter = UserAdapter(userList) { userData -> onItemSelected(userData) }
     }
 
     private fun profileSelected(username: String?, selfpfp: String, status: String){
