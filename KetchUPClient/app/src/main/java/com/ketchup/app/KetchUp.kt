@@ -1,8 +1,11 @@
 package com.ketchup.app
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.Application
 import android.content.Context
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 
 /**
  * This class provides a static reference
@@ -10,11 +13,14 @@ import android.content.Context
  */
 class KetchUp: Application() {
     companion object{
-        @SuppressLint("StaticFieldLeak")
-        private lateinit var context: Context
+        private lateinit var activity: AppCompatActivity
 
-        fun getApplicationContext(): Context{
-            return context
+        fun getCurrentActivity(): AppCompatActivity{
+            return activity
+        }
+
+        fun setCurrentActivity(activity: AppCompatActivity){
+            this.activity = activity
         }
     }
 
@@ -24,7 +30,5 @@ class KetchUp: Application() {
     @Override
     override fun onCreate() {
         super.onCreate()
-        context = applicationContext
     }
-
 }
