@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ketchup.app.R
 import com.ketchup.app.database.Users
-import com.ketchup.utils.ImageStorage
 import com.makeramen.roundedimageview.RoundedImageView
 
 class UserViewHolder(view:View):RecyclerView.ViewHolder(view){

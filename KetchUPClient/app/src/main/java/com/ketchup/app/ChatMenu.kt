@@ -3,10 +3,10 @@ package com.ketchup.app
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.ketchup.app.view.UserList.Companion.userList
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -24,9 +24,6 @@ import com.ketchup.app.view.UserAdapter
 import com.ketchup.utils.*
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.net.URLConnection
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -35,7 +32,7 @@ const val selfName = "com.ketchup.app.selfname"
 const val selfStatus = "com.ketchup.app.status"
 const val selfPFP = "com.ketchup.app.selfPFP"
 
-class ChatMenu : AppCompatActivity() {
+open class ChatMenu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +51,6 @@ class ChatMenu : AppCompatActivity() {
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
 
-
         //Value to get all users in bd
         userList = userDao?.getAllUsers() as ArrayList<Users>
         for (i in 0 until userList.size) {
@@ -68,6 +64,11 @@ class ChatMenu : AppCompatActivity() {
         spinner.isGone = true
 
         fabNewChat.setOnClickListener {
+            val builder = AlertDialog.Builder(this@ChatMenu)
+            val view = layoutInflater.inflate(R.layout.add_users_dialog, null)
+            builder.setView(view)
+            val dialog = builder.create()
+            dialog.show()
             requestUsers()
         }
 

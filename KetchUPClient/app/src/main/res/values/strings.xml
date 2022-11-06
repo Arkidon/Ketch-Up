@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">KetchUp</string>
     <string name="settingText">Settings</string>
+    <string name="addfriendname">Search for some nice users</string>
 </resources>
