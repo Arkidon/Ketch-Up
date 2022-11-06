@@ -7,6 +7,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,6 +16,7 @@ import com.ketchup.app.models.ChatData
 import com.ketchup.app.view.ChatAdapter
 import com.ketchup.app.view.ChatList.Companion.chatList
 import com.ketchup.utils.ChatWebSocket
+import com.ketchup.utils.ImagePFP
 import com.makeramen.roundedimageview.RoundedImageView
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -52,7 +54,7 @@ class ChatScreen : AppCompatActivity() {
     private fun setUser(userName:String?, friendPFP:String?){
         findViewById<TextView>(R.id.chatName).apply { text = userName }
         val pfp = findViewById<RoundedImageView>(R.id.chatPFP)
-        Glide.with(pfp.context).load(friendPFP).into(pfp)
+        pfp.setImageBitmap(friendPFP?.let { ImagePFP.readImageFromDisk(this, it)})
     }
 
     private fun sendMessage(){
@@ -65,7 +67,7 @@ class ChatScreen : AppCompatActivity() {
 
         chatList = chatList + newMessage
         val recyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)
-        recyclerView.adapter!!.notifyDataSetChanged()
+        recyclerView.adapter!!.notifyItemInserted(recyclerView.size-1)
         message.text = null
     }
 }

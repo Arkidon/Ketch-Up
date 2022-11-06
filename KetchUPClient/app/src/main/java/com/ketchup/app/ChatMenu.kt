@@ -55,7 +55,7 @@ open class ChatMenu : AppCompatActivity() {
         userList = userDao?.getAllUsers() as ArrayList<Users>
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
-                userList[i].pfp?.let { Images.readImageFromDisk(this, it) }
+                userList[i].pfp?.let { ImagePFP.readImageFromDisk(this, it) }
         }
         initRecyclerView()
 
@@ -90,15 +90,14 @@ open class ChatMenu : AppCompatActivity() {
                 val jsonObject = JSONObject(response.toString())
                 val users = jsonObject.getJSONArray("users")
 
-
                 for (i in 0 until users.length()){
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
-                    val imageByteArray = Images.getImageByteArray(picture)
+                    val imageByteArray = ImagePFP.getImageByteArray(picture)
                     //The name of the pfp created with the username and the image extension file
-                    val pictureName = Images.getImageName(username,picture);
-                    Images.writeImageToDisk(imageByteArray,this, pictureName)
+                    val pictureName = ImagePFP.getImageName(username,picture);
+                    ImagePFP.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
 
@@ -166,7 +165,7 @@ open class ChatMenu : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
-                userList[i].pfp?.let { Images.readImageFromDisk(this, it) }
+                userList[i].pfp?.let { ImagePFP.readImageFromDisk(this, it) }
         }
 
         recyclerView.adapter!!.notifyItemInserted(userList.size-1)
@@ -192,7 +191,7 @@ open class ChatMenu : AppCompatActivity() {
         val extras = Bundle()
         val goChat = Intent(this, ChatScreen::class.java)
         extras.putString(friendName, userData.alias)
-        extras.putParcelable("Image", null)
+        extras.putString(friendPFP, userData.pfp)
         goChat.putExtras(extras)
         startActivity(goChat)
 
