@@ -21,10 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
 import com.ketchup.app.view.UserAdapter
-import com.ketchup.utils.ChatWebSocket
-import com.ketchup.utils.ImageStorage
-import com.ketchup.utils.ServerAddress
-import com.ketchup.utils.ShowToast
+import com.ketchup.utils.*
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
 import java.io.ByteArrayInputStream
@@ -59,7 +56,7 @@ class ChatMenu : AppCompatActivity() {
         userList = userDao?.getAllUsers() as ArrayList<Users>
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
-                userList[i].pfp?.let { ImageStorage.readImageFromDisk(this, it) }
+                userList[i].pfp?.let { Images.readImageFromDisk(this, it) }
         }
         initRecyclerView()
 
@@ -94,15 +91,10 @@ class ChatMenu : AppCompatActivity() {
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
-
-                    //variables to converter Base64 image to byteArray
-                    val imageByteArray = Base64.decode(picture, Base64.DEFAULT)
-                    val ism: InputStream = ByteArrayInputStream(imageByteArray)
-                    //Method to get extension file from byteArray
-                    val imageExtension = URLConnection.guessContentTypeFromStream(ism).split("/")[1]
+                    val imageByteArray = Images.getImageByteArray(picture)
                     //The name of the pfp created with the username and the image extension file
-                    val pictureName = "$friendUsername.$imageExtension"
-                    ImageStorage.writeImageToDisk(imageByteArray,this, pictureName)
+                    val pictureName = Images.getImageName(username,picture);
+                    Images.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
 
@@ -170,7 +162,7 @@ class ChatMenu : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
-                userList[i].pfp?.let { ImageStorage.readImageFromDisk(this, it) }
+                userList[i].pfp?.let { Images.readImageFromDisk(this, it) }
         }
 
         recyclerView.adapter!!.notifyItemInserted(userList.size-1)
