@@ -3,7 +3,6 @@ package com.ketchup.app
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -24,9 +23,6 @@ import com.ketchup.app.view.UserAdapter
 import com.ketchup.utils.*
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
-import java.io.ByteArrayInputStream
-import java.io.InputStream
-import java.net.URLConnection
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -59,7 +55,7 @@ class ChatMenu : AppCompatActivity() {
         userList = userDao?.getAllUsers() as ArrayList<Users>
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
-                userList[i].pfp?.let { Images.readImageFromDisk(this, it) }
+                userList[i].pfp?.let { ImagePFP.readImageFromDisk(this, it) }
         }
         initRecyclerView()
 
@@ -89,15 +85,14 @@ class ChatMenu : AppCompatActivity() {
                 val jsonObject = JSONObject(response.toString())
                 val users = jsonObject.getJSONArray("users")
 
-
                 for (i in 0 until users.length()){
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
-                    val imageByteArray = Images.getImageByteArray(picture)
+                    val imageByteArray = ImagePFP.getImageByteArray(picture)
                     //The name of the pfp created with the username and the image extension file
-                    val pictureName = Images.getImageName(username,picture);
-                    Images.writeImageToDisk(imageByteArray,this, pictureName)
+                    val pictureName = ImagePFP.getImageName(username,picture);
+                    ImagePFP.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
 
@@ -165,7 +160,7 @@ class ChatMenu : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
-                userList[i].pfp?.let { Images.readImageFromDisk(this, it) }
+                userList[i].pfp?.let { ImagePFP.readImageFromDisk(this, it) }
         }
 
         recyclerView.adapter!!.notifyItemInserted(userList.size-1)
@@ -191,7 +186,7 @@ class ChatMenu : AppCompatActivity() {
         val extras = Bundle()
         val goChat = Intent(this, ChatScreen::class.java)
         extras.putString(friendName, userData.alias)
-        extras.putParcelable("Image", null)
+        extras.putString(friendPFP, userData.pfp)
         goChat.putExtras(extras)
         startActivity(goChat)
 

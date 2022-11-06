@@ -7,7 +7,7 @@ import android.util.Base64
 import java.io.*
 import java.net.URLConnection
 
-class Images {
+class ImagePFP {
     companion object{
         /** Decodes Base64 into ByteArray
          * @see Base64.decode
@@ -29,7 +29,7 @@ class Images {
         /** Gets the imageName
          * @param username the username of the user who has the image
          * @param picture the Base64 code of the images
-         * @see Images.getImageExtension
+         * @see ImagePFP.getImageExtension
          *  @return String
          */
         fun getImageName(username:String, picture: String):String{
