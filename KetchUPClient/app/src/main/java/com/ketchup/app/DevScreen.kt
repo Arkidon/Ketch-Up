@@ -94,7 +94,7 @@ class DevScreen : AppCompatActivity() {
                 // No internet connection validation
                 if (error is NoConnectionError) {
                     Log.i(null, "No connection Error")
-                    ShowToast.showToast(this, "Wrong server address", Toast.LENGTH_SHORT)
+                    ShowToast.showToast(this, "Can't connect to the server", Toast.LENGTH_SHORT)
                     return@StringRequest
                 }
 

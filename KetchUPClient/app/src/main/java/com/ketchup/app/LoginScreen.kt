@@ -162,7 +162,7 @@ class LoginScreen : AppCompatActivity() {
 
                 // No internet connection validation
                 if(error is NoConnectionError){
-                    ShowToast.showToast(this, "No internet connection", Toast.LENGTH_SHORT)
+                    ShowToast.showToast(this, "Can't connect to the server", Toast.LENGTH_SHORT)
                     return@JsonObjectRequest
                 }
 

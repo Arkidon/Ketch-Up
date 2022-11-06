@@ -1,6 +1,7 @@
 package com.ketchup.app
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -21,6 +22,10 @@ import java.time.format.DateTimeFormatter
 class ChatScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Updates the current activity reference
+        KetchUp.setCurrentActivity(this)
+
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_screen)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)

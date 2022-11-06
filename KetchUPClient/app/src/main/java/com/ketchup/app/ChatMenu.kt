@@ -38,8 +38,11 @@ const val selfPFP = "com.ketchup.app.selfPFP"
 class ChatMenu : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+
+        // Updates the current activity reference
+        KetchUp.setCurrentActivity(this)
+
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_menu)
         val username = intent.getStringExtra(username)
