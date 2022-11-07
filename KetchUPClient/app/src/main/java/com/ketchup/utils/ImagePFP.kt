@@ -26,6 +26,10 @@ class ImagePFP {
         fun getImageExtension(imageByteArray: ByteArray): String{
            return URLConnection.guessContentTypeFromStream(ByteArrayInputStream(imageByteArray)).split("/")[1]
         }
+
+        fun getImageExtension(picture: String): String{
+            return URLConnection.guessContentTypeFromStream(ByteArrayInputStream(getImageByteArray(picture))).split("/")[1]
+        }
         /** Gets the imageName
          * @param username the username of the user who has the image
          * @param picture the Base64 code of the images
