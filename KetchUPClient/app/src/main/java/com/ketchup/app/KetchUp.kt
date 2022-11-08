@@ -1,18 +1,16 @@
 package com.ketchup.app
 
-import android.annotation.SuppressLint
-import android.app.ActivityManager
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
 /**
  * This class provides a static reference
- * to the current application context.
+ * to the current application context
+ * and executes code in the application startup.
  */
 class KetchUp: Application() {
     companion object{
+        private var userID: Long? = null
         private lateinit var activity: AppCompatActivity
 
         fun getCurrentActivity(): AppCompatActivity{
@@ -22,10 +20,18 @@ class KetchUp: Application() {
         fun setCurrentActivity(activity: AppCompatActivity){
             this.activity = activity
         }
+
+        fun getUserID(): Long?{
+            return if(userID != null){
+                return userID
+            } else{
+                return null
+            }
+        }
     }
 
     /**
-     * Calls the parent's constructor and stores the context statically
+     * onCreate is called when the application launches
      */
     @Override
     override fun onCreate() {
