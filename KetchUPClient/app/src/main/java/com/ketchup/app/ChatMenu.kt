@@ -40,6 +40,9 @@ open class ChatMenu : AppCompatActivity() {
         // Updates the current activity reference
         KetchUp.setCurrentActivity(this)
 
+        // Establish the WebSocket connection if it is not already established
+        ChatWebSocket.createConnection(this)
+
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_menu)
         val username = intent.getStringExtra(username)

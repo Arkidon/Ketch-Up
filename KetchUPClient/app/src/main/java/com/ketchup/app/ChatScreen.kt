@@ -28,6 +28,9 @@ class ChatScreen : AppCompatActivity() {
         // Updates the current activity reference
         KetchUp.setCurrentActivity(this)
 
+        // Establish the WebSocket connection if it is not already established
+        ChatWebSocket.createConnection(this)
+
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.chat_screen)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
