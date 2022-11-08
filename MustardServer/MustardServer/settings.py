@@ -140,7 +140,7 @@ DEVELOPMENT_SETTINGS_FILE = os.path.join(BASE_DIR, 'development_settings.txt')
 if not os.path.isfile(DEVELOPMENT_SETTINGS_FILE):
     with open(DEVELOPMENT_SETTINGS_FILE, 'w') as settings_file:
         settings_file.write("REDIS_SERVICE_IP=" + DEFAULT_REDIS_SERVICE_IP + "\n")
-        settings_file.write("REDIS_SERVICE_PORT= + DEFAULT_REDIS_SERVICE_PORT")
+        settings_file.write("REDIS_SERVICE_PORT=" + DEFAULT_REDIS_SERVICE_PORT)
 
 # Dictionary to store the settings
 settings = {}
@@ -163,12 +163,14 @@ with open(DEVELOPMENT_SETTINGS_FILE, 'r') as settings_file:
         # Reads the next line
         line = settings_file.readline()
 
+print("Redis connection: " + settings['REDIS_SERVICE_IP'] + ":" + settings['REDIS_SERVICE_PORT'])
+
 # Redis configuration
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [(settings['REDIS_SERVICE_IP'], settings['REDIS_SERVICE_IP'])],
+            "hosts": [(settings['REDIS_SERVICE_IP'], settings['REDIS_SERVICE_PORT'])],
         },
     },
 }
