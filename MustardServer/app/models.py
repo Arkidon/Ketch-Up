@@ -23,10 +23,16 @@ class UserSettings(models.Model):
 
 
 class UserRelations(models.Model):
-    user_sender = models.OneToOneField('Users', on_delete=models.DO_NOTHING, primary_key=True, related_name='user_sender')
-    user_target = models.OneToOneField('Users', on_delete=models.DO_NOTHING, related_name='user_target')  # William pa ti
+    relationship_id = models.BigAutoField(primary_key=True)
+    user_sender = models.ForeignKey('Users', on_delete=models.DO_NOTHING, related_name='user_sender')
+    user_target = models.ForeignKey('Users', on_delete=models.DO_NOTHING, related_name='user_target')
     date = models.DateField()
-    status = models.SmallIntegerField()
+    status = models.PositiveSmallIntegerField()
+    # status: 0 -Relationship requested
+    # status: 1 -Relationship accepted
+    # status: 2 -Relationship deleted
+    # status: 3 -Relationship blocked
+    # status: 4 -Relationship rejected
 
 
 class ChatMemberships(models.Model):
