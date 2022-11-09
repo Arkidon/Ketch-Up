@@ -1,10 +1,12 @@
 import json
 from json import JSONDecodeError
+from typing import Union
+
 from django.conf import settings
 from django.http import HttpRequest
 
 
-def user_data_validation(request: HttpRequest) -> dict | bool:
+def user_data_validation(request: HttpRequest) -> Union[dict, bool]:
     """
     Validates a request body that contains user credentials
 
