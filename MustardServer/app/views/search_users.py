@@ -9,10 +9,13 @@ from app.models import Users
 
 
 @require_http_methods('GET')
-def view(request): # noqa
+def view(request):  # noqa
     # Temporary code for testing purposes, the intended
     # behaviour is to filter by the users that has been added
     users_models_list = Users.objects.all()
+    username_query = None
+    if 'query' in request.GET["query"]:
+        username_query = request.GET["query"]
 
     users_list = []
 
@@ -24,10 +27,9 @@ def view(request): # noqa
 
     # Placeholder image codified to base64, applied to every user for testing
     image_data = base64.b64encode(image_data).decode('utf-8')
-
-    for user_model in users_models_list:
-        users_list.append({"username": user_model.username,
-                           "picture": image_data,
-                           "id": user_model.user_id})
+    user_model = Users.objects.get(username=username_query)
+    users_list.append({"username": user_model.username,
+                       "picture": image_data,
+                       "id": user_model.user_id})
 
     return JsonResponse({'users': users_list})
