@@ -1,12 +1,16 @@
 package com.ketchup.app
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import com.ketchup.app.view.UserList.Companion.userList
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +22,6 @@ import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
-import com.ketchup.app.database.Chats
 import com.ketchup.app.database.Users
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.utils.*
@@ -68,19 +71,14 @@ open class ChatMenu : AppCompatActivity() {
         spinner.isGone = true
 
         fabNewChat.setOnClickListener {
-            val builder = AlertDialog.Builder(this@ChatMenu)
-            val view = layoutInflater.inflate(R.layout.add_users_dialog, null)
-            val addbutton = view.findViewById<Button>(R.id.addButton)
-            val addUserText = view.findViewById<EditText>(R.id.searchUserField).text
-            addbutton.setOnClickListener{
-                requestUsers(addUserText.toString())
-            }
-            builder.setView(view)
-            val dialog = builder.create()
-            dialog.show()
+            // When the add person button is pressed (fabNewChat) the method addUser is called,
+            // and the username and the profile picture of the user is passed to future class calling
+            addUser(username, selfpfp)
         }
 
-    }
+        }
+
+
 
     // Object expression for overriding the getHeader method to insert the
     // Authorization header.
@@ -210,5 +208,33 @@ open class ChatMenu : AppCompatActivity() {
         findViewById<TextView>(R.id.textName).apply { text = username }
         val status = findViewById<TextView>(R.id.userStatus)
         Glide.with(pfp.context).load(selfpfp).into(pfp)
-        status.text = "Strawberry Pie"}
+        status.text = "Strawberry Pie"
+    }
+
+    //Method called by pressing the add user button (fabNewChat)
+    private fun addUser(username:String?, selfpfp:String ){
+        setContentView(R.layout.add_users)
+        val spinner = findViewById<ProgressBar>(R.id.progressBar)
+        val addUserText = findViewById<EditText>(R.id.searchUserField).text
+        spinner.isGone=true
+        val pfp = findViewById<RoundedImageView>(R.id.userPFP)
+        setUser(username, pfp, selfpfp)
+        val backButton = findViewById<FloatingActionButton>(R.id.backButton)
+        val applyButton = findViewById<Button>(R.id.addButton)
+        applyButton.setOnClickListener(){
+            requestUsers(addUserText.toString())
+            finish();
+            startActivity(intent);
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
+
+        backButton.setOnClickListener() {
+            recreate()
+            finish();
+            startActivity(intent);
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
+
+    }
 }
+
