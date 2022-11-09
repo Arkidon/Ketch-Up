@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -72,9 +73,9 @@ open class ChatMenu : AppCompatActivity() {
             val builder = AlertDialog.Builder(this@ChatMenu)
             val view = layoutInflater.inflate(R.layout.add_users_dialog, null)
             val addbutton = view.findViewById<Button>(R.id.addButton)
-            val addUserText = view.findViewById<Button>(R.id.addButton).text.toString()
+            val addUserText = view.findViewById<EditText>(R.id.searchUserField).text
             addbutton.setOnClickListener{
-                requestUsers(addUserText)
+                requestUsers(addUserText.toString())
             }
             builder.setView(view)
             val dialog = builder.create()
