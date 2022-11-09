@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,7 @@ const val selfPFP = "com.ketchup.app.selfPFP"
 
 open class ChatMenu : AppCompatActivity() {
 
+    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -74,16 +76,18 @@ open class ChatMenu : AppCompatActivity() {
             addUser(username, selfpfp)
         }
 
-    }
+        }
+
+
 
     // Object expression for overriding the getHeader method to insert the
     // Authorization header.
-   private fun requestUsers(){
+   private fun requestUsers(username: String){
 
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/request-users"
+        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username
         val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
         object: StringRequest(
             Method.GET, url,
@@ -207,16 +211,17 @@ open class ChatMenu : AppCompatActivity() {
     }
 
     //Method called by pressing the add user button (fabNewChat)
-    private fun addUser(username:String?, selfpfp:String){
+    private fun addUser(username:String?, selfpfp:String ){
         setContentView(R.layout.add_users)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
+        val addUserText = findViewById<EditText>(R.id.searchUserField).text
         spinner.isGone=true
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         setUser(username, pfp, selfpfp)
         val backButton = findViewById<FloatingActionButton>(R.id.backButton)
         val applyButton = findViewById<Button>(R.id.addButton)
         applyButton.setOnClickListener(){
-            requestUsers()
+            requestUsers(addUserText.toString())
             finish();
             startActivity(getIntent());
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
