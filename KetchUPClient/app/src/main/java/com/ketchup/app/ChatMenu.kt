@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -34,6 +35,7 @@ const val selfPFP = "com.ketchup.app.selfPFP"
 
 open class ChatMenu : AppCompatActivity() {
 
+    @SuppressLint("CutPasteId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,22 +71,26 @@ open class ChatMenu : AppCompatActivity() {
         fabNewChat.setOnClickListener {
             val builder = AlertDialog.Builder(this@ChatMenu)
             val view = layoutInflater.inflate(R.layout.add_users_dialog, null)
+            val addbutton = view.findViewById<Button>(R.id.addButton)
+            val addUserText = view.findViewById<Button>(R.id.addButton).text.toString()
+            addbutton.setOnClickListener{
+                requestUsers(addUserText)
+            }
             builder.setView(view)
             val dialog = builder.create()
             dialog.show()
-            requestUsers()
         }
 
     }
 
     // Object expression for overriding the getHeader method to insert the
     // Authorization header.
-   private fun requestUsers(){
+   private fun requestUsers(username: String){
 
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/request-users"
+        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username
         val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
         object: StringRequest(
             Method.GET, url,
