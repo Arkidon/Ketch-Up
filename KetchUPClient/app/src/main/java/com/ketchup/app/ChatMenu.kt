@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.ketchup.app.view.UserList.Companion.userList
 import androidx.appcompat.app.AppCompatActivity
@@ -101,6 +102,7 @@ open class ChatMenu : AppCompatActivity() {
                 val users = jsonObject.getJSONArray("users")
 
                 for (i in 0 until users.length()){
+                    Log.i("asd", "asdasdasd")
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
@@ -137,6 +139,7 @@ open class ChatMenu : AppCompatActivity() {
                 val status = error.networkResponse.statusCode
                 if ( status == 404 || status == 405 || status == 400){
                     Log.i(null, error.networkResponse.statusCode.toString())
+                    ShowToast.showToast(this, "User not found", Toast.LENGTH_SHORT)
                     return@StringRequest
                 }
                 if (status == 401){
