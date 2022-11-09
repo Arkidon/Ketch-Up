@@ -27,9 +27,11 @@ def view(request):  # noqa
 
     # Placeholder image codified to base64, applied to every user for testing
     image_data = base64.b64encode(image_data).decode('utf-8')
-    user_model = Users.objects.get(username=username_query)
-    users_list.append({"username": user_model.username,
-                       "picture": image_data,
-                       "id": user_model.user_id})
+    users_models_list = Users.objects.filter(username=username_query)
+
+    for user in users_models_list:
+        users_list.append({"username": user.username,
+                           "picture": image_data,
+                           "id": user.user_id})
 
     return JsonResponse({'users': users_list})
