@@ -34,9 +34,10 @@
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/backButton"
-        app:layout_constraintTop_toBottomOf="@+id/userStatus"
-        app:layout_constraintVertical_bias="0.060000002"
+        app:layout_constraintTop_toBottomOf="@+id/textAdd"
+        app:layout_constraintVertical_bias="0.01999998"
         app:maxImageSize="@dimen/_25sdp"
+        app:tint="@color/dark_color"
         app:srcCompat="@drawable/ic_user_search"
         tools:ignore="SpeakableTextPresentCheck" />
 
@@ -70,6 +71,18 @@
         app:riv_mutate_background="true"
         app:riv_oval="true"
         tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/textAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Add friends"
+        android:textColor="@color/dark_color"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="@+id/userPFP"
+        app:layout_constraintTop_toBottomOf="@+id/userPFP" />
 
     <View
         android:id="@+id/ViewSupp"
