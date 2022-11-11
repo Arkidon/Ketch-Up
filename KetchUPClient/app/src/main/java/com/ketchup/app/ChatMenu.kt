@@ -1,16 +1,17 @@
 package com.ketchup.app
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.*
+import com.ketchup.app.view.UserList.Companion.userList
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import com.ketchup.app.view.UserList.Companion.userList
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -71,38 +72,33 @@ open class ChatMenu : AppCompatActivity() {
         spinner.isGone = true
 
         fabNewChat.setOnClickListener {
-            val builder = AlertDialog.Builder(this@ChatMenu)
-            val view = layoutInflater.inflate(R.layout.add_users_dialog, null)
-            val addbutton = view.findViewById<Button>(R.id.addButton)
-            val addUserText = view.findViewById<EditText>(R.id.searchUserField).text
-            addbutton.setOnClickListener{
-                requestUsers(addUserText.toString())
-            }
-            builder.setView(view)
-            val dialog = builder.create()
-            dialog.show()
+            // When the add person button is pressed (fabNewChat) the method addUser is called,
+            // and the username and the profile picture of the user is passed to future class calling
+            addUser(username, selfpfp)
         }
 
-    }
+        }
+
+
 
     // Object expression for overriding the getHeader method to insert the
     // Authorization header.
    private fun requestUsers(username: String){
-
+        val selfUser = intent.getStringExtra(com.ketchup.app.username)
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username
+        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username + "&self-id=" + selfUser
         val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
         object: StringRequest(
             Method.GET, url,
             // Success response handle
             { response ->
+
                 val jsonObject = JSONObject(response.toString())
                 val users = jsonObject.getJSONArray("users")
 
                 for (i in 0 until users.length()){
-                    Log.i("asd", "asdasdasd")
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
@@ -112,12 +108,12 @@ open class ChatMenu : AppCompatActivity() {
                     ImagePFP.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
-
                     if (userId == userDao?.getUsersId(userId)) continue
-                    userDao?.insertUser(user)
                     userList.add(user)
+                    setFriendsPictures()
+                    userDao?.insertUser(user)
 
-                    refreshRecyclerView()
+                    ShowToast.showToast(this,"User added", Toast.LENGTH_SHORT)
                 }
 
             },
@@ -139,6 +135,7 @@ open class ChatMenu : AppCompatActivity() {
                 val status = error.networkResponse.statusCode
                 if ( status == 404 || status == 405 || status == 400){
                     Log.i(null, error.networkResponse.statusCode.toString())
+
                     ShowToast.showToast(this, "User not found", Toast.LENGTH_SHORT)
                     return@StringRequest
                 }
@@ -172,14 +169,15 @@ open class ChatMenu : AppCompatActivity() {
         ChatWebSocket.sendMessage("Test")
 
     }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun refreshRecyclerView(){
-        val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
+    private fun setFriendsPictures(){
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
                 userList[i].pfp?.let { ImagePFP.readImageFromDisk(this, it) }
         }
+    }
+    private fun refreshRecyclerView(){
+        val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
+        setFriendsPictures()
 
         recyclerView.adapter!!.notifyItemInserted(userList.size-1)
     }
@@ -214,5 +212,39 @@ open class ChatMenu : AppCompatActivity() {
         findViewById<TextView>(R.id.textName).apply { text = username }
         val status = findViewById<TextView>(R.id.userStatus)
         Glide.with(pfp.context).load(selfpfp).into(pfp)
-        status.text = "Strawberry Pie"}
+        status.text = "Strawberry Pie"
+    }
+
+    //Method called by pressing the add user button (fabNewChat)
+    private fun addUser(username:String?, selfpfp:String ){
+        setContentView(R.layout.add_users)
+        val spinner = findViewById<ProgressBar>(R.id.progressBar)
+        val addUserText = findViewById<EditText>(R.id.searchUserField).text
+        spinner.isGone=true
+        val pfp = findViewById<RoundedImageView>(R.id.userPFP)
+        setUser(username, pfp, selfpfp)
+        val backButton = findViewById<FloatingActionButton>(R.id.backButton)
+        val applyButton = findViewById<Button>(R.id.addButton)
+        applyButton.setOnClickListener(){
+            requestUsers(addUserText.toString())
+            finish();
+            startActivity(intent);
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
+
+        backButton.setOnClickListener() {
+            recreate()
+            finish();
+            startActivity(intent);
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (KetchUp.getCurrentActivity() == this) refreshRecyclerView()
+    }
 }
+

@@ -8,6 +8,7 @@ import com.makeramen.roundedimageview.RoundedImageView
 
 class SettingScreen: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        KetchUp.setCurrentActivity(this)
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.settings_screen)
