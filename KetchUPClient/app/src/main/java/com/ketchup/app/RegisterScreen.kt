@@ -147,6 +147,7 @@ class RegisterScreen : AppCompatActivity() {
             { response ->
                 Log.i(null, response.toString())
                 startActivity(Intent(this, LoginScreen::class.java))
+                ShowToast.showToast(this, "Welcome to KetchUp!", Toast.LENGTH_SHORT)
             },
 
             // Error response handle
