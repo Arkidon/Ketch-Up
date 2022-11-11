@@ -1,17 +1,12 @@
 package com.ketchup.app
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import com.ketchup.app.view.UserList.Companion.userList
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +20,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
 import com.ketchup.app.view.UserAdapter
-import com.ketchup.utils.*
+import com.ketchup.app.view.UserList.Companion.userList
+import com.ketchup.utils.ChatWebSocket
+import com.ketchup.utils.ImagePFP
+import com.ketchup.utils.ServerAddress
+import com.ketchup.utils.ShowToast
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
 
@@ -39,6 +38,8 @@ const val selfPFP = "com.ketchup.app.selfPFP"
 open class ChatMenu : AppCompatActivity() {
 
     @SuppressLint("CutPasteId")
+    var addUsersOn = false;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,6 +76,7 @@ open class ChatMenu : AppCompatActivity() {
             // When the add person button is pressed (fabNewChat) the method addUser is called,
             // and the username and the profile picture of the user is passed to future class calling
             addUser(username, selfpfp)
+            addUsersOn = true;
         }
 
         }
@@ -179,7 +181,7 @@ open class ChatMenu : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         setFriendsPictures()
 
-        recyclerView.adapter!!.notifyItemInserted(userList.size-1)
+        recyclerView.adapter!!.notifyItemInserted(userList.size)
     }
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
@@ -223,23 +225,26 @@ open class ChatMenu : AppCompatActivity() {
         spinner.isGone=true
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         setUser(username, pfp, selfpfp)
-        val backButton = findViewById<FloatingActionButton>(R.id.backButton)
         val applyButton = findViewById<Button>(R.id.addButton)
         applyButton.setOnClickListener(){
             requestUsers(addUserText.toString())
             finish();
             startActivity(intent);
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+            addUsersOn = false;
         }
+    }
 
-        backButton.setOnClickListener() {
-            recreate()
-            finish();
+    override fun onBackPressed() {
+        if(addUsersOn == true){
+            finish()
             startActivity(intent);
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
-
+            addUsersOn = false
         }
-
+        else{
+            finish()
+            }
     }
 
     override fun onResume() {

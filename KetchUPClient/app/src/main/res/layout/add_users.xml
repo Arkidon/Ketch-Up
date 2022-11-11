@@ -27,18 +27,19 @@
         android:id="@+id/searchUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:clickable="true"
         android:outlineAmbientShadowColor="@color/white"
         android:outlineSpotShadowColor="@color/white"
         app:backgroundTint="#FFFFFF"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/backButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textAdd"
         app:layout_constraintVertical_bias="0.01999998"
         app:maxImageSize="@dimen/_25sdp"
-        app:tint="@color/dark_color"
         app:srcCompat="@drawable/ic_user_search"
+        app:tint="@color/dark_color"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <Button
@@ -65,7 +66,6 @@
         android:layout_marginTop="10dp"
         android:background="#B5B5B5"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@+id/backButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_mutate_background="true"
@@ -102,18 +102,16 @@
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
         android:text=""
-        android:textAlignment="center"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
-        app:layout_constraintEnd_toStartOf="@+id/backButton"
+        app:layout_constraintEnd_toEndOf="@+id/searchUserField"
         app:layout_constraintStart_toEndOf="@id/ViewSupp" />
 
     <TextView
         android:id="@+id/userStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
@@ -121,26 +119,9 @@
         android:textAlignment="center"
         android:textColor="#676767"
         android:textSize="@dimen/_10sdp"
-        app:layout_constraintEnd_toStartOf="@+id/backButton"
+        app:layout_constraintEnd_toEndOf="@+id/textName"
         app:layout_constraintStart_toStartOf="@+id/textName"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="@string/app_name"
-        android:outlineAmbientShadowColor="@color/white"
-        android:outlineSpotShadowColor="@color/white"
-        android:src="@drawable/ic_back"
-        app:backgroundTint="#FFFFFF"
-        app:maxImageSize="@dimen/_25sdp"
-        app:borderWidth="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textName"
-        app:layout_constraintTop_toTopOf="@id/textName"
-        app:tint="@color/dark_color" />
 
     <ProgressBar
         android:id="@+id/progressBar"
