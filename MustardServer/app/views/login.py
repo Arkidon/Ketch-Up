@@ -22,6 +22,7 @@ def view(request):
     try:
         user = Users.objects.get(username=username)
 
+    # Returns a 401 error if the user does not exist
     except ObjectDoesNotExist:
         return HttpResponse(status=401)
 
@@ -30,6 +31,6 @@ def view(request):
         return HttpResponse(status=401)
 
     # Generates the session_token
-    session_token = generate_session_token.generate()
+    session_token = generate_session_token.generate(user)
 
-    return JsonResponse({'session_id': session_token})
+    return JsonResponse({'id': user.user_id, 'session_id': session_token})

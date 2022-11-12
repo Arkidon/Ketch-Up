@@ -1,12 +1,13 @@
 from django.core.exceptions import ObjectDoesNotExist
-from app.models import Sessions
+from app.models import Sessions, Users
 from uuid import uuid4
 
 
-def generate() -> str:
+def generate(user: Users) -> str:
     """
     Generates a session token
 
+    :param: Users user The user who owns the session
     :return: A string that contains the session_token
     :rtype: str
     """
@@ -19,4 +20,5 @@ def generate() -> str:
             Sessions.objects.get(session_token=session_token)
 
         except ObjectDoesNotExist:
+            Sessions.objects.create(user=user, session_token=session_token, active=True)
             return session_token
