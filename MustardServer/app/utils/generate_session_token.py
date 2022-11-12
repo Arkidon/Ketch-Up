@@ -12,7 +12,7 @@ def generate(user: Users) -> str:
     :rtype: str
     """
     while True:
-        # Generates a uuid4 and removes the hyphens
+        # Generates an uuid4 and removes the hyphens
         session_token = str((uuid4())).replace('-', '')
 
         try:
