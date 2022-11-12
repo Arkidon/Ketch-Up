@@ -66,17 +66,18 @@
         android:id="@+id/fabNewChat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:contentDescription="@string/app_name"
         android:outlineAmbientShadowColor="@color/white"
         android:outlineSpotShadowColor="@color/white"
         android:src="@drawable/ic_add_user"
         app:backgroundTint="#FFFFFF"
         app:borderWidth="0dp"
-        app:layout_constraintTop_toTopOf="@id/textName"
+        app:maxImageSize="@dimen/_25sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textName"
-        app:tint="@color/dark_color"
-        tools:layout_editor_absoluteY="11dp" />
+        app:layout_constraintTop_toTopOf="@id/textName"
+        app:tint="@color/dark_color" />
 
     <ProgressBar
         android:id="@+id/progressBar"

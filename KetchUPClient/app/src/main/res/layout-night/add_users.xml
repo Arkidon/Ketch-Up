@@ -1,11 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_color"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="@dimen/_8sdp">
+    android:padding="@dimen/_8sdp"
+    android:background="@color/dark_color">
+
+    <EditText
+        android:id="@+id/searchUserField"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:autofillHints=""
+        android:background="@drawable/text_field_dark"
+        android:ems="10"
+        android:fontFamily="@font/patua_one"
+        android:hint="@string/addfriendname"
+        android:inputType="textPersonName"
+        android:paddingStart="@dimen/_10sdp"
+        android:text=""
+        app:layout_constraintBottom_toBottomOf="@+id/searchUserButton"
+        app:layout_constraintEnd_toStartOf="@+id/searchUserButton"
+        app:layout_constraintStart_toStartOf="@+id/userPFP"
+        app:layout_constraintTop_toTopOf="@+id/searchUserButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/searchUserButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        android:outlineAmbientShadowColor="@color/dark_color"
+        android:outlineSpotShadowColor="@color/dark_color"
+        app:backgroundTint="@color/dark_color"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textAdd"
+        app:layout_constraintVertical_bias="0.01999998"
+        app:maxImageSize="@dimen/_25sdp"
+        app:srcCompat="@drawable/ic_user_search"
+        app:tint="#AAA8A8"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="#EF5252"
+        android:fontFamily="@font/patua_one"
+        android:text="Add friend"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10sdp"
+        app:iconTint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/searchUserButton"
+        app:layout_constraintStart_toStartOf="@+id/searchUserField"
+        tools:ignore="TextContrastCheck" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/userPFP"
@@ -15,17 +67,29 @@
         android:layout_marginTop="10dp"
         android:background="#B5B5B5"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@+id/fabNewChat"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_mutate_background="true"
         app:riv_oval="true"
         tools:ignore="ImageContrastCheck" />
 
+    <TextView
+        android:id="@+id/textAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/patua_one"
+        android:text="Add friends"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="@+id/userPFP"
+        app:layout_constraintTop_toBottomOf="@+id/userPFP" />
+
     <View
         android:id="@+id/ViewSupp"
         android:layout_width="1dp"
         android:layout_height="1dp"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="@+id/userPFP"
         app:layout_constraintTop_toTopOf="@id/userPFP"
         app:layout_constraintStart_toEndOf="@id/userPFP"/>
@@ -44,14 +108,14 @@
         android:textColor="@color/white"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
-        app:layout_constraintStart_toEndOf="@id/ViewSupp" />
+        app:layout_constraintEnd_toEndOf="@+id/searchUserField"
+        app:layout_constraintStart_toEndOf="@id/ViewSupp"
+        app:layout_constraintTop_toTopOf="@+id/userPFP" />
 
     <TextView
         android:id="@+id/userStatus"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:ellipsize="end"
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
@@ -59,26 +123,9 @@
         android:textAlignment="center"
         android:textColor="#C8C7C7"
         android:textSize="@dimen/_10sdp"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
+        app:layout_constraintEnd_toEndOf="@+id/textName"
         app:layout_constraintStart_toStartOf="@+id/textName"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNewChat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="@string/app_name"
-        android:outlineAmbientShadowColor="@color/dark_color"
-        android:outlineSpotShadowColor="@color/dark_color"
-        android:src="@drawable/ic_add_user"
-        app:backgroundTint="@color/dark_color"
-        app:borderWidth="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:maxImageSize="@dimen/_25sdp"
-        app:layout_constraintStart_toEndOf="@+id/textName"
-        app:layout_constraintTop_toTopOf="@id/textName"
-        app:tint="#AAA8A8" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -94,12 +141,13 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/addButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/searchUserField">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/usersRecyclerView"
@@ -126,18 +174,5 @@
 
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/patua_one"
-        android:text="Chats"
-        android:textColor="#FFFFFF"
-        android:textSize="@dimen/_25sdp"
-        app:layout_constraintStart_toStartOf="@+id/userPFP"
-        app:layout_constraintTop_toBottomOf="@+id/userPFP" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

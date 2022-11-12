@@ -235,6 +235,7 @@
         android:id="@+id/applyButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="#EF5252"
         android:fontFamily="@font/patua_one"
