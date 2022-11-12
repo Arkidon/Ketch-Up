@@ -36,10 +36,7 @@ class LoginScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
 
-        // If url is default takes to dev activity
-        if( ServerAddress.readUrl(this).equals("127.0.0.1")){
-            startActivity(Intent(this, DevScreen::class.java))
-        }
+
 
         //login and register buttons
         loginButton = findViewById(R.id.loginButton)
