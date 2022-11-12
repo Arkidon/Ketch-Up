@@ -33,4 +33,4 @@ def view(request):
     # Generates the session_token
     session_token = generate_session_token.generate(user)
 
-    return JsonResponse({'id': user.user_id, 'session_id': session_token})
+    return JsonResponse({'id': user.user_id, 'session_token': session_token})

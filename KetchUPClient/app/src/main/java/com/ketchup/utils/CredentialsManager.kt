@@ -21,9 +21,10 @@ class CredentialsManager {
             // Object to access the shared Preferences
             val sharedPreferences = activity.getSharedPreferences(credentialsFile, Context.MODE_PRIVATE)
 
-            // Stores the
+            // Stores the credential
             with(sharedPreferences.edit()){
                 putString(key, value)
+                commit()
             }
         }
 
@@ -32,7 +33,7 @@ class CredentialsManager {
          * @param activity An activity object to get the shared preferences
          * @return A String with the value linked to the specified key
          */
-        fun getCredential(key: String, activity: AppCompatActivity): String{
+        fun getCredential(key: String, activity: AppCompatActivity): String {
             val sharedPreferences = activity.getSharedPreferences(credentialsFile, Context.MODE_PRIVATE)
             return sharedPreferences.getString(key, "").toString()
         }
