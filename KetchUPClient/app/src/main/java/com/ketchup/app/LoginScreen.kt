@@ -18,6 +18,7 @@ import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.utils.ShowToast
 import com.ketchup.utils.ServerAddress
+import com.ketchup.utils.CredentialsManager
 import org.json.JSONObject
 
 const val username = "com.ketchup.app.selfUSERNAME"
@@ -136,17 +137,28 @@ class LoginScreen : AppCompatActivity() {
         json.put("username", userText.text.toString())
         json.put("password", passwordText.text.toString())
 
-
-
+        // Http request
         val request = JsonObjectRequest(Request.Method.POST, url, json,
             // Success response handle
             { response ->
                 Log.i(null, response.toString())
-                if(userText.text.isNotEmpty() && passwordText.text.isNotEmpty()) {
-                    val intent: Intent =
-                        Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
-                    startActivity(intent)
-                }
+
+                // Creates a JSONObject from the response
+                val jsonObject = JSONObject(response.toString())
+
+                // Retrieves the values from the JSON Object
+                val id = jsonObject.getString("id")
+                val sessionToken = jsonObject.getString("session_token")
+
+                // Stores the credentials
+                CredentialsManager.setCredential("id", id, this)
+                CredentialsManager.setCredential("session-token", sessionToken, this)
+
+                // Changes the Activity
+                val intent: Intent =
+                    Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
+
+                startActivity(intent)
             },
 
             // Error response handle
