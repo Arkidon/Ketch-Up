@@ -11,12 +11,18 @@ class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.user_id = None
-        self.authenticated = False
 
     def connect(self):
-        print(self.scope)
+        # Checks if the necessary headers are included.
+        # If they are not, closes the connection with a 1002 code.
+        if 'User' not in self.scope or 'Session' not in self.scope:
+            self.disconnect(1002)
+
+        user_id = self.scope["User"]
+        session_token = self.scope["Session"]
+
         try:
-            Sessions.objects.get(user=self.scope["User"], token=self.scope["Authentification"], active=True)
+            Sessions.objects.get(user=self.scope["User"], session_token=self.scope["Session"], active=True)
 
         except ObjectDoesNotExist:
             self.disconnect()
