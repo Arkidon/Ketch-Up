@@ -37,8 +37,8 @@ class UserRelations(models.Model):
 
 class ChatMemberships(models.Model):
     membership_id = models.BigAutoField(primary_key=True)
-    user_id = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
-    chat_id = models.ForeignKey('Chats', on_delete=models.DO_NOTHING)
+    user = models.ForeignKey('Users', on_delete=models.DO_NOTHING)
+    chat = models.ForeignKey('Chats', on_delete=models.DO_NOTHING)
     role = models.CharField(max_length=20)
 
 
@@ -50,7 +50,7 @@ class Chats(models.Model):
 class ChatEntries(models.Model):
     entry_id = models.BigAutoField(primary_key=True)
     sender = models.ForeignKey('ChatMemberships', on_delete=models.DO_NOTHING)
-    chat_id = models.ForeignKey('Chats', on_delete=models.DO_NOTHING)
+    chat = models.ForeignKey('Chats', on_delete=models.DO_NOTHING)
     text = models.CharField(max_length=300)
     contains_attachment = models.BooleanField(default=False)
     response_to = models.ForeignKey('ChatEntries', on_delete=models.DO_NOTHING)
@@ -59,7 +59,7 @@ class ChatEntries(models.Model):
 
 class EntriesAttachments:
     attachment_id = models.BigAutoField(primary_key=True)
-    entry_id = models.ForeignKey('ChatEntries', on_delete=models.DO_NOTHING)
+    chat_entry = models.ForeignKey('ChatEntries', on_delete=models.DO_NOTHING)
     location = models.CharField(max_length=250)
     type = models.CharField()
 
