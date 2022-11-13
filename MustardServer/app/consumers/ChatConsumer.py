@@ -32,8 +32,6 @@ class ChatConsumer(WebsocketConsumer):
         print("Self channel layer name = ", self.channel_name)
         self.accept()
 
-
-
     def disconnect(self, close_code):
         print("User disconnected")
 
