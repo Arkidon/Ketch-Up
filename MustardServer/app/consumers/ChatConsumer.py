@@ -1,47 +1,66 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.core.exceptions import ObjectDoesNotExist
-
-from app.models import Sessions
+from app.models import Sessions, Users, ChatMemberships
 
 
 class ChatConsumer(WebsocketConsumer):
-    user_count = 0
-
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
         self.user_id = None
 
     def connect(self):
-        # Checks if the necessary headers are included.
-        # If they are not, closes the connection with a 1002 code.
-        if 'User' not in self.scope or 'Session' not in self.scope:
-            self.disconnect(1002)
-
-        user_id = self.scope["User"]
-        session_token = self.scope["Session"]
-
-        try:
-            Sessions.objects.get(user=self.scope["User"], session_token=self.scope["Session"], active=True)
-
-        except ObjectDoesNotExist:
-            self.disconnect()
-
-        self.channel_name = ChatConsumer.user_count
-        ChatConsumer.user_count += 1
-        print("Self channel layer name = ", self.channel_name)
+        # Accepts the incoming websocket connection
         self.accept()
 
+        # Gets the headers in raw bytes
+        raw_headers = dict(self.scope['headers'])
 
+        # Decodes the headers bytes to UTF-8 strings
+        headers = {}
+        for key, value in raw_headers.items():
+            headers[key.decode('utf-8')] = value.decode('utf-8')
 
-    def disconnect(self, close_code):
-        print("User disconnected")
+        # Checks if the necessary headers are included.
+        # If they are not, closes the connection with a 1002 code.
+        if 'user' not in headers or 'session' not in headers:
+            self.disconnect(1002)
+            return
+
+        # Retrieves user id and the session token from the headers
+        user_id = headers["user"]
+        session_token = headers["session"]
+
+        try:
+            # Checks if both the user and the session token exists
+            user = Users.objects.get(user_id=user_id)
+            session = Sessions.objects.get(user=user, session_token=session_token, active=True)
+
+        except ObjectDoesNotExist:
+            # If the user or the session does not exist, ends the connection.
+            self.disconnect(4000)
+            return
+
+        # Stores the user id in
+        self.user_id = user.user_id
+
+        # Adds the user to a group for itself
+        async_to_sync(self.channel_layer.group_add)(f"user.{self.user_id}", self.channel_name)
+
+        # Gets all the chat memberships the user posses
+        chat_memberships = ChatMemberships.objects.filter(user=user)
+
+        # Adds the user to the groups in order to receive updates from the chats
+        for membership in chat_memberships:
+            async_to_sync(self.channel_layer.group_add)(f"chat.{membership.chat_id}", self.channel_name)
+
+        print("User connected")
 
     def receive(self, text_data):  # noqa
-        print(text_data + "Jajant")
-        self.send(text_data=text_data + "Jajant")
+        # Returns the string reversed
+        self.send(text_data=text_data[::-1])
 
-        # Send message to room group
-        async_to_sync(self.channel_layer.group_send)(
-            self.room_group_name, {"type": "chat_message", "message": text_data}
-        )
+    def disconnect(self, close_code):
+        # Close the websocket connection
+        self.close(4000)
+        print("User connected")
