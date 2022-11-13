@@ -16,6 +16,9 @@ class KetchUp: Application() {
         fun getCurrentActivity(): AppCompatActivity{
             return activity
         }
+        fun getLastActivity(): AppCompatActivity{
+            return activity
+        }
 
         fun setCurrentActivity(activity: AppCompatActivity){
             this.activity = activity
