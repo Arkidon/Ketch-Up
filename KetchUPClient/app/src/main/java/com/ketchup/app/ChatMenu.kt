@@ -59,13 +59,8 @@ open class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-
         //Value to get all users in bd
         userList = userDao?.getAllUsers() as ArrayList<Users>
-        for (i in 0 until userList.size) {
-            userList[i].pictureBitmap =
-                userList[i].pfp?.let { ImagePFP.readImageFromDisk(this, it) }
-        }
         initRecyclerView()
 
         val status = findViewById<TextView>(R.id.userStatus)
@@ -85,12 +80,97 @@ open class ChatMenu : AppCompatActivity() {
 
     // Object expression for overriding the getHeader method to insert the
     // Authorization header.
-   private fun requestUsers(username: String){
+    private fun requestFriends(){
+        val selfUser = intent.getStringExtra(username)
+        val queue = Volley.newRequestQueue(this)
+        val db = AppDatabase.createInstance(this)
+        val userDao = db?.userDao()
+        val url = "http://" + ServerAddress.readUrl(this) + "/request-friend-users?username=" + selfUser
+        val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
+        object: StringRequest(
+            Method.GET, url,
+            // Success response handle
+            { response ->
+                Log.i("onResponse: ","asdfasdrf")
+                val jsonObject = JSONObject(response.toString())
+                val users = jsonObject.getJSONArray("users")
+
+                for (i in 0 until users.length()){
+                    val friendUsername = users.getJSONObject(i).getString("username")
+                    val picture = users.getJSONObject(i).getString("picture")
+                    val userId  = users.getJSONObject(i).getInt("id")
+                    val imageByteArray = ImagePFP.getImageByteArray(picture)
+                    //The name of the pfp created with the username and the image extension file
+                    val pictureName = ImagePFP.getImageName(friendUsername,picture);
+                    ImagePFP.writeImageToDisk(imageByteArray,this, pictureName)
+                    val user = Users(friendUsername, userId, pictureName, "placeholder")
+                    //Checks if the user is the actually user login
+                    if (userId == userDao?.getUsersId(userId)) continue
+                    userList.add(user)
+                    setFriendsPictures()
+                    userDao?.insertUser(user)
+                    refreshRecyclerView()
+                }
+
+            },
+
+            // Error response handle
+            StringRequest@{ error ->
+                // Connection timed out validation
+                if(error is TimeoutError){
+                    Log.i(null, "Timeout Error")
+                    return@StringRequest
+                }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    Log.i(null, "No connection Error")
+                    return@StringRequest
+                }
+
+                val status = error.networkResponse.statusCode
+                if ( status == 404 || status == 405 || status == 400){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+
+
+                    return@StringRequest
+                }
+                if (status == 401){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+                    return@StringRequest
+                }
+
+                Log.i(null, error.networkResponse.statusCode.toString())
+                Log.i(null, error.toString())
+            }
+        ){
+            /**
+             * Adds custom http request headers
+             */
+            @Override
+            override fun getHeaders(): MutableMap<String, String> {
+                val params: HashMap<String, String> = HashMap()
+
+                // Test value
+                params["Authorization"] = "Test"
+
+                return params
+            }
+        }
+
+        queue.add(request)
+
+        // Initialize the WebSocket channel
+        ChatWebSocket.createConnection(this)
+        ChatWebSocket.sendMessage("Test")
+
+    }
+    private fun requestUsers(username: String){
         val selfUser = intent.getStringExtra(com.ketchup.app.username)
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username + "&self-id=" + selfUser
+        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username + "&self-user=" + selfUser
         val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
         object: StringRequest(
             Method.GET, url,
@@ -106,7 +186,7 @@ open class ChatMenu : AppCompatActivity() {
                     val userId  = users.getJSONObject(i).getInt("id")
                     val imageByteArray = ImagePFP.getImageByteArray(picture)
                     //The name of the pfp created with the username and the image extension file
-                    val pictureName = ImagePFP.getImageName(username,picture);
+                    val pictureName = ImagePFP.getImageName(friendUsername,picture);
                     ImagePFP.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
@@ -114,10 +194,10 @@ open class ChatMenu : AppCompatActivity() {
                     userList.add(user)
                     setFriendsPictures()
                     userDao?.insertUser(user)
-
+                    refreshRecyclerView()
                     ShowToast.showToast(this,"User added", Toast.LENGTH_SHORT)
-                }
 
+                }
             },
 
             // Error response handle
@@ -180,8 +260,7 @@ open class ChatMenu : AppCompatActivity() {
     private fun refreshRecyclerView(){
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         setFriendsPictures()
-
-        recyclerView.adapter!!.notifyItemInserted(userList.size)
+        recyclerView.adapter!!.notifyItemInserted(userList.size-1)
     }
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
@@ -236,7 +315,7 @@ open class ChatMenu : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(addUsersOn == true){
+        if(addUsersOn){
             finish()
             startActivity(intent);
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
@@ -249,6 +328,8 @@ open class ChatMenu : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        //Request all friends of user
+        requestFriends()
         if (KetchUp.getCurrentActivity() == this) refreshRecyclerView()
     }
 }

@@ -14,10 +14,10 @@ from app.models import Users, UserRelations
 def view(request):  # noqa
     # Temporary code for testing purposes, the intended
     # behaviour is to filter by the users that has been added
-    if 'query' not in request.GET or 'self-id' not in request.GET:
+    if 'query' not in request.GET or 'self-user' not in request.GET:
         return HttpResponse(status=400)
     username_query = request.GET["query"]
-    username_sender = request.GET["self-id"]
+    username_sender = request.GET["self-user"]
     users_list = []
 
     image_path = os.path.join(settings.BASE_DIR, 'testlogo.png')
