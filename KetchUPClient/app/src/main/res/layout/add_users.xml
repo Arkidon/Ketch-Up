@@ -99,6 +99,7 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:layout_marginEnd="10dp"
         android:ellipsize="end"
+        android:textAlignment="center"
         android:fontFamily="@font/patua_one"
         android:maxLines="1"
         android:text=""
