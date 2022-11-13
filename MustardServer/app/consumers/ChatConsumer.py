@@ -63,4 +63,4 @@ class ChatConsumer(WebsocketConsumer):
     def disconnect(self, close_code):
         # Close the websocket connection
         self.close(4000)
-        print("User connected")
+        print("User disconnected")
