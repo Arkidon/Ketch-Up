@@ -3,55 +3,55 @@ package com.ketchup.utils
 import android.content.Context
 import android.util.Log
 import com.ketchup.app.KetchUp
-import okhttp3.*
+import com.neovisionaries.ws.client.WebSocket
+import com.neovisionaries.ws.client.WebSocketAdapter
+import com.neovisionaries.ws.client.WebSocketException
+import com.neovisionaries.ws.client.WebSocketFactory
 
-class ChatWebSocketListener : WebSocketListener() {
-
-
-    override fun onOpen(webSocket: WebSocket, response: Response) {
-        // Handles the websocket connection opening
-    }
-
-    override fun onMessage(webSocket: WebSocket, text: String) {
-        // Handles the message received event
-        println(text)
-
-    }
-
-    override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-        // Handles the websocket connection closing
-    }
-
-    fun updateContext(context: Context){
-    }
-
-}
 
 class ChatWebSocket{
     companion object{
         private var webSocket: WebSocket? = null
-        private lateinit var webSocketListener: ChatWebSocketListener
 
         fun createConnection(context: Context){
             if(webSocket == null){
-                val client = OkHttpClient()
-                val request = Request.Builder()
-                    //.header("User", "value")
-                    //.header("Authentification", "value")
-                    .url("ws://" + ServerAddress.readUrl(context) + "/ws-test")
-                    .build()
-                webSocketListener = ChatWebSocketListener()
-                webSocket = client.newWebSocket(request, webSocketListener)
+                // Retrieves the credentials from the shared preferences
+                val userID = CredentialsManager.getCredential("id", KetchUp.getCurrentActivity())
+                val sessionToken = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
+
+                // Retrieves the server url from disk
+                val serverURL = "ws://" + ServerAddress.readUrl(context) + "/ws-test"
+                Log.i(null, "Server URL: $serverURL")
+
+                val factory = WebSocketFactory()
+
+                webSocket = factory.createSocket(serverURL)
+
+                // Adds headers for authentification
+                webSocket?.addHeader("user", userID)
+                webSocket?.addHeader("session", sessionToken)
+
+                webSocket?.addListener(object : WebSocketAdapter() {
+                    override fun onTextMessage(websocket: WebSocket, message: String){
+                        Log.i(null, "Mensaje recibido: $message")
+                    }
+
+                    override fun onConnectError(websocket: WebSocket?, exception: WebSocketException?) {
+                        super.onConnectError(websocket, exception)
+                        exception?.printStackTrace()
+                    }
+                })
+
+                webSocket?.connectAsynchronously()
             }
         }
 
         fun closeConnection(){
-            webSocket?.close(1000, "")
         }
 
         fun sendMessage(message: String): Boolean {
             Log.i(null, "Message sent $message")
-            return webSocket?.send(message) ?: false
+            return true
         }
 
     }
