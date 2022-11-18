@@ -78,7 +78,7 @@
         app:maxImageSize="@dimen/_25sdp"
         app:layout_constraintStart_toEndOf="@+id/textName"
         app:layout_constraintTop_toTopOf="@id/textName"
-        app:tint="#AAA8A8" />
+        app:tint="@color/white"/>
 
     <ProgressBar
         android:id="@+id/progressBar"

@@ -100,22 +100,21 @@
         android:id="@+id/text_accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
         android:fontFamily="@font/patua_one"
         android:text="Accept"
         android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/friendPFP"
         app:layout_constraintEnd_toEndOf="@+id/button_accept"
         app:layout_constraintStart_toStartOf="@+id/button_accept" />
+
     <TextView
         android:id="@+id/text_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="2dp"
         android:fontFamily="@font/patua_one"
         android:text="Reject"
         android:textSize="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/friendPFP"
         app:layout_constraintEnd_toEndOf="@+id/button_cancel"
         app:layout_constraintStart_toStartOf="@+id/button_cancel" />
 

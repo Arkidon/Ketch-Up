@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
+import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
@@ -21,7 +23,9 @@ import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
 import com.ketchup.app.models.ChatData
 import com.ketchup.app.models.RequestData
+import com.ketchup.app.view.ChatList
 import com.ketchup.app.view.RequestAdapter
+import com.ketchup.app.view.RequestList
 import com.ketchup.app.view.RequestList.Companion.requestList
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.app.view.UserList.Companion.userList
@@ -63,6 +67,11 @@ open class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
+
+        if(requestList.size > 0){
+            findViewById<View>(R.id.fabNewChat)
+        }
+
 
         //Value to get all users in bd
         userList = userDao?.getAllUsers() as ArrayList<Users>
@@ -310,10 +319,10 @@ open class ChatMenu : AppCompatActivity() {
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         setUser(username, pfp, selfpfp)
         val applyButton = findViewById<Button>(R.id.addButton)
-        listOf(RequestData("Alice", "UwU", "https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png"))
-            val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
-            recyclerView.layoutManager = LinearLayoutManager(this)
-            recyclerView.adapter = RequestAdapter(requestList) { requestData -> onItemSelected(requestData) }
+
+        val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = RequestAdapter(requestList)
 
             applyButton.setOnClickListener(){
             requestUsers(addUserText.toString())
