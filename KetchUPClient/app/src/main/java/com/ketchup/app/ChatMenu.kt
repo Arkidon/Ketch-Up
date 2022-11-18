@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
@@ -16,9 +16,15 @@ import com.android.volley.TimeoutError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
+import com.ketchup.app.models.ChatData
+import com.ketchup.app.models.RequestData
+import com.ketchup.app.view.RequestAdapter
+import com.ketchup.app.view.RequestList.Companion.requestList
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.app.view.UserList.Companion.userList
 import com.ketchup.utils.ChatWebSocket
@@ -27,6 +33,8 @@ import com.ketchup.utils.ServerAddress
 import com.ketchup.utils.ShowToast
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -40,6 +48,7 @@ open class ChatMenu : AppCompatActivity() {
     @SuppressLint("CutPasteId")
     var addUsersOn = false;
 
+    @SuppressLint("UnsafeOptInUsageError")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,6 +68,7 @@ open class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
+
         //Value to get all users in bd
         userList = userDao?.getAllUsers() as ArrayList<Users>
         initRecyclerView()
@@ -305,7 +315,12 @@ open class ChatMenu : AppCompatActivity() {
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         setUser(username, pfp, selfpfp)
         val applyButton = findViewById<Button>(R.id.addButton)
-        applyButton.setOnClickListener(){
+        listOf(RequestData("Alice", "UwU", "https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png"))
+            val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            recyclerView.adapter = RequestAdapter(requestList) { requestData -> onItemSelected(requestData) }
+
+            applyButton.setOnClickListener(){
             requestUsers(addUserText.toString())
             finish();
             startActivity(intent);
@@ -313,6 +328,7 @@ open class ChatMenu : AppCompatActivity() {
             addUsersOn = false;
         }
     }
+
 
     override fun onBackPressed() {
         if(addUsersOn){
