@@ -6,7 +6,7 @@ urlpatterns = [
     path('login', login.view),
     path('signup', sign_up.view),
     path('check-credential', check_credentials.view),
-    path('request-friend-users', request_friend_users.view),  # Receives URL parameters
+    path('request-friend-users', request_friend_users.view),
     path('search-users', search_users.view),  # Receives URL parameters
     path('friendship-requests-count', friendship_requests_count),
     path('friendship-requests-list', friendship_requests_list),
