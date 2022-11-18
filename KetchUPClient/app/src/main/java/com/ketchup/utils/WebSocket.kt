@@ -16,18 +16,18 @@ class ChatWebSocket{
         fun createConnection(context: Context){
             if(webSocket == null){
                 // Retrieves the credentials from the shared preferences
-                val userID = CredentialsManager.getCredential("id", KetchUp.getCurrentActivity())
+                val userID = CredentialsManager.getCredential("user", KetchUp.getCurrentActivity())
                 val sessionToken = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
 
                 // Retrieves the server url from disk
                 val serverURL = "ws://" + ServerAddress.readUrl(context) + "/ws-test"
                 Log.i(null, "Server URL: $serverURL")
 
+                // Creates the WebSocket instance
                 val factory = WebSocketFactory()
-
                 webSocket = factory.createSocket(serverURL)
 
-                // Adds headers for authentification
+                // Adds headers for authentication
                 webSocket?.addHeader("user", userID)
                 webSocket?.addHeader("session", sessionToken)
 
@@ -50,6 +50,7 @@ class ChatWebSocket{
         }
 
         fun sendMessage(message: String): Boolean {
+            webSocket?.sendText(message)
             Log.i(null, "Message sent $message")
             return true
         }
