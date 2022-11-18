@@ -61,3 +61,26 @@ def credential_check_validation(request: HttpRequest) -> Union[dict, bool]:
         return False
 
     return body
+
+
+def update_request_validator(request: HttpRequest) -> Union[dict, bool]:
+    """
+        Validates a request body that contains user friend request
+
+        :param: HttpRequest request : A request object
+        :return: A dictionary that contains the credentials or False if the validation is not successful
+        :rtype: (dict, bool)
+        """
+
+    try:
+        body = json.loads(request.body.decode('utf-8'))
+
+    except JSONDecodeError:
+        # Print for debugging purposes
+        print("Invalid JSON body")
+        return False
+
+    if 'user' not in request.POST or 'status' not in request.POST:
+        return False
+
+    return body
