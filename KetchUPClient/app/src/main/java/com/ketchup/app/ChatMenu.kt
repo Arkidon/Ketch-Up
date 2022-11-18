@@ -2,13 +2,12 @@ package com.ketchup.app
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
-import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
@@ -21,19 +20,13 @@ import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
-import com.ketchup.app.models.ChatData
-import com.ketchup.app.models.RequestData
-import com.ketchup.app.view.ChatList
 import com.ketchup.app.view.RequestAdapter
-import com.ketchup.app.view.RequestList
 import com.ketchup.app.view.RequestList.Companion.requestList
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.app.view.UserList.Companion.userList
 import com.ketchup.utils.*
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -67,7 +60,7 @@ open class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-
+        setBadge(fabNewChat)
 
 
         //Value to get all users in bd
@@ -288,6 +281,21 @@ open class ChatMenu : AppCompatActivity() {
         goSettings.putExtras(extras)
         startActivity(goSettings)
 
+    }
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun setBadge(fabNewChat: FloatingActionButton) {
+        val badgeDrawable = BadgeDrawable.create(this)
+        badgeDrawable.badgeGravity = BadgeDrawable.TOP_END
+        badgeDrawable.isVisible = false
+        badgeDrawable.setVerticalOffset(45)
+        badgeDrawable.setHorizontalOffset(-102)
+        badgeDrawable.setBackgroundColor(Color.parseColor("#EF5252"))
+        badgeDrawable.setBadgeTextColor(Color.WHITE)
+        badgeDrawable.setNumber(requestList.size)
+        BadgeUtils.attachBadgeDrawable(badgeDrawable, fabNewChat, findViewById(R.id.frameLayout))
+        if(requestList.size>0){
+            badgeDrawable.isVisible = true
+        }
     }
 
     private fun onItemSelected(userData: Users){
