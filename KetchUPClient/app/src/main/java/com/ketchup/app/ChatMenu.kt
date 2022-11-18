@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -21,10 +20,7 @@ import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.app.view.UserList.Companion.userList
-import com.ketchup.utils.ChatWebSocket
-import com.ketchup.utils.ImagePFP
-import com.ketchup.utils.ServerAddress
-import com.ketchup.utils.ShowToast
+import com.ketchup.utils.*
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
 
@@ -74,7 +70,7 @@ open class ChatMenu : AppCompatActivity() {
             addUsersOn = true;
         }
 
-        }
+    }
 
 
 
@@ -85,10 +81,8 @@ open class ChatMenu : AppCompatActivity() {
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/request-friend-users?username=" + selfUser
-        val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
-        object: StringRequest(
-            Method.GET, url,
+        val url = "http://" + ServerAddress.readUrl(this) + "/request-friend-users"
+        val request = object: StringRequest(Method.GET, url,
             // Success response handle
             { response ->
                 Log.i("onResponse: ","asdfasdrf")
@@ -151,8 +145,9 @@ open class ChatMenu : AppCompatActivity() {
             override fun getHeaders(): MutableMap<String, String> {
                 val params: HashMap<String, String> = HashMap()
 
-                // Test value
-                params["Authorization"] = "Test"
+                // Sets the custom headers
+                params["user"] = CredentialsManager.getCredential("user", KetchUp.getCurrentActivity())
+                params["session"] = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
 
                 return params
             }
@@ -165,15 +160,15 @@ open class ChatMenu : AppCompatActivity() {
         ChatWebSocket.sendMessage("Test")
 
     }
+
     private fun requestUsers(username: String){
         val selfUser = intent.getStringExtra(com.ketchup.app.username)
         val queue = Volley.newRequestQueue(this)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query="+username + "&self-user=" + selfUser
-        val request: StringRequest = @SuppressLint("NotifyDataSetChanged")
-        object: StringRequest(
-            Method.GET, url,
+        val url = "http://" + ServerAddress.readUrl(this) + "/search-users"
+        val request: StringRequest = object: StringRequest(Method.GET, url,
+
             // Success response handle
             { response ->
 
@@ -237,8 +232,9 @@ open class ChatMenu : AppCompatActivity() {
             override fun getHeaders(): MutableMap<String, String> {
                 val params: HashMap<String, String> = HashMap()
 
-                // Test value
-                params["Authorization"] = "Test"
+                // Sets the custom headers
+                params["user"] = CredentialsManager.getCredential("user", KetchUp.getCurrentActivity())
+                params["session"] = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
 
                 return params
             }
