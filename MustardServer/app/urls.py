@@ -8,8 +8,8 @@ urlpatterns = [
     path('check-credential', check_credentials.view),
     path('request-friend-users', request_friend_users.view),
     path('search-users', search_users.view),  # Receives URL parameters
-    path('friendship-requests-count', friendship_requests_count),
-    path('friendship-requests-list', friendship_requests_list),
-    path('update-friendship-status', update_friendship_status),
+    path('friendship-requests-count', friendship_requests_count.view),
+    path('friendship-requests-list', friendship_requests_list.view),
+    path('update-friendship-status', update_friendship_status.view),
     path('', ping_server.view)
 ]
