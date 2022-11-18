@@ -497,8 +497,7 @@ open class ChatMenu : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = RequestAdapter(requestList)
-
-            applyButton.setOnClickListener{
+        applyButton.setOnClickListener{
             requestUsers(addUserText.toString())
             finish();
             startActivity(intent);
