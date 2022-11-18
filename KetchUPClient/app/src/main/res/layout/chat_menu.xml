@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:background="#B5B5B5"
         android:scaleType="center"
-        app:layout_constraintBottom_toBottomOf="@+id/fabNewChat"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_mutate_background="true"
@@ -43,7 +43,7 @@
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_16sdp"
         app:layout_constraintBottom_toBottomOf="@id/ViewSupp"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
         app:layout_constraintStart_toEndOf="@id/ViewSupp" />
 
     <TextView
@@ -58,26 +58,39 @@
         android:textAlignment="center"
         android:textColor="#676767"
         android:textSize="@dimen/_10sdp"
-        app:layout_constraintEnd_toStartOf="@+id/fabNewChat"
+        app:layout_constraintEnd_toStartOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="@+id/textName"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNewChat"
+    <!--Frame layout used as a background to place the badges-->
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="@string/app_name"
-        android:outlineAmbientShadowColor="@color/white"
-        android:outlineSpotShadowColor="@color/white"
-        android:src="@drawable/ic_add_user"
-        app:backgroundTint="#FFFFFF"
-        app:borderWidth="0dp"
-        app:maxImageSize="@dimen/_25sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textName"
         app:layout_constraintTop_toTopOf="@id/textName"
-        app:tint="@color/dark_color" />
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/frameLayout">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabNewChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/app_name"
+            android:outlineAmbientShadowColor="@color/white"
+            android:outlineSpotShadowColor="@color/white"
+            android:src="@drawable/ic_add_user"
+            app:backgroundTint="#FFFFFF"
+            app:borderWidth="0dp"
+            app:maxImageSize="@dimen/_25sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textName"
+            app:layout_constraintTop_toTopOf="@id/textName"
+            app:tint="@color/dark_color" />
+
+    </FrameLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

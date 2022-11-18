@@ -40,10 +40,10 @@
         android:textAlignment="textEnd"
         android:textColor="@color/dark_color"
         android:textSize="@dimen/_16sdp"
-        app:layout_constraintBottom_toBottomOf="@id/fabNewChat"
+        app:layout_constraintBottom_toBottomOf="@id/frameLayout"
         app:layout_constraintEnd_toStartOf="@+id/ViewSupp"
         app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/fabNewChat" />
+        app:layout_constraintTop_toTopOf="@+id/frameLayout" />
 
     <TextView
         android:id="@+id/userStatus"
@@ -61,21 +61,36 @@
         app:layout_constraintStart_toStartOf="@+id/textName"
         app:layout_constraintTop_toBottomOf="@+id/textName" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabNewChat"
+
+    <!--Frame layout used as a background to place the badges-->
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/app_name"
-        android:outlineAmbientShadowColor="@color/white"
-        android:outlineSpotShadowColor="@color/white"
-        android:src="@drawable/ic_add_user"
-        app:backgroundTint="#FFFFFF"
-        app:borderWidth="0dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textName"
         app:layout_constraintTop_toTopOf="@id/textName"
-        app:layout_constraintBottom_toBottomOf="@id/userStatus"
-        app:tint="@color/dark_color"
-        tools:layout_editor_absoluteY="11dp" />
+        android:layout_gravity="end|bottom"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/frameLayout">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabNewChat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:outlineAmbientShadowColor="@color/white"
+            android:outlineSpotShadowColor="@color/white"
+            android:src="@drawable/ic_add_user"
+            app:backgroundTint="#FFFFFF"
+            app:borderWidth="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textName"
+            app:layout_constraintBottom_toBottomOf="@id/userStatus"
+            app:tint="@color/dark_color"
+            tools:layout_editor_absoluteY="11dp" />
+
+    </FrameLayout>
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -134,7 +149,7 @@
         android:textSize="@dimen/_25sdp"
         app:layout_constraintBottom_toBottomOf="@+id/userStatus"
         app:layout_constraintEnd_toStartOf="@+id/userPFP"
-        app:layout_constraintStart_toEndOf="@+id/fabNewChat"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout"
         app:layout_constraintTop_toTopOf="@+id/textName" />
 
 

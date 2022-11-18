@@ -2,6 +2,7 @@ package com.ketchup.app
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
@@ -57,7 +58,7 @@ open class ChatMenu : AppCompatActivity() {
         setUser(username, pfp, selfpfp)
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
-
+        setBadge(fabNewChat)
 
 
         //Value to get all users in bd
@@ -464,6 +465,21 @@ open class ChatMenu : AppCompatActivity() {
         goSettings.putExtras(extras)
         startActivity(goSettings)
 
+    }
+    @SuppressLint("UnsafeOptInUsageError")
+    private fun setBadge(fabNewChat: FloatingActionButton) {
+        val badgeDrawable = BadgeDrawable.create(this)
+        badgeDrawable.badgeGravity = BadgeDrawable.TOP_END
+        badgeDrawable.isVisible = false
+        badgeDrawable.setVerticalOffset(45)
+        badgeDrawable.setHorizontalOffset(-102)
+        badgeDrawable.setBackgroundColor(Color.parseColor("#EF5252"))
+        badgeDrawable.setBadgeTextColor(Color.WHITE)
+        badgeDrawable.setNumber(requestList.size)
+        BadgeUtils.attachBadgeDrawable(badgeDrawable, fabNewChat, findViewById(R.id.frameLayout))
+        if(requestList.size>0){
+            badgeDrawable.isVisible = true
+        }
     }
 
     private fun onItemSelected(userData: Users){
