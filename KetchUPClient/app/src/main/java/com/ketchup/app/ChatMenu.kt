@@ -68,9 +68,6 @@ open class ChatMenu : AppCompatActivity() {
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
 
-        if(requestList.size > 0){
-            findViewById<View>(R.id.fabNewChat)
-        }
 
 
         //Value to get all users in bd
