@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
-import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.NoConnectionError
@@ -16,24 +14,16 @@ import com.android.volley.TimeoutError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.Users
-import com.ketchup.app.models.ChatData
-import com.ketchup.app.models.RequestData
-import com.ketchup.app.view.ChatList
 import com.ketchup.app.view.RequestAdapter
-import com.ketchup.app.view.RequestList
 import com.ketchup.app.view.RequestList.Companion.requestList
 import com.ketchup.app.view.UserAdapter
 import com.ketchup.app.view.UserList.Companion.userList
 import com.ketchup.utils.*
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -88,9 +78,7 @@ open class ChatMenu : AppCompatActivity() {
     }
 
 
-
-    // Object expression for overriding the getHeader method to insert the
-    // Authorization header.
+    // function that returns all friends
     private fun requestFriends(){
         val selfUser = intent.getStringExtra(username)
         val queue = Volley.newRequestQueue(this)
@@ -100,7 +88,6 @@ open class ChatMenu : AppCompatActivity() {
         val request = object: StringRequest(Method.GET, url,
             // Success response handle
             { response ->
-                Log.i("onResponse: ","asdfasdrf")
                 val jsonObject = JSONObject(response.toString())
                 val users = jsonObject.getJSONArray("users")
 
@@ -175,22 +162,18 @@ open class ChatMenu : AppCompatActivity() {
         ChatWebSocket.sendMessage("Test")
 
     }
-
-    private fun requestUsers(username: String){
-        val selfUser = intent.getStringExtra(com.ketchup.app.username)
+    // function that returns all pending requests
+    private fun getUserRequests(){
         val queue = Volley.newRequestQueue(this)
-        val db = AppDatabase.createInstance(this)
-        val userDao = db?.userDao()
-        val url = "http://" + ServerAddress.readUrl(this) + "/search-users"
-        val request: StringRequest = object: StringRequest(Method.GET, url,
-
+        val url = "http://" + ServerAddress.readUrl(this) + "/friendship-requests-list"
+        val request = object: StringRequest(Method.GET, url,
             // Success response handle
             { response ->
-
                 val jsonObject = JSONObject(response.toString())
                 val users = jsonObject.getJSONArray("users")
 
                 for (i in 0 until users.length()){
+                    //adds all users to requestList and put it in recycler view
                     val friendUsername = users.getJSONObject(i).getString("username")
                     val picture = users.getJSONObject(i).getString("picture")
                     val userId  = users.getJSONObject(i).getInt("id")
@@ -200,13 +183,141 @@ open class ChatMenu : AppCompatActivity() {
                     ImagePFP.writeImageToDisk(imageByteArray,this, pictureName)
                     val user = Users(friendUsername, userId, pictureName, "placeholder")
                     //Checks if the user is the actually user login
-                    if (userId == userDao?.getUsersId(userId)) continue
-                    userList.add(user)
+                    requestList.add(user)
                     setFriendsPictures()
-                    userDao?.insertUser(user)
                     refreshRecyclerView()
-                    ShowToast.showToast(this,"User added", Toast.LENGTH_SHORT)
+                }
 
+            },
+
+            // Error response handle
+            StringRequest@{ error ->
+                // Connection timed out validation
+                if(error is TimeoutError){
+                    Log.i(null, "Timeout Error")
+                    return@StringRequest
+                }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    Log.i(null, "No connection Error")
+                    return@StringRequest
+                }
+
+                val status = error.networkResponse.statusCode
+                if ( status == 404 || status == 405 || status == 400){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+
+
+                    return@StringRequest
+                }
+                if (status == 401){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+                    return@StringRequest
+                }
+
+                Log.i(null, error.networkResponse.statusCode.toString())
+                Log.i(null, error.toString())
+            }
+        ){
+            /**
+             * Adds custom http request headers
+             */
+            @Override
+            override fun getHeaders(): MutableMap<String, String> {
+                val params: HashMap<String, String> = HashMap()
+
+                // Sets the custom headers
+                params["user"] = CredentialsManager.getCredential("user", KetchUp.getCurrentActivity())
+                params["session"] = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
+
+                return params
+            }
+        }
+
+        queue.add(request)
+
+        // Initialize the WebSocket channel
+        ChatWebSocket.createConnection(this)
+        ChatWebSocket.sendMessage("Test")
+
+    }
+    // function to send friend requests
+    private fun requestUsers(username: String){
+        val queue = Volley.newRequestQueue(this)
+        val url = "http://" + ServerAddress.readUrl(this) + "/search-users?query=" + username
+        val request: StringRequest = object: StringRequest(Method.GET, url,
+
+            // Success response handle
+            {
+                ShowToast.showToast(this,"Friend request sent", Toast.LENGTH_SHORT)
+            },
+
+            // Error response handle
+            StringRequest@{ error ->
+                // Connection timed out validation
+                if(error is TimeoutError){
+                    Log.i(null, "Timeout Error")
+                    return@StringRequest
+                }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    Log.i(null, "No connection Error")
+                    return@StringRequest
+                }
+
+                val status = error.networkResponse.statusCode
+                if ( status == 404 || status == 405 || status == 400){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+
+                    ShowToast.showToast(this, "User not found", Toast.LENGTH_SHORT)
+                    return@StringRequest
+                }
+                if (status == 401){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+                    return@StringRequest
+                }
+
+                Log.i(null, error.networkResponse.statusCode.toString())
+                Log.i(null, error.toString())
+            }
+        ){
+            /**
+             * Adds custom http request headers
+             */
+            @Override
+            override fun getHeaders(): MutableMap<String, String> {
+                val params: HashMap<String, String> = HashMap()
+
+                // Sets the custom headers
+                params["user"] = CredentialsManager.getCredential("user", KetchUp.getCurrentActivity())
+                params["session"] = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
+
+                return params
+            }
+        }
+
+        queue.add(request)
+
+        // Initialize the WebSocket channel
+        ChatWebSocket.createConnection(this)
+        ChatWebSocket.sendMessage("Test")
+
+    }
+    // function to accept or reject some user
+    private fun updateFriendRequests(friendUsername: String, FriendStatus: Int){
+        val queue = Volley.newRequestQueue(this)
+        val url = "http://" + ServerAddress.readUrl(this) + "" +
+                "/update-friendship-status?user=" + username + "&status=" + FriendStatus
+        val request: StringRequest = object: StringRequest(Method.POST, url,
+
+            // Success response handle
+            {
+                if (FriendStatus == 1){
+                    ShowToast.showToast(this,"User accepted", Toast.LENGTH_SHORT)
+                }else if (FriendStatus == 4){
+                    ShowToast.showToast(this,"User rejected", Toast.LENGTH_SHORT)
                 }
             },
 
@@ -262,6 +373,71 @@ open class ChatMenu : AppCompatActivity() {
         ChatWebSocket.sendMessage("Test")
 
     }
+    // function to get the count of pending requests
+    private fun countUserRequests(){
+        val queue = Volley.newRequestQueue(this)
+        val url = "http://" + ServerAddress.readUrl(this) + "/friendship-requests-count"
+        val request = object: StringRequest(Method.GET, url,
+            // Success response handle
+            { response ->
+                val jsonObject = JSONObject(response.toString())
+                val count = jsonObject.getJSONArray("count")
+
+            },
+
+            // Error response handle
+            StringRequest@{ error ->
+                // Connection timed out validation
+                if(error is TimeoutError){
+                    Log.i(null, "Timeout Error")
+                    return@StringRequest
+                }
+
+                // No internet connection validation
+                if(error is NoConnectionError){
+                    Log.i(null, "No connection Error")
+                    return@StringRequest
+                }
+
+                val status = error.networkResponse.statusCode
+                if ( status == 404 || status == 405 || status == 400){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+
+
+                    return@StringRequest
+                }
+                if (status == 401){
+                    Log.i(null, error.networkResponse.statusCode.toString())
+                    return@StringRequest
+                }
+
+                Log.i(null, error.networkResponse.statusCode.toString())
+                Log.i(null, error.toString())
+            }
+        ){
+            /**
+             * Adds custom http request headers
+             */
+            @Override
+            override fun getHeaders(): MutableMap<String, String> {
+                val params: HashMap<String, String> = HashMap()
+
+                // Sets the custom headers
+                params["user"] = CredentialsManager.getCredential("user", KetchUp.getCurrentActivity())
+                params["session"] = CredentialsManager.getCredential("session-token", KetchUp.getCurrentActivity())
+
+                return params
+            }
+        }
+
+        queue.add(request)
+
+        // Initialize the WebSocket channel
+        ChatWebSocket.createConnection(this)
+        ChatWebSocket.sendMessage("Test")
+
+    }
+    // function to set all pictures of database users
     private fun setFriendsPictures(){
         for (i in 0 until userList.size) {
             userList[i].pictureBitmap =
@@ -316,17 +492,19 @@ open class ChatMenu : AppCompatActivity() {
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         setUser(username, pfp, selfpfp)
         val applyButton = findViewById<Button>(R.id.addButton)
-
+        //function that returns all pending requests
+        getUserRequests()
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = RequestAdapter(requestList)
 
-            applyButton.setOnClickListener(){
+            applyButton.setOnClickListener{
             requestUsers(addUserText.toString())
             finish();
             startActivity(intent);
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
             addUsersOn = false;
+
         }
     }
 

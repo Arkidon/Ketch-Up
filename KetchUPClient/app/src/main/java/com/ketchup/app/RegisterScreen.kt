@@ -145,7 +145,6 @@ class RegisterScreen : AppCompatActivity() {
             Request.Method.POST, url, json,
             // Success response handle
             { response ->
-                Log.i(null, response.toString())
                 startActivity(Intent(this, LoginScreen::class.java))
                 ShowToast.showToast(this, "Welcome to KetchUp!", Toast.LENGTH_SHORT)
             },
