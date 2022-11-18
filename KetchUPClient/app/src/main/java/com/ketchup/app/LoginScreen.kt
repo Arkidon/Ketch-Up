@@ -151,7 +151,7 @@ class LoginScreen : AppCompatActivity() {
                 val sessionToken = jsonObject.getString("session_token")
 
                 // Stores the credentials
-                CredentialsManager.setCredential("id", id, this)
+                CredentialsManager.setCredential("user", id, this)
                 CredentialsManager.setCredential("session-token", sessionToken, this)
 
                 // Changes the Activity
