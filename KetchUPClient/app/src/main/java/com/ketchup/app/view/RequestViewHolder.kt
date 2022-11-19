@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ketchup.app.R
 import com.ketchup.app.database.Users
+import com.ketchup.app.models.RequestData
 import com.makeramen.roundedimageview.RoundedImageView
 
 class RequestViewHolder(view:View):RecyclerView.ViewHolder(view){
@@ -13,11 +14,10 @@ class RequestViewHolder(view:View):RecyclerView.ViewHolder(view){
     val friendSub = view.findViewById<TextView>(R.id.friendSub)
     val pfp = view.findViewById<RoundedImageView>(R.id.friendPFP)
 
-    fun render(requestData: Users, onClickListener:(Users) -> Unit){
-        friendName.text = requestData.alias
+    fun render(requestData: RequestData){
+        friendName.text = requestData.name
         friendSub.text = requestData.status
-        pfp.setImageBitmap(requestData.pictureBitmap)
-        itemView.setOnClickListener{ onClickListener(requestData)}
+        Glide.with(pfp.context).load("https://i.pinimg.com/474x/a4/60/b3/a460b3744133c33fa9dba7351c7d483f.jpg").into(pfp)
     }
 }
 
