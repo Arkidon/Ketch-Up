@@ -1,4 +1,4 @@
-package com.ketchup.utils
+package com.ketchup.utils.volley
 
 import androidx.annotation.GuardedBy
 import com.android.volley.NetworkResponse
@@ -32,7 +32,6 @@ class EmptyResponseJsonRequest(method: Int, url: String, jsonRequest: JSONObject
             // Dumb jsonObject
             val jsonObject = JSONObject()
             jsonObject.put("empty", "empty")
-
             Response.success(jsonObject, HttpHeaderParser.parseCacheHeaders(response))
         } else{
             Response.error(ResponseNotEmpty())

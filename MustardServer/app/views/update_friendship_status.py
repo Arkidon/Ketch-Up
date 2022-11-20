@@ -14,15 +14,15 @@ def view(request, session):
     if update_request is False:
         return HttpResponse(status=400)
     self_user = session.user
-    friend_username = request.POST['user']
-    status = request.POST['status']
+    friend_id = update_request['user']
+    status = update_request['status']
     # Checks if status code is correct, if not, returns 400 error code
     if status != 1 and status != 4:
         return HttpResponse(status=400)
     # Search in database user target and users relations
     try:
-        friend_user = Users.Objects.get(username=friend_username)
-        user_friendship = UserRelations.Objects.get(user_target=friend_user, user_sender=self_user, status=0)
+        friend_user = Users.objects.get(user_id=friend_id)
+        user_friendship = UserRelations.objects.get(user_target=self_user, user_sender=friend_user, status=0)
 
     except ObjectDoesNotExist:
         return HttpResponse(status=400)

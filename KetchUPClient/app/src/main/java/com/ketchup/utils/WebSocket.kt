@@ -3,6 +3,8 @@ package com.ketchup.utils
 import android.content.Context
 import android.util.Log
 import com.ketchup.app.KetchUp
+import com.ketchup.utils.files.CredentialsManager
+import com.ketchup.utils.files.ServerAddress
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketAdapter
 import com.neovisionaries.ws.client.WebSocketException
