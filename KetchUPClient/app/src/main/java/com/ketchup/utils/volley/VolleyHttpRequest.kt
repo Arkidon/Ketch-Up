@@ -148,13 +148,19 @@ class VolleyHttpRequest {
                         val membership = ChatMembership(membershipId, chatId, role, userId)
                         val chat = Chats(chatId, Date() , false)
                         //Checks if the user is the actually user login
-                        if (userId == userDao?.getUsersId(userId)) continue
+                        if (userId != userDao?.getUsersId(userId)){
                         // Sets all friends pictures
                         setFriendsPictures()
                         //Inserts users into database
                         userDao?.insertUser(user)
-                        userDao?.insertChat(chat)
-                        userDao?.insertMemberships(membership)
+                        }
+                        //Inserts users into database
+                        if (chatId != userDao?.getChatsId(chatId)) {
+                            userDao?.insertChat(chat)
+                        }
+                        if (membershipId != userDao?.getMembershipsId(membershipId)){
+                            userDao?.insertMemberships(membership)
+                    }
                         // Adds the user in user list to update the recycler view
                        if (userId == userDao?.getUserIdWithSingleChat(userId)) continue
                         UserList.userList.add(user)
