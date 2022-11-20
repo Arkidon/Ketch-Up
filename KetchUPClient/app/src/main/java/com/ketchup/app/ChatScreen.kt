@@ -11,7 +11,9 @@ import androidx.core.view.size
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.ChatEntries
+import com.ketchup.app.database.UserDao
 import com.ketchup.app.models.ChatData
 import com.ketchup.app.view.ChatAdapter
 import com.ketchup.app.view.ChatList.Companion.chatList
@@ -25,6 +27,9 @@ import java.time.format.DateTimeFormatter
 class ChatScreen : AppCompatActivity() {
 
     var friendId: Int = -1
+    var chatId: Int = -1
+    private lateinit var databaseInstance: AppDatabase
+    private lateinit var databaseAccess: UserDao
     private var chatEntries = mutableListOf<ChatEntries>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +47,18 @@ class ChatScreen : AppCompatActivity() {
         // Sets the content for the activity
         setContentView(R.layout.chat_screen)
 
+        // Creates the database access object
+        databaseInstance = AppDatabase.createInstance(this)!!
+        databaseAccess = databaseInstance.userDao()
+
+        // Gets the parameters from the intent
         friendId = intent.getIntExtra("friendID", -1)
         val userName = intent.getStringExtra("friendUsername")
         val friendPFP = intent.getStringExtra("friendProfilePicture")
+
+        // Gets the chat id
+        chatId = databaseAccess.getChatId(friendId)
+
         setUser(userName, friendPFP)
         initRecyclerView()
         val sendButton : FloatingActionButton = findViewById(R.id.sendButton)
@@ -82,10 +96,8 @@ class ChatScreen : AppCompatActivity() {
 
         // Creates the JSON Object
         val jsonMessage = JSONObject()
-        jsonMessage.put("id", friendId)
+        jsonMessage.put("chat_id", chatId)
         jsonMessage.put("message", message.text.toString())
-
-        // Guardas en la base de datos local
 
         // Send the json to the server
         ChatWebSocket.sendMessage(jsonMessage.toString())

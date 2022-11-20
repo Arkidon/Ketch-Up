@@ -53,7 +53,7 @@ class ChatEntries(models.Model):
     chat = models.ForeignKey('Chats', on_delete=models.DO_NOTHING)
     text = models.CharField(max_length=300)
     contains_attachment = models.BooleanField(default=False)
-    response_to = models.ForeignKey('ChatEntries', on_delete=models.DO_NOTHING)
+    response_to = models.ForeignKey('ChatEntries', on_delete=models.DO_NOTHING, null=True, blank=True)
     date = models.DateField()
 
 

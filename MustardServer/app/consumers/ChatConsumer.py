@@ -1,9 +1,10 @@
+import datetime
 import json
 from json import JSONDecodeError
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.core.exceptions import ObjectDoesNotExist
-from app.models import Sessions, Users, ChatMemberships, ChatEntries
+from app.models import Sessions, Users, ChatMemberships, ChatEntries, Chats
 
 
 class ChatConsumer(WebsocketConsumer):
@@ -68,10 +69,57 @@ class ChatConsumer(WebsocketConsumer):
             self.disconnect(1003)
             return
 
-        # Returns the string reversed
-        self.send(text_data=text_data[::-1])
+        # Gets the chat id and the message from the json message
+        chat_id = json_message['chat_id']
+        message = json_message['message']
+
+        # Gets the chat model from the chat id
+        try:
+            chat = Chats.objects.get(chat_id=chat_id)
+
+        except ObjectDoesNotExist:
+            self.disconnect(1003)
+            return
+
+        # Gets the chat membership
+        try:
+            chat_membership = ChatMemberships(user=self.user, chat=chat)
+
+        except ObjectDoesNotExist:
+            self.disconnect(1003)
+            return
+
+        # Stores the chat entry in the database
+        chat_entry = ChatEntries(sender=chat_membership,
+                                 chat=chat,
+                                 text=message,
+                                 contains_attachment=False,
+                                 response_to=None,
+                                 date=datetime.datetime.now(datetime.timezone.utc)
+                                 )
+
+        chat_entry.save()
+
+        # Creates the json response
+        json_response = {'entry_id': chat_entry.entry_id,
+                         'user_sender': chat_entry.sender.user_id,
+                         'text': chat_entry.text
+                         }
+
+        async_to_sync(self.channel_layer.send)(f"chat.{chat_id}",)
+
+        # Returns a validation to the client that the message has been received and stored
+        self.send(json.dumps(json_response))
 
     def disconnect(self, close_code):
         # Close the websocket connection
         self.close(4000)
         print("User disconnected")
+
+    def handle_new_message(self, json_message):
+        """
+        Handles a new message received from an user, stores it in the database and sends
+        it to the users that participate in the chat, if the user is not connected,
+        generates a notification for that user.
+        """
+        pass

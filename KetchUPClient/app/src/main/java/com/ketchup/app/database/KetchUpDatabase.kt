@@ -107,12 +107,12 @@ data class ChatMembership(
     tableName = ChatEntries.TABLE_NAME,
 )
 data class ChatEntries(
-    @PrimaryKey(autoGenerate = true)  @ColumnInfo(name = "entry_id")val entry_id: Int,
+    @PrimaryKey  @ColumnInfo(name = "entry_id")val entry_id: Int,
     @ColumnInfo(name = "text") var text: String?,
     @ColumnInfo(name = "user_sender") var user_sender: Int,
     @ColumnInfo(name = "chat_id") var chat_id: Int,
-    @ColumnInfo(name = "response_to") var response_to: Int,
-    @ColumnInfo(name = "date") var date: Date,
+    @ColumnInfo(name = "response_to") var response_to: Int?,
+    @ColumnInfo(name = "date") var date: Date?,
     @ColumnInfo(name = "contains_attachment") var contains_attachment: Boolean,
     @ColumnInfo(name = "readed") var readed : Boolean
 ){
@@ -184,16 +184,14 @@ interface UserDao{
     @Query("SELECT chat_id FROM " + Chats.TABLE_NAME + " WHERE chat_id = :chat_id")
     fun getChatsId(chat_id: Int): Int
 
-   @Query("Select * from " +Users.TABLE_NAME +" where user_id " +
-           "in (select user_id from "+ChatMembership.TABLE_NAME+" where chat_id " +
-           "in (select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0))")
-   fun getAllSingleChats(): List<Users>
-
     @Query("Select * from " +Users.TABLE_NAME +" where user_id != :user_id and user_id " +
             "in (select user_id from "+ChatMembership.TABLE_NAME+" where chat_id " +
             "in (select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0))")
     fun getSingleChats(user_id: Int): List<Users>
 
+    @Query("SELECT C.chat_id FROM " + Chats.TABLE_NAME +
+            " C INNER JOIN " + ChatMembership.TABLE_NAME + " WHERE user_id = :user_id")
+    fun getChatId(user_id: Int): Int
 
     //GROUPCHAT
     @Insert
@@ -261,5 +259,4 @@ interface UserDao{
     @Transaction
     @Query("SELECT * FROM " + EntryAttachments.TABLE_NAME)
     fun getAllAttachments(): List<EntriesWithAttachments>
-
 }
