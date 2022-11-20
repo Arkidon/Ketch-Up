@@ -114,6 +114,7 @@ class VolleyHttpRequest {
         fun requestFriends(){
             // Value to get current activity
             val activity = KetchUp.getCurrentActivity()
+            val selfUser = CredentialsManager.getCredential("user",activity)
             // Creates objects to manages the database
             val db = AppDatabase.createInstance(activity)
             val userDao = db?.userDao()
@@ -132,6 +133,7 @@ class VolleyHttpRequest {
 
                     for (i in 0 until users.length()){
                         // Gets all objects of the JSON
+
                         val friendUsername = users.getJSONObject(i).getString("username")
                         val picture = users.getJSONObject(i).getString("picture")
                         val userId  = users.getJSONObject(i).getInt("id")
@@ -162,7 +164,7 @@ class VolleyHttpRequest {
                             userDao?.insertMemberships(membership)
                     }
                         // Adds the user in user list to update the recycler view
-                       if (userId == userDao?.getUserIdWithSingleChat(userId)) continue
+                       if (userId == userDao?.getUserIdWithSingleChat(userId) || userId == selfUser.toInt() ) continue
                         UserList.userList.add(user)
                         refreshRecyclerView()
                     }

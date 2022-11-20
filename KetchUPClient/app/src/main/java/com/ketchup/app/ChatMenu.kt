@@ -18,8 +18,11 @@ import com.ketchup.app.database.Users
 import com.ketchup.app.view.RequestAdapter
 import com.ketchup.app.view.RequestList.Companion.requestList
 import com.ketchup.app.view.UserAdapter
+import com.ketchup.app.view.UserList
 import com.ketchup.app.view.UserList.Companion.userList
 import com.ketchup.utils.*
+import com.ketchup.utils.files.CredentialsManager
+import com.ketchup.utils.files.ImagePFP
 import com.ketchup.utils.recycler_view.RecyclerViewUtils.Companion.refreshRecyclerView
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.countUserRequests
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.getUserRequests
@@ -32,7 +35,7 @@ open class ChatMenu : AppCompatActivity() {
 
     @SuppressLint("CutPasteId")
     var addUsersOn = false;
-    private var usersList = ArrayList<Users>()
+
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +56,7 @@ open class ChatMenu : AppCompatActivity() {
         // Gets the username and the profile picture from the intent
         val username = intent.getStringExtra(username)
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
-
+        val selfId = CredentialsManager.getCredential("user", this).toInt()
         val selfpfp = "https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png"
         val status = findViewById<TextView>(R.id.userStatus)
         pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
@@ -73,14 +76,21 @@ open class ChatMenu : AppCompatActivity() {
             addUsersOn = true;
         }
 
-        //Value to get all users in bd
-        usersList = userDao?.getAllUsers() as ArrayList<Users>
-        initRecyclerView()
 
+
+
+        // Request all friends of user
+        requestFriends()
+        // Request the count of pending friend request
+        countUserRequests()
         // Removes the loading spinner
         val loadingSpinner = findViewById<ProgressBar>(R.id.progressBar)
         loadingSpinner.isGone = true
 
+        //Value to get all users in bd
+        userList = userDao?.getSingleChats(selfId) as ArrayList<Users>
+        ImagePFP.setFriendsPictures()
+        initRecyclerView()
     }
 
 
@@ -92,13 +102,12 @@ open class ChatMenu : AppCompatActivity() {
         requestFriends()
         // Request the count of pending friend request
         countUserRequests()
-        if (KetchUp.getCurrentActivity() == this) refreshRecyclerView()
     }
 
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = UserAdapter(usersList) { userData -> onItemSelected(userData) }
+        recyclerView.adapter = UserAdapter(UserList.userList) { userData -> onItemSelected(userData) }
     }
 
     private fun profileSelected(username: String?, selfpfp: String, status: String){

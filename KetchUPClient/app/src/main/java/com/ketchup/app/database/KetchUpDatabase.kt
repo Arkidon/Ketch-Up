@@ -189,6 +189,11 @@ interface UserDao{
            "in (select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0))")
    fun getAllSingleChats(): List<Users>
 
+    @Query("Select * from " +Users.TABLE_NAME +" where user_id != :user_id and user_id " +
+            "in (select user_id from "+ChatMembership.TABLE_NAME+" where chat_id " +
+            "in (select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0))")
+    fun getSingleChats(user_id: Int): List<Users>
+
 
     //GROUPCHAT
     @Insert
