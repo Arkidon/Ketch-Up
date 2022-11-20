@@ -12,9 +12,9 @@ class SettingScreen: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.settings_screen)
-        val userName = intent.getStringExtra(selfName)
-        val selfPFP = intent.getStringExtra(selfPFP)
-        val selfStatus = intent.getStringExtra(selfStatus)
+        val userName = intent.getStringExtra("username")
+        val selfPFP = intent.getStringExtra("profilePicture")
+        val selfStatus = intent.getStringExtra("status")
         setUser(userName, selfPFP, selfStatus)
     }
 
