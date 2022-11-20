@@ -4,16 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.NoConnectionError
-import com.android.volley.TimeoutError
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -26,13 +21,12 @@ import com.ketchup.app.view.UserAdapter
 import com.ketchup.app.view.UserList.Companion.userList
 import com.ketchup.utils.*
 import com.ketchup.utils.recycler_view.RecyclerViewUtils.Companion.refreshRecyclerView
-import com.ketchup.utils.volley.VolleyCallback
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.countUserRequests
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.getUserRequests
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestFriends
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestUsers
 import com.makeramen.roundedimageview.RoundedImageView
-import org.json.JSONObject
+
 
 
 const val friendName = "com.ketchup.app.USERNAME"
@@ -75,7 +69,7 @@ open class ChatMenu : AppCompatActivity() {
         val userDao = db?.userDao()
 
         //Value to get all users in bd
-        userList = userDao?.getAllUsers() as ArrayList<Users>
+        userList = userDao?.getAllSingleChats() as ArrayList<Users>
         initRecyclerView()
         spinner.isGone = true
 

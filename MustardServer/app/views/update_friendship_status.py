@@ -1,7 +1,9 @@
+import datetime
+
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
-from app.models import UserRelations, Users
+from app.models import UserRelations, Users, Chats, ChatMemberships
 from app.decorators import session_required
 from app.utils import validators
 
@@ -29,4 +31,10 @@ def view(request, session):
     # Updates the relation with new status code
     user_friendship.status = status
     user_friendship.save()
+    # Creates the chat
+    chat = Chats.objects.create(creation_date=datetime.datetime.now(datetime.timezone.utc))
+    # Creates chat memberships
+    ChatMemberships.objects.create(user=self_user, chat=chat, role="peer")
+    ChatMemberships.objects.create(user=friend_user, chat=chat, role="peer")
+
     return HttpResponse(status=200)

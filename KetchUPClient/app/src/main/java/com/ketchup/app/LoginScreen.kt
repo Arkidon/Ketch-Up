@@ -16,9 +16,13 @@ import com.android.volley.NoConnectionError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.ketchup.app.database.AppDatabase
+import com.ketchup.app.database.Users
 import com.ketchup.utils.ShowToast
 import com.ketchup.utils.files.ServerAddress
 import com.ketchup.utils.files.CredentialsManager
+import com.ketchup.utils.files.ImagePFP
+import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestSelfInfo
 import org.json.JSONObject
 
 const val username = "com.ketchup.app.selfUSERNAME"
@@ -37,7 +41,8 @@ class LoginScreen : AppCompatActivity() {
         setTheme(R.style.Theme_KetchUp)
         setContentView(R.layout.login_screen)
 
-
+        // Updates the current activity reference
+        KetchUp.setCurrentActivity(this)
 
         //login and register buttons
         loginButton = findViewById(R.id.loginButton)
@@ -158,6 +163,8 @@ class LoginScreen : AppCompatActivity() {
                 val intent: Intent =
                     Intent(applicationContext, ChatMenu::class.java).apply { putExtra(username, userText.text.toString())}
 
+                // Request self info
+                requestSelfInfo()
                 startActivity(intent)
             },
 

@@ -70,7 +70,7 @@ data class AdditionalChatGroupInformation(
     tableName = ChatMembership.TABLE_NAME
 )
 data class ChatMembership(
-    @PrimaryKey(autoGenerate = true) var membership_id : Int,
+    @PrimaryKey var membership_id : Int,
     @ColumnInfo(name = "chat_id")var chat_id: Int,
     @ColumnInfo(name = "role") var role: String,
     @ColumnInfo(name = "user_id") var user_id: Int
@@ -79,6 +79,7 @@ data class ChatMembership(
     companion object{
         const val TABLE_NAME = "ChatMembership"
     }
+
 }
 
 
@@ -180,12 +181,14 @@ interface UserDao{
     @Query("SELECT * FROM " + Chats.TABLE_NAME)
     fun getAllChats(): List<Chats>
 
-    //@Query("SELECT * FROM "+ Chats.TABLE_NAME + " WHERE chat_id in (SELECT chat_id " +
-    //  Users.TABLE_NAME + " WHERE user_id = :user_id ) ORDER BY chat_id")
-    // fun getAllChatsFromUser(user_id: Int):List<Chats>
+    @Query("SELECT chat_id FROM " + Chats.TABLE_NAME + " WHERE chat_id = :chat_id")
+    fun getChatsId(chat_id: Int): Int
 
-    // @Query("SELECT c.chat_id,c.date  FROM c." + Chats.TABLE_NAME+ "g."+
-    //       AdditionalChatGroupInformation.TABLE_NAME)
+   @Query("Select * from " +Users.TABLE_NAME +" where user_id " +
+           "in (select user_id from "+ChatMembership.TABLE_NAME+" where chat_id " +
+           "in (select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0))")
+   fun getAllSingleChats(): List<Users>
+
 
     //GROUPCHAT
     @Insert
@@ -215,7 +218,12 @@ interface UserDao{
     @Query("SELECT * FROM " + ChatMembership.TABLE_NAME)
     fun getAllMemberships(): List<ChatMembership>
 
+    @Query("SELECT membership_id FROM " + ChatMembership.TABLE_NAME + " WHERE membership_id = :membership_id")
+    fun getMembershipsId(membership_id: Int): Int
 
+    @Query("SELECT user_id FROM " + ChatMembership.TABLE_NAME + " WHERE user_id = :user_id" +
+            " and chat_id in ( select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0 )")
+    fun getUserIdWithSingleChat(user_id: Int): Int
 
     //CHATENTRIES
     @Insert
