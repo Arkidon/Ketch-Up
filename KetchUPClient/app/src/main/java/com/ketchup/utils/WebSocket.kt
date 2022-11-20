@@ -3,10 +3,14 @@ package com.ketchup.utils
 import android.content.Context
 import android.util.Log
 import com.ketchup.app.KetchUp
+import com.ketchup.app.database.AppDatabase
+import com.ketchup.app.database.ChatEntries
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketAdapter
 import com.neovisionaries.ws.client.WebSocketException
 import com.neovisionaries.ws.client.WebSocketFactory
+import org.json.JSONException
+import org.json.JSONObject
 
 
 class ChatWebSocket{
@@ -32,8 +36,29 @@ class ChatWebSocket{
                 webSocket?.addHeader("session", sessionToken)
 
                 webSocket?.addListener(object : WebSocketAdapter() {
+                    /**
+                     * Handles the incoming messages
+                     */
                     override fun onTextMessage(websocket: WebSocket, message: String){
                         Log.i(null, "Mensaje recibido: $message")
+
+                        // Creates the JSON Object from the response
+                        val jsonResponse: JSONObject
+
+                        try {
+                            jsonResponse = JSONObject(message)
+                        }
+                        catch (e: JSONException){
+                            // Aborts the method if the received message is not a JSON String
+                            return
+                        }
+
+                        // Checks the message type and calls the
+                        // appropriate handler for that message
+                        when( jsonResponse.getString("type")){
+                            "incoming_message" -> handleNewTextMessage(jsonResponse)
+                        }
+
                     }
 
                     override fun onConnectError(websocket: WebSocket?, exception: WebSocketException?) {
@@ -53,6 +78,39 @@ class ChatWebSocket{
             webSocket?.sendText(message)
             Log.i(null, "Message sent $message")
             return true
+        }
+
+        /**
+         * Handles an incoming message and stores it in the local database.
+         * If the message belongs to a chat that is currently open,
+         * appends it to the recycler view
+         */
+        fun handleNewTextMessage(message: JSONObject){
+            // Gets the current activity
+            val currentActivity = KetchUp.getCurrentActivity()
+
+            // Creates an instance to access the room database
+            val databaseInstance = AppDatabase.createInstance(currentActivity)
+            val dataAccessObject = databaseInstance?.userDao()
+
+            // Gets the values from the JSON message
+
+            /*
+
+            val entryId = message.getInt("entry_id")
+            val text = message.getString("text")
+            val userSender = message.getInt("user_sender")
+            val chatId = message.getInt("chat_id")
+            val responseTo = message.getInt("response_to")
+
+            chatEntry = ChatEntries()
+
+            dataAccessObject.insertChat()
+
+             */
+            if (currentActivity.javaClass.simpleName == "ChatScreen" ){
+
+            }
         }
 
     }
