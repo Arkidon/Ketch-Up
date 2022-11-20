@@ -1,13 +1,15 @@
+import json
+from json import JSONDecodeError
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from django.core.exceptions import ObjectDoesNotExist
-from app.models import Sessions, Users, ChatMemberships
+from app.models import Sessions, Users, ChatMemberships, ChatEntries
 
 
 class ChatConsumer(WebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
-        self.user_id = None
+        self.user = None
 
     def connect(self):
         # Accepts the incoming websocket connection
@@ -41,11 +43,11 @@ class ChatConsumer(WebsocketConsumer):
             self.disconnect(4000)
             return
 
-        # Stores the user id in
-        self.user_id = user.user_id
+        # Stores the user model object
+        self.user = user
 
         # Adds the user to a group for itself
-        async_to_sync(self.channel_layer.group_add)(f"user.{self.user_id}", self.channel_name)
+        async_to_sync(self.channel_layer.group_add)(f"user.{self.user.user_id}", self.channel_name)
 
         # Gets all the chat memberships the user posses
         chat_memberships = ChatMemberships.objects.filter(user=user)
@@ -57,6 +59,15 @@ class ChatConsumer(WebsocketConsumer):
         print("User connected")
 
     def receive(self, text_data):  # noqa
+        try:
+            # Decodes the message into a json object
+            json_message = json.loads(text_data)
+
+        except JSONDecodeError:
+            # If the message doesn't decode to JSON, closes the connection
+            self.disconnect(1003)
+            return
+
         # Returns the string reversed
         self.send(text_data=text_data[::-1])
 

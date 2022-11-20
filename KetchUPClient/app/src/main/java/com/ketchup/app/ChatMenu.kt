@@ -28,17 +28,11 @@ import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestUsers
 import com.makeramen.roundedimageview.RoundedImageView
 
 
-
-const val friendName = "com.ketchup.app.USERNAME"
-const val friendPFP = "com.ketchup.app.PFP"
-const val selfName = "com.ketchup.app.selfname"
-const val selfStatus = "com.ketchup.app.status"
-const val selfPFP = "com.ketchup.app.selfPFP"
-
 open class ChatMenu : AppCompatActivity() {
 
     @SuppressLint("CutPasteId")
     var addUsersOn = false;
+    private var usersList = ArrayList<Users>()
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,16 +43,17 @@ open class ChatMenu : AppCompatActivity() {
 
         // Establish the WebSocket connection if it is not already established
         ChatWebSocket.createConnection(this)
-        // Sets the theme and the layout
+
+        // Changes the theme to remove the background used for the splash screen
         setTheme(R.style.Theme_KetchUp)
+
+        // Sets the content for the activity
         setContentView(R.layout.chat_menu)
 
-        val spinner = findViewById<ProgressBar>(R.id.progressBar)
-
-        // Main user data
+        // Gets the username and the profile picture from the intent
         val username = intent.getStringExtra(username)
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
-        val fabNewChat = findViewById<FloatingActionButton>(R.id.fabNewChat)
+
         val selfpfp = "https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png"
         val status = findViewById<TextView>(R.id.userStatus)
         pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
@@ -68,10 +63,8 @@ open class ChatMenu : AppCompatActivity() {
         val db = AppDatabase.createInstance(this)
         val userDao = db?.userDao()
 
-        //Value to get all users in bd
-        userList = userDao?.getAllSingleChats() as ArrayList<Users>
-        initRecyclerView()
-        spinner.isGone = true
+        // Sets the event for the new Chat Floating Action Button
+        val fabNewChat = findViewById<FloatingActionButton>(R.id.fabNewChat)
 
         fabNewChat.setOnClickListener {
             // When the add person button is pressed (fabNewChat) the method addUser is called,
@@ -80,7 +73,16 @@ open class ChatMenu : AppCompatActivity() {
             addUsersOn = true;
         }
 
+        //Value to get all users in bd
+        usersList = userDao?.getAllUsers() as ArrayList<Users>
+        initRecyclerView()
+
+        // Removes the loading spinner
+        val loadingSpinner = findViewById<ProgressBar>(R.id.progressBar)
+        loadingSpinner.isGone = true
+
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -96,15 +98,15 @@ open class ChatMenu : AppCompatActivity() {
     private fun initRecyclerView() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = UserAdapter(userList) { userData -> onItemSelected(userData) }
+        recyclerView.adapter = UserAdapter(usersList) { userData -> onItemSelected(userData) }
     }
 
     private fun profileSelected(username: String?, selfpfp: String, status: String){
         val extras = Bundle()
         val goSettings = Intent(this, SettingScreen::class.java)
-        extras.putString(selfName, username)
-        extras.putString(selfStatus, status)
-        extras.putString(selfPFP, selfpfp)
+        extras.putString("username", username)
+        extras.putString("status", status)
+        extras.putString("profilePicture", selfpfp)
         goSettings.putExtras(extras)
         startActivity(goSettings)
 
@@ -131,8 +133,9 @@ open class ChatMenu : AppCompatActivity() {
     private fun onItemSelected(userData: Users){
         val extras = Bundle()
         val goChat = Intent(this, ChatScreen::class.java)
-        extras.putString(friendName, userData.alias)
-        extras.putString(friendPFP, userData.pfp)
+        extras.putInt("friendId", userData.user_id)
+        extras.putString("friendUsername", userData.alias)
+        extras.putString("friendProfilePicture", userData.pfp)
         goChat.putExtras(extras)
         startActivity(goChat)
 
@@ -159,7 +162,7 @@ open class ChatMenu : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.usersRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = RequestAdapter(requestList)
-        applyButton.setOnClickListener{
+        applyButton.setOnClickListener {
             requestUsers(addUserText.toString())
             finish();
             startActivity(intent);
