@@ -1,8 +1,8 @@
-package com.ketchup.utils
+package com.ketchup.utils.files
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.ketchup.app.KetchUp
+
 /**
  * Manages the reading and writing of the user credentials used to validate
  * against the server

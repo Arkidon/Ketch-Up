@@ -4,7 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.ketchup.app.KetchUp
 import com.ketchup.app.database.AppDatabase
-import com.ketchup.app.database.ChatEntries
+import com.ketchup.utils.files.CredentialsManager
+import com.ketchup.utils.files.ServerAddress
 import com.neovisionaries.ws.client.WebSocket
 import com.neovisionaries.ws.client.WebSocketAdapter
 import com.neovisionaries.ws.client.WebSocketException

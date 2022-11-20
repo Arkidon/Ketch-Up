@@ -13,9 +13,9 @@ import com.android.volley.NoConnectionError
 import com.android.volley.Request
 import com.android.volley.TimeoutError
 import com.android.volley.toolbox.Volley
-import com.ketchup.utils.EmptyResponseJsonRequest
+import com.ketchup.utils.volley.EmptyResponseJsonRequest
 import com.ketchup.utils.ShowToast
-import com.ketchup.utils.ServerAddress
+import com.ketchup.utils.files.ServerAddress
 import org.json.JSONObject
 
 
@@ -35,8 +35,8 @@ class RegisterScreen : AppCompatActivity() {
         passwordText = findViewById(R.id.passwordSingField)
         passwordRepText = findViewById(R.id.passwordRepSignField)
 
-        //Sing up button
-        val singUpButton: Button = findViewById(R.id.signupButton)
+        //Sign up button
+        val signUpButton: Button = findViewById(R.id.signupButton)
 
         passwordText.setOnKeyListener(object : View.OnKeyListener {
             override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
@@ -83,7 +83,7 @@ class RegisterScreen : AppCompatActivity() {
             }
         })
 
-        singUpButton.setOnClickListener {
+        signUpButton.setOnClickListener {
             signUp()
         }
     }
@@ -133,7 +133,7 @@ class RegisterScreen : AppCompatActivity() {
 
         val queue = Volley.newRequestQueue(this)
 
-        val url = "http://"+ServerAddress.readUrl(this)+"/signup"
+        val url = "http://"+ ServerAddress.readUrl(this)+"/signup"
 
 
         val json = JSONObject()
@@ -145,7 +145,6 @@ class RegisterScreen : AppCompatActivity() {
             Request.Method.POST, url, json,
             // Success response handle
             { response ->
-                Log.i(null, response.toString())
                 startActivity(Intent(this, LoginScreen::class.java))
                 ShowToast.showToast(this, "Welcome to KetchUp!", Toast.LENGTH_SHORT)
             },

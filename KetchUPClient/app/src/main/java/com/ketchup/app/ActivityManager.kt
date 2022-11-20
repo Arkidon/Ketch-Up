@@ -3,7 +3,7 @@ package com.ketchup.app
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.ketchup.utils.ServerAddress
+import com.ketchup.utils.files.ServerAddress
 
 // Activity that selects the main activity
 class ActivityManager: AppCompatActivity(){

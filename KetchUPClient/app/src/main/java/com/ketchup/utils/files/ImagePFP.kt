@@ -1,9 +1,11 @@
-package com.ketchup.utils
+package com.ketchup.utils.files
 
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
+import com.ketchup.app.KetchUp
+import com.ketchup.app.view.UserList
 import java.io.*
 import java.net.URLConnection
 
@@ -67,12 +69,20 @@ class ImagePFP {
          */
 
         fun writeImageToDisk(picture: ByteArray, context: Context, filename : String){
-            val path = File(context.filesDir.toPath().toString()+ File.pathSeparator +PATHNAME)
+            val path = File(context.filesDir.toPath().toString()+ File.pathSeparator + PATHNAME)
             if (!path.exists()) path.mkdir()
             val file = File(path, filename)
             if (!file.exists()) file.createNewFile()
             val fos = FileOutputStream(file)
             fos.write(picture,0 , picture.size)
+        }
+        // function to set all pictures of database users
+         fun setFriendsPictures(){
+            val activity = KetchUp.getCurrentActivity()
+            for (i in 0 until UserList.userList.size) {
+                UserList.userList[i].pictureBitmap =
+                    UserList.userList[i].pfp?.let { readImageFromDisk(activity, it) }
+            }
         }
     }
     }

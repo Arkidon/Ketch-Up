@@ -7,18 +7,20 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_http_methods
 
+from app.decorators import session_required
 from app.models import Users, UserRelations
 
 
 @require_http_methods('GET')
+@session_required.decorator
 def view(request, session): # noqa
-    if 'query' not in request.GET or 'self-user' not in request.GET:
+
+    if 'query' not in request.GET:
         return HttpResponse(status=400)
 
     username_query = request.GET["query"]
-    username_sender = request.GET["self-user"]
-    users_list = []
 
+    user_sender = session.user
     image_path = os.path.join(settings.BASE_DIR, 'testlogo.png')
 
     # Reads the image from disk
@@ -30,7 +32,6 @@ def view(request, session): # noqa
     # Checks if both users exits
     try:
         user_query = Users.objects.get(username=username_query)
-        user_sender = Users.objects.get(username=username_sender)
     except ObjectDoesNotExist:
         return HttpResponse(status=400)
     # Checks if relation isn't accepted
@@ -62,11 +63,7 @@ def view(request, session): # noqa
     user_relation_list = UserRelations(user_sender=user_sender,
                                        user_target=user_query,
                                        date=datetime.datetime.now(datetime.timezone.utc),
-                                       status=1)
+                                       status=0)
     user_relation_list.save()
 
-    users_list.append({"username": user_relation_list.user_target.username,
-                       "picture": image_data,
-                       "id": user_relation_list.user_target.user_id})
-
-    return JsonResponse({'users': users_list})
+    return HttpResponse(status=200)

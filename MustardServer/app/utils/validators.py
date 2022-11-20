@@ -80,7 +80,7 @@ def update_request_validator(request: HttpRequest) -> Union[dict, bool]:
         print("Invalid JSON body")
         return False
 
-    if 'user' not in request.POST or 'status' not in request.POST:
+    if 'user' not in body or 'status' not in body:
         return False
 
     return body

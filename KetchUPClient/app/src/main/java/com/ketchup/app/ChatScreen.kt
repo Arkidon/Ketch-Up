@@ -16,7 +16,7 @@ import com.ketchup.app.models.ChatData
 import com.ketchup.app.view.ChatAdapter
 import com.ketchup.app.view.ChatList.Companion.chatList
 import com.ketchup.utils.ChatWebSocket
-import com.ketchup.utils.ImagePFP
+import com.ketchup.utils.files.ImagePFP
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
 import java.time.LocalDateTime

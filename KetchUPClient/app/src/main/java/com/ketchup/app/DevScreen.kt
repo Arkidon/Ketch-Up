@@ -15,7 +15,7 @@ import com.android.volley.TimeoutError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.ketchup.utils.ShowToast
-import com.ketchup.utils.ServerAddress
+import com.ketchup.utils.files.ServerAddress
 
 class DevScreen : AppCompatActivity() {
     private lateinit var ipField: EditText
