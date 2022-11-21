@@ -100,21 +100,18 @@ class ChatConsumer(WebsocketConsumer):
 
         chat_entry.save()
 
+        # Sends the message to the recipient user consumer
+        async_to_sync(self.channel_layer.send)(f"chat.{chat_id}", {"type": "incoming.message",
+                                                                   "user_id": self.user.user_id,
+                                                                   "message": message})
+
         # Creates the json response
         json_response = {'entry_id': chat_entry.entry_id,
                          'user_sender': chat_entry.sender.user_id,
-                         'text': chat_entry.text
-                         }
-
-        async_to_sync(self.channel_layer.send)(f"chat.{chat_id}",)
+                         'text': chat_entry.text}
 
         # Returns a validation to the client that the message has been received and stored
         self.send(json.dumps(json_response))
-
-    def disconnect(self, close_code):
-        # Close the websocket connection
-        self.close(4000)
-        print("User disconnected")
 
     def handle_new_message(self, json_message):
         """
@@ -122,4 +119,15 @@ class ChatConsumer(WebsocketConsumer):
         it to the users that participate in the chat, if the user is not connected,
         generates a notification for that user.
         """
-        pass
+
+    def incoming_message(self, event):
+        """
+        Handles an incoming message from another WebSocket instance
+        """
+        json_message = {"user_id": event["user_id"], "message": event["message"]}
+        self.send(json.dumps(json_message))
+
+    def disconnect(self, close_code):
+        # Close the websocket connection
+        self.close(4000)
+        print("User disconnected")
