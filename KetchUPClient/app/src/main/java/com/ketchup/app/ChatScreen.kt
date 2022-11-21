@@ -14,15 +14,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.app.database.ChatEntries
 import com.ketchup.app.database.UserDao
-import com.ketchup.app.models.ChatData
 import com.ketchup.app.view.ChatAdapter
+import com.ketchup.app.view.ChatList
 import com.ketchup.app.view.ChatList.Companion.chatList
 import com.ketchup.utils.ChatWebSocket
 import com.ketchup.utils.files.ImagePFP
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class ChatScreen : AppCompatActivity() {
 
@@ -30,7 +28,6 @@ class ChatScreen : AppCompatActivity() {
     var chatId: Int = -1
     private lateinit var databaseInstance: AppDatabase
     private lateinit var databaseAccess: UserDao
-    private var chatEntries = mutableListOf<ChatEntries>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +57,16 @@ class ChatScreen : AppCompatActivity() {
         chatId = databaseAccess.getChatId(friendId)
 
         setUser(userName, friendPFP)
+
+        // Cleans the list of any previous entries
+        chatList.clear()
+
+        // Retrieves the chat entries from the database and stores them in a list to
+        // be used in the recycler view
+        for(chatEntry in databaseAccess.getAllEntriesFromChat(chatId)){
+            chatList.add(chatEntry)
+        }
+
         initRecyclerView()
         val sendButton : FloatingActionButton = findViewById(R.id.sendButton)
 
@@ -78,10 +85,8 @@ class ChatScreen : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this).apply {
             this.stackFromEnd = true
         }
-        val user = findViewById<TextView>(R.id.chatName)
-        recyclerView.adapter = ChatAdapter(chatList.filter {
-                chatData -> chatData.user == user.text.toString()
-        })
+
+        recyclerView.adapter = ChatAdapter(chatList)
     }
 
     private fun setUser(userName:String?, friendPFP:String?){
@@ -102,23 +107,22 @@ class ChatScreen : AppCompatActivity() {
         // Send the json to the server
         ChatWebSocket.sendMessage(jsonMessage.toString())
 
-        val recyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)
-        recyclerView.adapter!!.notifyItemInserted(recyclerView.size-1)
         message.text = null
     }
 
     /**
      * Appends a new element to the Recycler View List
      */
-    public fun appendMessage(chatEntry: ChatEntries){
+    fun appendMessage(chatEntry: ChatEntries){
         // Appends the new chat entry to the list
-        chatEntries.add(chatEntry)
-
-        // Send the message to the server
-
+        chatList.add(chatEntry)
 
         // Notifies the recycler view that a new item has been inserted
         val recyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)
-        recyclerView.adapter!!.notifyItemInserted(recyclerView.size-1)
+        recyclerView.adapter!!.notifyItemInserted(chatList.size)
+
+        /* Moves the scroll to the bottom of the recycler view, in order
+        * to show the new message */
+        recyclerView.smoothScrollToPosition(recyclerView.adapter!!.itemCount - 1)
     }
 }

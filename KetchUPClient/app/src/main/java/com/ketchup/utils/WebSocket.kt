@@ -2,8 +2,11 @@ package com.ketchup.utils
 
 import android.content.Context
 import android.util.Log
+import com.ketchup.app.ChatScreen
 import com.ketchup.app.KetchUp
 import com.ketchup.app.database.AppDatabase
+import com.ketchup.app.database.ChatEntries
+import com.ketchup.app.view.ChatList
 import com.ketchup.utils.files.CredentialsManager
 import com.ketchup.utils.files.ServerAddress
 import com.neovisionaries.ws.client.*
@@ -54,9 +57,14 @@ class ChatWebSocket{
                         // Checks the message type and calls the
                         // appropriate handler for that message
                         when( jsonResponse.getString("type")){
-                            "incoming_message" -> handleNewTextMessage(jsonResponse)
-                        }
+                            "incoming_message" -> handleNewIncomingMessage(jsonResponse)
 
+                            /*
+                            Calls to the same function for testing and demo purposes,
+                            the intended handler is the handleMessageValidation function
+                             */
+                            "message_confirmation" -> handleNewIncomingMessage(jsonResponse)
+                        }
                     }
 
                     override fun onConnectError(websocket: WebSocket?, exception: WebSocketException?) {
@@ -91,7 +99,7 @@ class ChatWebSocket{
          * If the message belongs to a chat that is currently open,
          * appends it to the recycler view
          */
-        fun handleNewTextMessage(message: JSONObject){
+        fun handleNewIncomingMessage(message: JSONObject){
             // Gets the current activity
             val currentActivity = KetchUp.getCurrentActivity()
 
@@ -100,24 +108,32 @@ class ChatWebSocket{
             val dataAccessObject = databaseInstance?.userDao()
 
             // Gets the values from the JSON message
-
-            /*
-
             val entryId = message.getInt("entry_id")
-            val text = message.getString("text")
+            val text = message.getString("message")
             val userSender = message.getInt("user_sender")
             val chatId = message.getInt("chat_id")
-            val responseTo = message.getInt("response_to")
+            val responseTo = null
 
-            chatEntry = ChatEntries()
+            // Creates a chat entry object with some temporal placeholders
+            val chatEntry = ChatEntries(entryId, text, userSender, chatId, responseTo, null, false, false)
 
-            dataAccessObject.insertChat()
+            // Stores the object in the database
+            dataAccessObject?.insertEntries(chatEntry)
 
-             */
-            if (currentActivity.javaClass.simpleName == "ChatScreen" ){
-
+            /* If the current activity is a ChatScreen with the
+               same id than the received message, appends it to
+               the recycler view */
+            if ((currentActivity is ChatScreen) && (currentActivity.chatId == chatId)){
+                currentActivity.appendMessage(chatEntry)
             }
         }
 
+        /**
+         * Handles a message validation received from the server and appends the message
+         * to the recycler view
+         */
+        fun handleMessageValidation(message: JSONObject){
+
+        }
     }
 }

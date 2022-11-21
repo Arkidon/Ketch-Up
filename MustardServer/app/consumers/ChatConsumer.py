@@ -103,7 +103,12 @@ class ChatConsumer(WebsocketConsumer):
         chat_entry.save()
 
         # JSON message for the consumers in the chat group that notifies that a new message has been sent
-        group_message = json.dumps({"user_id": self.user.user_id, "message": message})
+        group_message = json.dumps({"user_sender": self.user.user_id,
+                                    "type": "incoming_message",
+                                    "entry_id": chat_entry.entry_id,
+                                    "message": message,
+                                    "chat_id": chat_entry.chat.chat_id,
+                                    })
 
         # Sends the message to the recipient user consumer
         async_to_sync(self.channel_layer.group_send)(f"chat_{chat_id}", {"type": "incoming.message",
@@ -111,9 +116,11 @@ class ChatConsumer(WebsocketConsumer):
                                                      )
 
         # Creates the json response
-        json_response = {'entry_id': chat_entry.entry_id,
-                         'user_sender': chat_entry.sender.user_id,
-                         'text': chat_entry.text}
+        json_response = {"user_sender": self.user.user_id,
+                         "type": "message_confirmation",
+                         "entry_id": chat_entry.entry_id,
+                         "message": message,
+                         "chat_id": chat_entry.chat.chat_id}
 
         # Returns a validation to the client that the message has been received and stored
         self.send(json.dumps(json_response))
@@ -130,7 +137,7 @@ class ChatConsumer(WebsocketConsumer):
         json_message = json.loads(event["text"])
 
         # If the user id matches, aborts the function
-        if json_message["user_id"] == self.user.user_id:
+        if json_message["user_sender"] == self.user.user_id:
             return
 
         self.send(event["text"])

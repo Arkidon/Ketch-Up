@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ketchup.app.R
-import com.ketchup.app.models.ChatData
+import com.ketchup.app.database.ChatEntries
 
-class ChatAdapter (private val chatList: List<ChatData>): RecyclerView.Adapter<ChatViewHolder>(){
+class ChatAdapter (private val chatList: List<ChatEntries>): RecyclerView.Adapter<ChatViewHolder>(){
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             return ChatViewHolder(layoutInflater.inflate(R.layout.item_container_sent_message, parent, false))
@@ -17,8 +17,6 @@ class ChatAdapter (private val chatList: List<ChatData>): RecyclerView.Adapter<C
             holder.render(item)
         }
 
-
-
         override fun getItemCount(): Int = chatList.size
-    }
+}
 

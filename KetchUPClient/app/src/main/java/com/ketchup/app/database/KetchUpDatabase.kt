@@ -242,8 +242,8 @@ interface UserDao{
     fun getAllEntries(): List<ChatEntries>
 
     @Query("SELECT * FROM " + ChatEntries.TABLE_NAME + " WHERE chat_id = :chat_id " +
-            "AND entry_id > :entry_id ORDER BY entry_id LIMIT 25")
-    fun getAllEntriesFromChat(chat_id: Int, entry_id: Int): List<ChatEntries>
+            "ORDER BY entry_id LIMIT 25")
+    fun getAllEntriesFromChat(chat_id: Int): List<ChatEntries>
 
 
     //ENTRYATTACHMENTS

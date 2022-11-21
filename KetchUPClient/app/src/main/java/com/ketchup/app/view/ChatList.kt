@@ -1,12 +1,10 @@
 package com.ketchup.app.view
 
-import com.ketchup.app.models.ChatData
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.ketchup.app.database.ChatEntries
 
 class ChatList {
     companion object {
-        var chatList = listOf<ChatData>(
+        var chatList = ArrayList<ChatEntries>(
         )
     }
 }
