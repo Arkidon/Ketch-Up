@@ -52,7 +52,7 @@ class ChatScreen : AppCompatActivity() {
         databaseAccess = databaseInstance.userDao()
 
         // Gets the parameters from the intent
-        friendId = intent.getIntExtra("friendID", -1)
+        friendId = intent.getIntExtra("friendId", -1)
         val userName = intent.getStringExtra("friendUsername")
         val friendPFP = intent.getStringExtra("friendProfilePicture")
 
