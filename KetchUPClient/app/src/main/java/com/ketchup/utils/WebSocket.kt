@@ -6,10 +6,7 @@ import com.ketchup.app.KetchUp
 import com.ketchup.app.database.AppDatabase
 import com.ketchup.utils.files.CredentialsManager
 import com.ketchup.utils.files.ServerAddress
-import com.neovisionaries.ws.client.WebSocket
-import com.neovisionaries.ws.client.WebSocketAdapter
-import com.neovisionaries.ws.client.WebSocketException
-import com.neovisionaries.ws.client.WebSocketFactory
+import com.neovisionaries.ws.client.*
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -41,7 +38,7 @@ class ChatWebSocket{
                      * Handles the incoming messages
                      */
                     override fun onTextMessage(websocket: WebSocket, message: String){
-                        Log.i(null, "Mensaje recibido: $message")
+                        Log.i(null, "Message received: $message")
 
                         // Creates the JSON Object from the response
                         val jsonResponse: JSONObject
@@ -65,6 +62,14 @@ class ChatWebSocket{
                     override fun onConnectError(websocket: WebSocket?, exception: WebSocketException?) {
                         super.onConnectError(websocket, exception)
                         exception?.printStackTrace()
+                    }
+
+                    override fun onDisconnected(websocket: WebSocket?, serverCloseFrame: WebSocketFrame?,
+                                                clientCloseFrame: WebSocketFrame?, closedByServer: Boolean) {
+
+                        super.onDisconnected(websocket, serverCloseFrame, clientCloseFrame,closedByServer)
+                        Log.i(null, "WebSocket Disconnected")
+
                     }
                 })
 

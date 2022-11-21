@@ -220,7 +220,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
 
         }
         /** Http method to request all chats from self user and puts them into database
@@ -315,7 +314,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
 
         }
         /** Http method to request all friends Requests
@@ -414,7 +412,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
 
         }
         /** Http method to sent friend request
@@ -486,7 +483,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
 
         }
         /** Http method to get the count of pending requests (this method doesn't work yet)
@@ -563,7 +559,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
         }
         /** Http method to get self info and insert it into database
          * @see StringRequest
@@ -659,7 +654,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
 
         }
     }
