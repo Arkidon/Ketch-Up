@@ -189,8 +189,7 @@ interface UserDao{
             "in (select chat_id from "+Chats.TABLE_NAME+" where isGroup = 0))")
     fun getSingleChats(user_id: Int): List<Users>
 
-    @Query("SELECT C.chat_id FROM " + Chats.TABLE_NAME +
-            " C INNER JOIN " + ChatMembership.TABLE_NAME + " WHERE user_id = :user_id")
+    @Query("SELECT chat_id FROM " + ChatMembership.TABLE_NAME + " WHERE user_id = :user_id")
     fun getChatId(user_id: Int): Int
 
     //GROUPCHAT
