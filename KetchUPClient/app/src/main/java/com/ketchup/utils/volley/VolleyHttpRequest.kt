@@ -104,7 +104,6 @@ class VolleyHttpRequest {
 
             // Initialize the WebSocket channel
             ChatWebSocket.createConnection(activity)
-            ChatWebSocket.sendMessage("Test")
         }
         /** Http method to request all friends, puts them in the database
          * and inserts them in recycler view
