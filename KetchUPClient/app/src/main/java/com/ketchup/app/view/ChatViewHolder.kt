@@ -22,19 +22,31 @@ class ChatViewHolder (view: View): RecyclerView.ViewHolder(view){
 
         // Placeholder date value
         messageDate.text = LocalDate.now().toString()
+
+        /* Checks if the chatEntry was sent by self user or not,
+           if the text entry was sent by the user himself, it turns red and to the right
+           if not it is put to the left and in blue
+        */
         if (chatEntry.user_sender != CredentialsManager.getCredential("user", KetchUp.getCurrentActivity()).toInt()){
                 messageText.gravity= Gravity.START
                 messageText.background = AppCompatResources.getDrawable(KetchUp.getCurrentActivity(), R.drawable.background_recieved_message)
                 val textParams = messageText.layoutParams as ConstraintLayout.LayoutParams
                 textParams.endToEnd = ConstraintSet.UNSET
-
                 val dateParams = messageDate.layoutParams as ConstraintLayout.LayoutParams
                 dateParams.endToEnd = ConstraintSet.UNSET
-
                 messageText.requestLayout()
                 messageDate.requestLayout()
-
+        }else{
+            messageText.background = AppCompatResources.getDrawable(KetchUp.getCurrentActivity(), R.drawable.background_sent_message)
+            val textParams = messageText.layoutParams as ConstraintLayout.LayoutParams
+            textParams.endToEnd = ConstraintSet.PARENT_ID
+            val dateParams = messageDate.layoutParams as ConstraintLayout.LayoutParams
+            dateParams.endToEnd = ConstraintSet.PARENT_ID
+            messageText.requestLayout()
+            messageDate.requestLayout()
         }
+
+
 
     }
 }
