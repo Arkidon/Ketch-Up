@@ -1,6 +1,8 @@
 package com.ketchup.app
 
 import android.os.Bundle
+import android.view.KeyEvent
+import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Spinner
@@ -69,6 +71,22 @@ class ChatScreen : AppCompatActivity() {
 
         initRecyclerView()
         val sendButton : FloatingActionButton = findViewById(R.id.sendButton)
+        val message : EditText = findViewById(R.id.inputMessage)
+        message.setOnKeyListener(object : View.OnKeyListener {
+            override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {
+                // If the event is a key-down event on the "enter" button
+                if (event.action == KeyEvent.ACTION_DOWN &&
+                    keyCode == KeyEvent.KEYCODE_ENTER
+                ) {
+                    if(message.text.toString().replace(" ", "") != "") {
+                        sendMessage()
+                    }
+
+                    return true
+                }
+                return false
+            }
+        })
 
         sendButton.setOnClickListener {
             sendMessage()
