@@ -167,6 +167,8 @@ interface UserDao{
     @Query("SELECT MAX(user_id) FROM " + Users.TABLE_NAME)
     fun getMaxUserId(): Int
 
+    @Query("SELECT pfp FROM " + Users.TABLE_NAME + " WHERE user_id = :user_id")
+    fun getUsersPFP(user_id: Int): String
 
     // CHATS
     @Insert

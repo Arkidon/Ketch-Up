@@ -3,7 +3,10 @@ package com.ketchup.app
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
+import com.ketchup.utils.files.ImagePFP
 import com.makeramen.roundedimageview.RoundedImageView
 
 class SettingScreen: AppCompatActivity() {
@@ -22,6 +25,11 @@ class SettingScreen: AppCompatActivity() {
         findViewById<TextView>(R.id.changeName).apply { text = userName }
         findViewById<TextView>(R.id.changeStatus).apply { text = selfStatus }
         val pfp = findViewById<RoundedImageView>(R.id.changePFP)
-        Glide.with(pfp.context).load(selfPFP).into(pfp)
+        // placeholder
+        //pfp.setImageBitmap(requestData.pfp?.let { ImagePFP.readImageFromDisk(KetchUp.getCurrentActivity(), it) })
+        pfp.setImageBitmap(
+            AppCompatResources.getDrawable(KetchUp.getCurrentActivity(), R.mipmap.app_logo_round)
+                ?.toBitmap()
+        )
     }
 }

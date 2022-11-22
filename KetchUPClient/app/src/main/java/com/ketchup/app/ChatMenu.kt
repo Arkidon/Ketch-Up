@@ -6,6 +6,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,9 +26,11 @@ import com.ketchup.utils.*
 import com.ketchup.utils.files.CredentialsManager
 import com.ketchup.utils.files.ImagePFP
 import com.ketchup.utils.recycler_view.RecyclerViewUtils.Companion.refreshRecyclerView
+import com.ketchup.utils.volley.VolleyHttpRequest
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.countUserRequests
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.getUserRequests
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestFriends
+import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestSelfInfo
 import com.ketchup.utils.volley.VolleyHttpRequest.Companion.requestUsers
 import com.makeramen.roundedimageview.RoundedImageView
 
@@ -53,18 +57,18 @@ open class ChatMenu : AppCompatActivity() {
         // Sets the content for the activity
         setContentView(R.layout.chat_menu)
 
+        // values for database managements
+        val db = AppDatabase.createInstance(this)
+        val userDao = db?.userDao()
         // Gets the username and the profile picture from the intent
         val username = intent.getStringExtra(username)
         val pfp = findViewById<RoundedImageView>(R.id.userPFP)
         val selfId = CredentialsManager.getCredential("user", this).toInt()
-        val selfpfp = "https://static.tvtropes.org/pmwiki/pub/images/maddyandtheo.png"
+        val selfpfp = userDao?.getUsersPFP(selfId)
         val status = findViewById<TextView>(R.id.userStatus)
         pfp.setOnClickListener{profileSelected(username, selfpfp, status.text.toString())}
         setUser(username, pfp, selfpfp)
 
-        // values for database managements
-        val db = AppDatabase.createInstance(this)
-        val userDao = db?.userDao()
 
         // Sets the event for the new Chat Floating Action Button
         val fabNewChat = findViewById<FloatingActionButton>(R.id.fabNewChat)
@@ -110,7 +114,7 @@ open class ChatMenu : AppCompatActivity() {
         recyclerView.adapter = UserAdapter(UserList.userList) { userData -> onItemSelected(userData) }
     }
 
-    private fun profileSelected(username: String?, selfpfp: String, status: String){
+    private fun profileSelected(username: String?, selfpfp: String?, status: String){
         val extras = Bundle()
         val goSettings = Intent(this, SettingScreen::class.java)
         extras.putString("username", username)
@@ -150,15 +154,20 @@ open class ChatMenu : AppCompatActivity() {
 
     }
 
-    private fun setUser(username:String?, pfp:RoundedImageView, selfpfp:String){
+    private fun setUser(username:String?, pfp:RoundedImageView, selfpfp:String?){
         findViewById<TextView>(R.id.textName).apply { text = username }
         val status = findViewById<TextView>(R.id.userStatus)
-        Glide.with(pfp.context).load(selfpfp).into(pfp)
-        status.text = "Strawberry Pie"
+        // placeholders
+        //pfp.setImageBitmap(requestData.pfp?.let { ImagePFP.readImageFromDisk(KetchUp.getCurrentActivity(), it) })
+        pfp.setImageBitmap(
+            AppCompatResources.getDrawable(KetchUp.getCurrentActivity(), R.mipmap.app_logo_round)
+                ?.toBitmap()
+        )
+        status.text = "Placeholder"
     }
 
     //Method called by pressing the add user button (fabNewChat)
-    private fun addUser(username:String?, selfpfp:String ){
+    private fun addUser(username:String?, selfpfp:String? ){
         setContentView(R.layout.add_users)
         val spinner = findViewById<ProgressBar>(R.id.progressBar)
         val addUserText = findViewById<EditText>(R.id.searchUserField).text
