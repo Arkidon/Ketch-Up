@@ -1,5 +1,6 @@
 package com.ketchup.app
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
@@ -20,6 +21,7 @@ import com.ketchup.app.view.ChatAdapter
 import com.ketchup.app.view.ChatList
 import com.ketchup.app.view.ChatList.Companion.chatList
 import com.ketchup.utils.ChatWebSocket
+import com.ketchup.utils.files.CredentialsManager
 import com.ketchup.utils.files.ImagePFP
 import com.makeramen.roundedimageview.RoundedImageView
 import org.json.JSONObject
@@ -142,5 +144,17 @@ class ChatScreen : AppCompatActivity() {
         /* Moves the scroll to the bottom of the recycler view, in order
         * to show the new message */
         recyclerView.smoothScrollToPosition(recyclerView.adapter!!.itemCount - 1)
+
+        var mp = MediaPlayer.create(KetchUp.getCurrentActivity(), R.raw.pop1)
+        if (chatEntry.user_sender != CredentialsManager.getCredential("user",KetchUp.getCurrentActivity()).toInt())
+            mp = MediaPlayer.create(KetchUp.getCurrentActivity(), R.raw.pop2)
+
+        mp.setOnCompletionListener { mp ->
+            var mp = mp
+            mp!!.reset()
+            mp!!.release()
+            mp = null
+        }
+        mp.start()
     }
 }
