@@ -18,17 +18,12 @@ class EmptyResponseJsonRequest(method: Int, url: String, jsonRequest: JSONObject
                                errorListener: ErrorListener?) :
     JsonObjectRequest(method, url, jsonRequest, listener, errorListener) {
 
-    /** Lock to guard mListener as it is cleared on cancel() and read on delivery.  */
-    private val lock = Any()
-
     private var headers = HashMap<String, String>()
-
-    @GuardedBy("lock")
-    private var listener: Listener<String>? = null
+    private var listener: Listener<JSONObject>? = listener
 
     @Override
     override fun parseNetworkResponse(response: NetworkResponse?): Response<JSONObject> {
-        return if (response != null && response.data.isEmpty()) {
+        return if(response != null && response.data.isEmpty()) {
             // Dumb jsonObject
             val jsonObject = JSONObject()
             jsonObject.put("empty", "empty")
@@ -40,11 +35,7 @@ class EmptyResponseJsonRequest(method: Int, url: String, jsonRequest: JSONObject
 
     @Override
     override fun deliverResponse(response: JSONObject?) {
-        var listener: Listener<String>?
-        synchronized(lock) { listener = this.listener }
-        if (listener != null) {
-            listener!!.onResponse(response.toString())
-        }
+        this.listener?.onResponse(response)
     }
 
     /**
@@ -62,6 +53,5 @@ class EmptyResponseJsonRequest(method: Int, url: String, jsonRequest: JSONObject
     @Override
     override fun cancel() {
         super.cancel()
-        synchronized(lock) { listener = null }
     }
 }

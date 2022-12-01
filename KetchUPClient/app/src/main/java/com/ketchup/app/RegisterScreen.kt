@@ -143,10 +143,11 @@ class RegisterScreen : AppCompatActivity() {
 
         val request = EmptyResponseJsonRequest(
             Request.Method.POST, url, json,
+
             // Success response handle
-            { response ->
-                startActivity(Intent(this, LoginScreen::class.java))
+            {
                 ShowToast.showToast(this, "Welcome to KetchUp!", Toast.LENGTH_SHORT)
+                startActivity(Intent(this, LoginScreen::class.java))
             },
 
             // Error response handle
@@ -186,12 +187,4 @@ class RegisterScreen : AppCompatActivity() {
 
         queue.add(request)
     }
-
-    // Function to change activity to login and finish this activity
-    /*fun changeActivityLogin(){
-        val intent = Intent(this, LoginScreen::class.java)
-        startActivity(intent)
-
-    }
-     */
 }
