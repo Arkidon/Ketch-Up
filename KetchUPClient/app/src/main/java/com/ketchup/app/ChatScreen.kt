@@ -39,9 +39,6 @@ class ChatScreen : AppCompatActivity() {
         // Updates the current activity reference
         KetchUp.setCurrentActivity(this)
 
-        // Establish the WebSocket connection if it is not already established
-        ChatWebSocket.createConnection(this)
-
         // Changes the theme to remove the background used for the splash screen
         setTheme(R.style.Theme_KetchUp)
 

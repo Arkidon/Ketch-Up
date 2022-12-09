@@ -10,6 +10,7 @@ import com.ketchup.app.view.ChatList
 import com.ketchup.utils.files.CredentialsManager
 import com.ketchup.utils.files.ServerAddress
 import com.neovisionaries.ws.client.*
+import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -17,6 +18,7 @@ import org.json.JSONObject
 class ChatWebSocket{
     companion object{
         private var webSocket: WebSocket? = null
+        private var keepConnection = true
 
         fun createConnection(context: Context){
             if(webSocket == null){
@@ -68,16 +70,32 @@ class ChatWebSocket{
                     }
 
                     override fun onConnectError(websocket: WebSocket?, exception: WebSocketException?) {
-                        super.onConnectError(websocket, exception)
-                        exception?.printStackTrace()
+                        Log.i(null, "Connection Error")
+                        // Sets the websocket object to null
+                        webSocket = null
+
+                        // Tries to reconnect with the server
+                        if(keepConnection){
+                            Thread.sleep(1000)
+                            createConnection(context)
+                        }
                     }
 
                     override fun onDisconnected(websocket: WebSocket?, serverCloseFrame: WebSocketFrame?,
                                                 clientCloseFrame: WebSocketFrame?, closedByServer: Boolean) {
-
-                        super.onDisconnected(websocket, serverCloseFrame, clientCloseFrame,closedByServer)
                         Log.i(null, "WebSocket Disconnected")
 
+                        // Sets the websocket object to null
+                        webSocket = null
+
+                        // Tries to reconnect with the server
+                        if(keepConnection){
+                            createConnection(context)
+                        }
+                    }
+
+                    override fun onConnected(websocket: WebSocket?, headers: MutableMap<String, MutableList<String>>?) {
+                        Log.i(null, "Connected")
                     }
                 })
 
@@ -85,7 +103,13 @@ class ChatWebSocket{
             }
         }
 
+        /**
+         * Closes the websocket connection and updates the keepConection
+         * variable so the websocket does not try to reconnect
+         */
         fun closeConnection(){
+            keepConnection = false
+            webSocket?.disconnect()
         }
 
         fun sendMessage(message: String): Boolean {
