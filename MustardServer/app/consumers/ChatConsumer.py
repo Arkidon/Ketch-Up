@@ -103,7 +103,7 @@ class ChatConsumer(WebsocketConsumer):
         chat_entry.save()
 
         # JSON message for the consumers in the chat group that notifies that a new message has been sent
-        group_message = json.dumps({"user_sender": self.user.user_id,
+        group_message = json.dumps({"user_sender": chat_membership.membership_id,
                                     "type": "incoming_message",
                                     "entry_id": chat_entry.entry_id,
                                     "message": message,
