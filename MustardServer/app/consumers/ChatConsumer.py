@@ -116,7 +116,7 @@ class ChatConsumer(WebsocketConsumer):
                                                      )
 
         # Creates the json response
-        json_response = {"user_sender": self.user.user_id,
+        json_response = {"user_sender": chat_membership.membership_id,
                          "type": "message_confirmation",
                          "entry_id": chat_entry.entry_id,
                          "message": message,
